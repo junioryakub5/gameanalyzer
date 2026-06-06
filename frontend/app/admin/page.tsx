@@ -935,8 +935,8 @@ function SlipModal({
             )}
           </div>
 
-          {/* Proof Image — only shown when marking completed */}
-          {form.status === "completed" && (
+          {/* Proof Image — result screenshot shown in History side-by-side */}
+          {(
             <div
               className="rounded-xl p-4 space-y-3"
               style={{
