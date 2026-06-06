@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import React from "react";
+import ReactDOM from "react-dom";
 import {
   Calendar, Lock, X, Loader2, Shield, Zap, XCircle,
   CheckCircle, Copy, Check, Trophy, RefreshCcw, Mail, ExternalLink,
@@ -205,9 +206,9 @@ function CountrySelectModal({
     };
   }, []);
 
-  return (
+  return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
@@ -313,7 +314,8 @@ function CountrySelectModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -341,21 +343,9 @@ function PaymentModal({
 
   // Lock body scroll
   useEffect(() => {
-    const scrollY = window.scrollY;
-    const body = document.body;
-    body.style.position = 'fixed';
-    body.style.top = `-${scrollY}px`;
-    body.style.left = '0';
-    body.style.right = '0';
-    body.style.overflow = 'hidden';
-    return () => {
-      body.style.position = '';
-      body.style.top = '';
-      body.style.left = '';
-      body.style.right = '';
-      body.style.overflow = '';
-      window.scrollTo(0, scrollY);
-    };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
   }, []);
 
   const acc = ACCENT[prediction.oddsCategory] || ACCENT["2+"];
@@ -466,9 +456,9 @@ function PaymentModal({
 
   // Verifying overlay
   if (step === "verifying") {
-    return (
+    return ReactDOM.createPortal(
       <div
-        className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
         style={{ overscrollBehavior: "contain" }}
       >
         <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.75)" }} />
@@ -494,13 +484,14 @@ function PaymentModal({
             <p style={{ color: "#52525b", fontSize: "0.75rem", lineHeight: 1.5 }}>Confirming with Paystack and unlocking your prediction</p>
           </div>
         </div>
-      </div>
+      </div>,
+      document.body
     );
   }
 
-  return (
+  return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
@@ -649,7 +640,8 @@ function PaymentModal({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -664,9 +656,9 @@ function NigeriaPaymentModal({
   const acc = ACCENT[prediction.oddsCategory] || ACCENT["2+"];
   const ngn = Math.round(prediction.price * GHS_TO_NGN);
 
-  return (
+  return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
@@ -778,7 +770,8 @@ function NigeriaPaymentModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
