@@ -901,129 +901,195 @@ function LockedCard({
 }) {
   const acc = ACCENT[prediction.oddsCategory] || ACCENT["2+"];
   const hasImage = !!prediction.previewImageUrl;
+  const dateStr = new Date(prediction.date).toLocaleDateString("en-GB", {
+    weekday: "short", day: "numeric", month: "short",
+  });
 
   return (
     <div
-      className="card-glass overflow-hidden opacity-0 animate-fadeInUp cursor-pointer group"
-      style={{ animationDelay: `${animationDelay}ms`, animationFillMode: "forwards" }}
+      className="opacity-0 animate-fadeInUp group cursor-pointer"
+      style={{
+        animationDelay: `${animationDelay}ms`,
+        animationFillMode: "forwards",
+        borderRadius: "20px",
+        overflow: "hidden",
+        background: "#0e0e14",
+        border: "1px solid rgba(255,255,255,0.06)",
+        boxShadow: "0 4px 40px rgba(0,0,0,0.4)",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
+      }}
       onClick={onClickUnlock}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
+        (e.currentTarget as HTMLElement).style.boxShadow = `0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px ${acc.border}`;
+        (e.currentTarget as HTMLElement).style.borderColor = acc.border;
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+        (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 40px rgba(0,0,0,0.4)";
+        (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)";
+      }}
     >
-      {/* Image / locked area */}
+      {/* ── Card hero area ── */}
       <div
-        className="relative h-52 overflow-hidden"
-        style={{ background: "#0d0d12" }}
+        className="relative overflow-hidden"
+        style={{ height: "200px" }}
       >
+        {/* Background */}
         {hasImage ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={prediction.previewImageUrl!}
             alt="Prediction slip preview"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
-            style={{
-              filter: "blur(14px) brightness(0.5)",
-              transform: "scale(1.1)",
-            }}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ filter: "blur(18px) brightness(0.3) saturate(0.5)", transform: "scale(1.15)" }}
           />
         ) : (
           <div
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0"
             style={{
-              background: `linear-gradient(135deg, #111117 0%, #0d0d12 60%, ${acc.bg} 100%)`,
+              background: `linear-gradient(145deg, #0d0d12 0%, #111117 60%, ${acc.bg} 100%)`,
             }}
-          >
-            {/* Pattern overlay */}
-            <div
-              className="absolute inset-0 opacity-5"
-              style={{
-                backgroundImage: `repeating-linear-gradient(45deg, ${acc.text} 0, ${acc.text} 1px, transparent 0, transparent 50%)`,
-                backgroundSize: "24px 24px",
-              }}
-            />
-            <span
-              className="relative z-10 text-4xl font-black opacity-10 select-none"
-              style={{ color: acc.text, fontFamily: "monospace" }}
-            >
-              {prediction.oddsCategory}
-            </span>
-          </div>
+          />
         )}
 
-        {/* Bottom gradient overlay */}
+        {/* Subtle grid texture */}
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(180deg, transparent 0%, rgba(9,9,11,0.85) 100%)",
+            backgroundImage: `radial-gradient(circle, ${acc.text}08 1px, transparent 1px)`,
+            backgroundSize: "28px 28px",
           }}
         />
 
-        {/* Odds badge */}
-        <span
-          className="absolute top-3 left-3 z-10 text-[10px] font-bold px-3 py-1 rounded-full shadow-sm"
+        {/* Gradient vignette */}
+        <div
+          className="absolute inset-0"
           style={{
-            background: acc.bg,
-            color: acc.text,
-            border: `1px solid ${acc.border}`,
+            background: "linear-gradient(180deg, rgba(14,14,20,0.2) 0%, rgba(14,14,20,0.7) 70%, rgba(14,14,20,1) 100%)",
           }}
-        >
-          {prediction.oddsCategory} ODDS
-        </span>
+        />
 
-        {/* Lock icon + CTA */}
+        {/* Odds category badge — top left */}
+        <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+          <span
+            className="text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-full"
+            style={{
+              background: acc.bg,
+              color: acc.text,
+              border: `1px solid ${acc.border}`,
+              backdropFilter: "blur(8px)",
+              letterSpacing: "0.1em",
+            }}
+          >
+            {prediction.oddsCategory} ODDS
+          </span>
+        </div>
+
+        {/* Lock icon — centre */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3">
           <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 md:group-hover:scale-110"
+            className="flex items-center justify-center transition-all duration-500"
             style={{
-              background: "rgba(9,9,11,0.7)",
-              border: `1px solid rgba(255,255,255,0.1)`,
+              width: "64px", height: "64px",
+              borderRadius: "20px",
+              background: "rgba(9,9,11,0.8)",
+              backdropFilter: "blur(10px)",
+              border: `1px solid ${acc.border}`,
               boxShadow: `0 0 0 0 ${acc.glow}`,
             }}
-            onMouseEnter={e => (e.currentTarget.style.boxShadow = `0 0 20px ${acc.glow}`)}
+            onMouseEnter={e => (e.currentTarget.style.boxShadow = `0 0 0 8px ${acc.glow.replace("0.2)", "0.1)")}, 0 0 30px ${acc.glow}`)}
             onMouseLeave={e => (e.currentTarget.style.boxShadow = `0 0 0 0 ${acc.glow}`)}
           >
-            <Lock size={22} style={{ color: acc.text }} strokeWidth={2} />
+            <Lock size={24} style={{ color: acc.text }} strokeWidth={2.5} />
           </div>
           <span
-            className="text-xs font-semibold px-4 py-1.5 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
-            style={{ background: acc.text, color: "#ffffff" }}
+            className="text-xs font-bold px-4 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
+            style={{
+              background: acc.text,
+              color: "#fff",
+              letterSpacing: "0.05em",
+            }}
           >
-            Click to unlock
+            Tap to Unlock
           </span>
         </div>
       </div>
 
-      {/* Card body */}
-      <div className="px-5 py-4" style={{ background: "#111117" }}>
+      {/* ── Card body ── */}
+      <div style={{ padding: "1.25rem 1.25rem 1rem" }}>
+
+        {/* Match name */}
         <h3
-          className="font-bold text-base mb-1 line-clamp-1"
-          style={{ color: "#f4f4f5" }}
+          className="font-bold line-clamp-1 mb-1"
+          style={{
+            color: "#f4f4f5",
+            fontFamily: "'Sora', sans-serif",
+            fontSize: "0.95rem",
+            letterSpacing: "-0.01em",
+          }}
         >
           {prediction.match}
         </h3>
-        <div className="flex items-center gap-1.5 text-xs mb-3" style={{ color: "#a1a1aa" }}>
-          <Calendar size={12} />
-          <span>
-            {new Date(prediction.date).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })}
-          </span>
-          {prediction.league && (<><span className="mx-0.5">·</span><span className="truncate">{prediction.league}</span></>)}
-        </div>
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs" style={{ color: "#a1a1aa" }}>Odds:</span>
-            <span className="font-bold text-sm" style={{ color: acc.text }}>{prediction.odds}</span>
-          </div>
-          <span className="font-bold text-lg" style={{ color: acc.text }}>GHS {prediction.price}</span>
+
+        {/* Meta row */}
+        <div className="flex items-center gap-2 mb-4" style={{ color: "#52525b", fontSize: "0.72rem", fontWeight: 600 }}>
+          <Calendar size={11} />
+          <span>{dateStr}</span>
+          {prediction.league && (
+            <>
+              <span style={{ color: "#27272a" }}>·</span>
+              <span className="truncate" style={{ maxWidth: "120px", color: "#3f3f46" }}>
+                {prediction.league}
+              </span>
+            </>
+          )}
         </div>
 
-        {/* CTA bar */}
+        {/* Odds + price row */}
+        <div className="flex items-center justify-between mb-4">
+          <div
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl"
+            style={{
+              background: acc.bg,
+              border: `1px solid ${acc.border}`,
+            }}
+          >
+            <span style={{ color: acc.text, fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+              Odds
+            </span>
+            <span style={{ color: acc.text, fontSize: "1rem", fontWeight: 900, fontFamily: "'Sora', sans-serif" }}>
+              {prediction.odds}
+            </span>
+          </div>
+          <span
+            style={{
+              color: "#f4f4f5",
+              fontSize: "1.1rem",
+              fontWeight: 900,
+              fontFamily: "'Sora', sans-serif",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            GHS <span style={{ color: acc.text }}>{prediction.price}</span>
+          </span>
+        </div>
+
+        {/* Unlock CTA button */}
         <div
-          className="w-full text-center text-xs font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg"
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-300"
           style={{
-            background: acc.bg,
-            border: `1px solid ${acc.border}`,
-            color: acc.text,
+            background: "linear-gradient(135deg, #16a34a 0%, #10b981 100%)",
+            color: "#ffffff",
+            letterSpacing: "0.03em",
+            boxShadow: "0 4px 20px rgba(22,163,74,0.0)",
+            transition: "box-shadow 0.3s ease",
           }}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.boxShadow = "0 6px 28px rgba(22,163,74,0.45)")}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(22,163,74,0.0)")}
         >
-          🔒 Unlock — GHS {prediction.price}
+          <Lock size={14} strokeWidth={2.5} />
+          Unlock Prediction
         </div>
       </div>
     </div>

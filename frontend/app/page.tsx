@@ -1,18 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  Filter,
-  TrendingUp,
-  Shield,
-  Loader2,
-  CalendarX2,
-  BarChart2,
-  ShieldCheck,
-  Zap,
-  Sparkles,
-  Trophy,
-} from "lucide-react";
+import { Filter, Loader2, CalendarX2, BarChart2, ShieldCheck, Zap } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PredictionCard from "@/components/PredictionCard";
@@ -63,96 +52,164 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section
-          className="pt-28 pb-14 relative overflow-hidden"
-          style={{ background: "#09090b" }}
+          className="pt-24 pb-0 relative overflow-hidden"
+          style={{ background: "#09090b", minHeight: "92vh", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}
         >
-          {/* Decorative orbs */}
-          <div
-            className="pointer-events-none absolute"
-            style={{
-              top: "-120px",
-              right: "-160px",
-              width: "520px",
-              height: "520px",
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(255,69,0,0.12) 0%, rgba(255,69,0,0.04) 45%, transparent 70%)",
+          {/* ── Background: layered green glow atmosphere ── */}
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            {/* Primary top-right orb */}
+            <div style={{
+              position: "absolute", top: "-10%", right: "-5%",
+              width: "700px", height: "700px", borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(22,163,74,0.18) 0%, rgba(22,163,74,0.06) 45%, transparent 70%)",
+              filter: "blur(60px)",
+            }} />
+            {/* Secondary bottom-left orb */}
+            <div style={{
+              position: "absolute", bottom: "10%", left: "-10%",
+              width: "500px", height: "500px", borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(16,185,129,0.1) 0%, rgba(16,185,129,0.03) 50%, transparent 70%)",
+              filter: "blur(50px)",
+            }} />
+            {/* Centre subtle glow */}
+            <div style={{
+              position: "absolute", top: "30%", left: "50%", transform: "translateX(-50%)",
+              width: "800px", height: "300px", borderRadius: "50%",
+              background: "radial-gradient(ellipse, rgba(22,163,74,0.07) 0%, transparent 70%)",
               filter: "blur(40px)",
-            }}
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute"
-            style={{
-              bottom: "-140px",
-              left: "-120px",
-              width: "480px",
-              height: "480px",
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(168,85,247,0.1) 0%, rgba(59,130,246,0.06) 45%, transparent 70%)",
-              filter: "blur(40px)",
-            }}
-            aria-hidden="true"
-          />
+            }} />
+            {/* Grid pattern */}
+            <div style={{
+              position: "absolute", inset: 0,
+              backgroundImage: "linear-gradient(rgba(22,163,74,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(22,163,74,0.03) 1px, transparent 1px)",
+              backgroundSize: "80px 80px",
+              maskImage: "radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%)",
+            }} />
+          </div>
 
-          <div className="page-container text-center relative z-10">
+          <div className="page-container relative z-10 text-center flex flex-col items-center" style={{ paddingBottom: "5rem" }}>
 
-            {/* Badge */}
-            <div className="flex justify-center mb-6 animate-fadeInUp">
+            {/* Live badge */}
+            <div className="flex justify-center mb-8 animate-fadeInUp">
               <div
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold"
+                className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
                 style={{
-                  background: "rgba(22,163,74,0.1)",
-                  border: "1px solid rgba(22,163,74,0.25)",
+                  background: "rgba(22,163,74,0.08)",
+                  border: "1px solid rgba(22,163,74,0.3)",
                   color: "#16a34a",
+                  backdropFilter: "blur(8px)",
                 }}
               >
-                <Sparkles size={12} />
+                <span style={{
+                  width: "6px", height: "6px", borderRadius: "50%",
+                  background: "#16a34a",
+                  boxShadow: "0 0 8px #16a34a",
+                  display: "inline-block",
+                  animation: "pulse 2s infinite",
+                }} />
                 Premium Football Predictions
               </div>
             </div>
 
-            {/* Headline */}
-            <h1 className="section-title mb-4 animate-fadeInUp">
-              This Week&apos;s
+            {/* Main headline */}
+            <h1
+              className="animate-fadeInUp"
+              style={{
+                fontFamily: "'Sora', sans-serif",
+                fontWeight: 900,
+                fontSize: "clamp(2.2rem, 7vw, 5.5rem)",
+                lineHeight: 1.0,
+                letterSpacing: "-0.03em",
+                color: "#f4f4f5",
+                maxWidth: "900px",
+                marginBottom: "1.5rem",
+                textTransform: "uppercase",
+              }}
+            >
+              YOU CAN&apos;T BE{" "}
+              <span style={{
+                background: "linear-gradient(135deg, #16a34a 0%, #10b981 50%, #34d399 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 0 30px rgba(22,163,74,0.4))",
+                display: "inline-block",
+              }}>
+                UNLUCKY
+              </span>
               <br />
-              <span className="gradient-text">Featured Tips</span>
+              <span style={{
+                fontSize: "clamp(1.6rem, 5.5vw, 4.2rem)",
+                color: "#a1a1aa",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+              }}>
+                FOR{" "}
+                <span style={{
+                  color: "#f4f4f5",
+                  fontWeight: 900,
+                  fontSize: "clamp(2.2rem, 7vw, 5.5rem)",
+                }}>
+                  365
+                </span>
+                {" "}DAYS
+              </span>
             </h1>
 
+            {/* Sub-headline */}
             <p
-              className="text-base md:text-lg max-w-lg mx-auto mb-12 leading-relaxed animate-fadeInUp"
-              style={{ color: "#a1a1aa" }}
+              className="animate-fadeInUp"
+              style={{
+                color: "#52525b",
+                fontSize: "clamp(0.85rem, 2vw, 1.05rem)",
+                maxWidth: "420px",
+                lineHeight: 1.65,
+                marginBottom: "3rem",
+                fontWeight: 500,
+              }}
             >
-              Unlock premium predictions with guaranteed odds.
+              Expert-verified football tips. Unlock the slip, place the bet,{" "}
+              <span style={{ color: "#16a34a", fontWeight: 700 }}>collect the money.</span>
             </p>
 
             {/* Stats row */}
-            <div className="flex items-center justify-center gap-4 md:gap-6 mb-14 animate-fadeInUp">
+            <div className="flex items-center justify-center flex-wrap gap-3 mb-12 animate-fadeInUp">
               {[
-                { icon: <Trophy size={18} />, label: "Win Rate", value: "87%", color: "#10b981" },
-                { icon: <TrendingUp size={18} />, label: "Predictions", value: "500+", color: "#ff4500" },
-                { icon: <Shield size={18} />, label: "Verified", value: "100%", color: "#f59e0b" },
+                { value: "87%", label: "Win Rate", color: "#16a34a", glow: "rgba(22,163,74,0.3)" },
+                { value: "500+", label: "Predictions", color: "#10b981", glow: "rgba(16,185,129,0.3)" },
+                { value: "100%", label: "Verified", color: "#34d399", glow: "rgba(52,211,153,0.3)" },
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-center gap-1 px-5 py-4 rounded-2xl transition-all duration-300 hover:scale-105"
+                  className="flex flex-col items-center gap-0.5 px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1"
                   style={{
-                    background: "#111117",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    minWidth: "100px",
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    backdropFilter: "blur(10px)",
+                    minWidth: "110px",
                   }}
                 >
-                  <div style={{ color: stat.color }}>{stat.icon}</div>
                   <span
-                    className="font-display font-bold"
-                    style={{ fontSize: "1.5rem", color: stat.color }}
+                    style={{
+                      fontFamily: "'Sora', sans-serif",
+                      fontWeight: 900,
+                      fontSize: "1.8rem",
+                      color: stat.color,
+                      lineHeight: 1,
+                      filter: `drop-shadow(0 0 12px ${stat.glow})`,
+                    }}
                   >
                     {stat.value}
                   </span>
                   <span
-                    className="text-[10px] font-semibold tracking-wider uppercase"
-                    style={{ color: "#52525b" }}
+                    style={{
+                      fontSize: "0.65rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "#3f3f46",
+                      marginTop: "4px",
+                    }}
                   >
                     {stat.label}
                   </span>
@@ -160,46 +217,45 @@ export default function HomePage() {
               ))}
             </div>
 
-            {/* Filter bar label */}
+            {/* Filter label */}
             <div
-              className="flex items-center justify-center gap-2 text-sm mb-4"
-              style={{ color: "#52525b" }}
+              className="flex items-center justify-center gap-2 text-xs mb-3 animate-fadeInUp"
+              style={{ color: "#3f3f46", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}
             >
-              <Filter size={14} />
-              <span className="font-medium">Filter by odds</span>
+              <Filter size={12} />
+              <span>Filter by odds</span>
             </div>
 
             {/* Filter pills */}
-            <div className="relative">
+            <div className="relative w-full animate-fadeInUp">
               <div
-                className="pointer-events-none absolute right-0 top-0 h-full w-10 z-10 md:hidden"
-                style={{
-                  background: "linear-gradient(to right, transparent, #09090b)",
-                }}
+                className="pointer-events-none absolute right-0 top-0 h-full w-12 z-10 md:hidden"
+                style={{ background: "linear-gradient(to right, transparent, #09090b)" }}
                 aria-hidden="true"
               />
               <div
-                className="flex items-center gap-2 overflow-x-auto md:flex-wrap md:justify-center md:overflow-visible
-                  px-1 pb-1 scroll-smooth scrollbar-none [&::-webkit-scrollbar]:hidden"
+                className="flex items-center gap-2 overflow-x-auto md:flex-wrap md:justify-center md:overflow-visible px-1 pb-1 scroll-smooth scrollbar-none [&::-webkit-scrollbar]:hidden"
                 style={{ WebkitOverflowScrolling: "touch" }}
               >
                 {FILTER_TABS.map((tab) => (
                   <button
                     key={tab.value}
                     onClick={() => handleFilter(tab.value)}
-                    className="flex-shrink-0 text-sm font-semibold px-5 py-2 rounded-xl border transition-all duration-300"
+                    className="flex-shrink-0 text-xs font-bold px-5 py-2.5 rounded-full border transition-all duration-300"
                     style={
                       activeFilter === tab.value
                         ? {
-                            background: "#ff4500",
+                            background: "linear-gradient(135deg, #16a34a, #10b981)",
                             color: "#ffffff",
-                            borderColor: "#ff4500",
-                            boxShadow: "0 4px 16px rgba(255,69,0,0.35)",
+                            borderColor: "transparent",
+                            boxShadow: "0 4px 20px rgba(22,163,74,0.4)",
+                            letterSpacing: "0.04em",
                           }
                         : {
-                            background: "#111117",
-                            color: "#a1a1aa",
+                            background: "rgba(255,255,255,0.03)",
+                            color: "#52525b",
                             borderColor: "rgba(255,255,255,0.06)",
+                            letterSpacing: "0.04em",
                           }
                     }
                   >
@@ -209,6 +265,13 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          {/* Bottom fade into cards */}
+          <div
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
+            style={{ background: "linear-gradient(to bottom, transparent, #09090b)" }}
+            aria-hidden="true"
+          />
         </section>
 
         {/* ── Cards Grid ── */}
