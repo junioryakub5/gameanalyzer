@@ -538,8 +538,17 @@ app.post('/api/payment/restore', paymentLimiter, async (req, res) => {
     const { email, predictionId } = req.body;
     if (!email || !predictionId) return res.status(400).json({ error: 'email and predictionId required' });
     const payment = await db.findPayment({ email:email.toLowerCase().trim(), predictionId, status:'success' });
-    if (!payment) return res.status(404).json({ error: 'No payment found for this email and prediction' });
-    res.json({ success:true, reference:payment.reference, accessToken:payment.accessToken });
+    if (!payment) return res.status(404).json({ error: 'No payment found for this email and prediction. Please check the email you used at payment.' });
+    // Fetch the full prediction content so the frontend can display it immediately
+    const prediction = await db.findPredictionById(payment.predictionId);
+    if (!prediction) return res.status(404).json({ error: 'Prediction not found' });
+    res.json({
+      success: true,
+      data: {
+        payment: { reference: payment.reference, accessToken: payment.accessToken },
+        prediction,
+      }
+    });
   } catch (err) { safeError(res, 500, 'Failed to restore access', err); }
 });
 

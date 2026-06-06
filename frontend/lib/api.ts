@@ -56,11 +56,10 @@ export async function restoreAccess(
   email: string,
   predictionId: string
 ): Promise<UnlockData> {
-  const res = await api.post<ApiResponse<UnlockData>>("/payment/restore", {
-    email,
-    predictionId,
-  });
-  return res.data.data;
+  const res = await api.post("/payment/restore", { email, predictionId });
+  // Backend now returns { success, data: { payment, prediction } }
+  const { payment, prediction } = res.data.data;
+  return { payment, prediction };
 }
 
 // ─── Admin ────────────────────────────────────────────────────────────────────
