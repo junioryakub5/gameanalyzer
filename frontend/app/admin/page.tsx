@@ -75,7 +75,7 @@ function Pagination({ page, pages, onPage }: { page: number; pages: number; onPa
         onClick={() => onPage(page - 1)}
         disabled={page <= 1}
         className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
-        style={{ background: "#1a1a24", color: "#a1a1aa", border: "1px solid rgba(255,255,255,0.07)" }}
+        style={{ background: "rgba(255,255,255,0.03)", color: "#a1a1aa", border: "1px solid rgba(255,255,255,0.07)" }}
       >
         <ChevronLeft size={15} /> Previous
       </button>
@@ -87,8 +87,8 @@ function Pagination({ page, pages, onPage }: { page: number; pages: number; onPa
             className="w-9 h-9 rounded-xl text-sm font-semibold transition-colors"
             style={
               n === page
-                ? { background: "#ff4500", color: "#ffffff", border: "1px solid #ff4500" }
-                : { background: "#1a1a24", color: "#52525b", border: "1px solid rgba(255,255,255,0.07)" }
+                ? { background: "linear-gradient(135deg,#16a34a,#10b981)", color: "#ffffff", border: "none", boxShadow: "0 2px 12px rgba(22,163,74,0.4)" }
+                : { background: "rgba(255,255,255,0.03)", color: "#52525b", border: "1px solid rgba(255,255,255,0.07)" }
             }
           >
             {n}
@@ -99,7 +99,7 @@ function Pagination({ page, pages, onPage }: { page: number; pages: number; onPa
         onClick={() => onPage(page + 1)}
         disabled={page >= pages}
         className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
-        style={{ background: "#1a1a24", color: "#a1a1aa", border: "1px solid rgba(255,255,255,0.07)" }}
+        style={{ background: "rgba(255,255,255,0.03)", color: "#a1a1aa", border: "1px solid rgba(255,255,255,0.07)" }}
       >
         Next <ChevronRight size={15} />
       </button>
@@ -352,7 +352,7 @@ function OverviewSection({ token }: { token: string }) {
 
   if (loading) return (
     <div className="flex items-center justify-center py-24">
-      <Loader2 size={32} className="animate-spin" style={{ color: "#ff4500" }} />
+      <Loader2 size={32} className="animate-spin" style={{ color: "#16a34a" }} />
     </div>
   );
   if (!stats) return (
@@ -362,10 +362,10 @@ function OverviewSection({ token }: { token: string }) {
   );
 
   const statCards = [
-    { label: "Total Predictions", value: stats.totalSlips, icon: FileText, iconColor: "#ff4500", iconBg: "rgba(255,69,0,0.1)", iconBorder: "rgba(255,69,0,0.2)" },
+    { label: "Total Predictions", value: stats.totalSlips, icon: FileText, iconColor: "#16a34a", iconBg: "rgba(22,163,74,0.1)", iconBorder: "rgba(22,163,74,0.2)" },
     { label: "Active Slips", value: stats.activeSlips, icon: Activity, iconColor: "#10b981", iconBg: "rgba(16,185,129,0.1)", iconBorder: "rgba(16,185,129,0.2)" },
-    { label: "Total Revenue", value: `GHS ${stats.totalRevenue.toFixed(2)}`, icon: DollarSign, iconColor: "#10b981", iconBg: "rgba(16,185,129,0.1)", iconBorder: "rgba(16,185,129,0.2)" },
-    { label: "Win Rate", value: `${stats.totalSales > 0 ? Math.round((stats.completedSlips / stats.totalSlips) * 100) : 0}%`, icon: TrendingUp, iconColor: "#10b981", iconBg: "rgba(16,185,129,0.1)", iconBorder: "rgba(16,185,129,0.2)" },
+    { label: "Total Revenue", value: `GHS ${stats.totalRevenue.toFixed(2)}`, icon: DollarSign, iconColor: "#34d399", iconBg: "rgba(52,211,153,0.1)", iconBorder: "rgba(52,211,153,0.2)" },
+    { label: "Win Rate", value: `${stats.totalSales > 0 ? Math.round((stats.completedSlips / stats.totalSlips) * 100) : 0}%`, icon: TrendingUp, iconColor: "#16a34a", iconBg: "rgba(22,163,74,0.1)", iconBorder: "rgba(22,163,74,0.2)" },
   ];
 
   return (
@@ -373,22 +373,41 @@ function OverviewSection({ token }: { token: string }) {
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {statCards.map((s) => (
-          <div key={s.label} className="card-glass p-5">
+          <div
+            key={s.label}
+            style={{
+              background: "rgba(17,17,23,0.8)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: "16px",
+              padding: "1.25rem",
+              backdropFilter: "blur(10px)",
+              transition: "border-color 0.2s",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = s.iconBorder)}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)")}
+          >
             <div className="flex items-center justify-between mb-4">
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: s.iconBg, border: `1px solid ${s.iconBorder}` }}
+                style={{ background: s.iconBg, border: `1px solid ${s.iconBorder}`, boxShadow: `0 0 16px ${s.iconBg}` }}
               >
                 <s.icon size={18} style={{ color: s.iconColor }} />
               </div>
             </div>
             <div
-              className="text-2xl font-bold mb-1"
-              style={{ color: "#f4f4f5" }}
+              style={{
+                fontFamily: "'Sora', sans-serif",
+                fontWeight: 800,
+                fontSize: "1.6rem",
+                color: s.iconColor,
+                lineHeight: 1,
+                marginBottom: "6px",
+                filter: `drop-shadow(0 0 8px ${s.iconBg})`,
+              }}
             >
               {s.value}
             </div>
-            <div className="text-sm" style={{ color: "#a1a1aa" }}>
+            <div style={{ fontSize: "0.75rem", color: "#52525b", fontWeight: 600, letterSpacing: "0.03em" }}>
               {s.label}
             </div>
           </div>
@@ -398,52 +417,44 @@ function OverviewSection({ token }: { token: string }) {
       {/* Revenue + Slip overview row */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Ghana Payments */}
-        <div className="card-glass p-5">
+        <div style={{ background: "rgba(17,17,23,0.8)", border: "1px solid rgba(22,163,74,0.12)", borderRadius: "16px", padding: "1.25rem", backdropFilter: "blur(10px)" }}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Globe2 size={18} style={{ color: "#10b981" }} />
-              <h3 className="font-semibold" style={{ color: "#f4f4f5" }}>
-                Ghana Payments
-              </h3>
+              <div style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Globe2 size={16} style={{ color: "#10b981" }} />
+              </div>
+              <h3 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.9rem", fontFamily: "'Sora',sans-serif" }}>Ghana Payments</h3>
             </div>
-            <DollarSign size={18} style={{ color: "#10b981" }} />
           </div>
-          <div className="flex justify-between text-sm mb-2.5">
-            <span style={{ color: "#a1a1aa" }}>Revenue:</span>
-            <span className="font-bold" style={{ color: "#10b981" }}>
-              GHS {stats.totalRevenue.toFixed(2)}
-            </span>
+          <div className="flex justify-between text-sm mb-3">
+            <span style={{ color: "#52525b" }}>Revenue</span>
+            <span style={{ fontWeight: 800, color: "#10b981", fontFamily: "'Sora',sans-serif", fontSize: "1rem" }}>GHS {stats.totalRevenue.toFixed(2)}</span>
           </div>
+          <div style={{ height: "1px", background: "rgba(255,255,255,0.05)", marginBottom: "0.75rem" }} />
           <div className="flex justify-between text-sm">
-            <span style={{ color: "#a1a1aa" }}>Sales:</span>
-            <span className="font-semibold" style={{ color: "#f4f4f5" }}>
-              {stats.totalSales}
-            </span>
+            <span style={{ color: "#52525b" }}>Sales</span>
+            <span style={{ fontWeight: 700, color: "#f4f4f5" }}>{stats.totalSales}</span>
           </div>
         </div>
 
         {/* Slip Overview */}
-        <div className="card-glass p-5">
+        <div style={{ background: "rgba(17,17,23,0.8)", border: "1px solid rgba(22,163,74,0.12)", borderRadius: "16px", padding: "1.25rem", backdropFilter: "blur(10px)" }}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart2 size={18} style={{ color: "#ff4500" }} />
-              <h3 className="font-semibold" style={{ color: "#f4f4f5" }}>
-                Slip Overview
-              </h3>
+              <div style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(22,163,74,0.1)", border: "1px solid rgba(22,163,74,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <BarChart2 size={16} style={{ color: "#16a34a" }} />
+              </div>
+              <h3 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.9rem", fontFamily: "'Sora',sans-serif" }}>Slip Overview</h3>
             </div>
-            <FileText size={18} style={{ color: "#ff4500" }} />
           </div>
-          <div className="flex justify-between text-sm mb-2.5">
-            <span style={{ color: "#a1a1aa" }}>Active:</span>
-            <span className="font-bold" style={{ color: "#ff4500" }}>
-              {stats.activeSlips}
-            </span>
+          <div className="flex justify-between text-sm mb-3">
+            <span style={{ color: "#52525b" }}>Active</span>
+            <span style={{ fontWeight: 800, color: "#16a34a", fontFamily: "'Sora',sans-serif", fontSize: "1rem" }}>{stats.activeSlips}</span>
           </div>
+          <div style={{ height: "1px", background: "rgba(255,255,255,0.05)", marginBottom: "0.75rem" }} />
           <div className="flex justify-between text-sm">
-            <span style={{ color: "#a1a1aa" }}>Completed:</span>
-            <span className="font-semibold" style={{ color: "#a1a1aa" }}>
-              {stats.completedSlips}
-            </span>
+            <span style={{ color: "#52525b" }}>Completed</span>
+            <span style={{ fontWeight: 700, color: "#f4f4f5" }}>{stats.completedSlips}</span>
           </div>
         </div>
       </div>
@@ -485,9 +496,9 @@ function OverviewSection({ token }: { token: string }) {
                   <div
                     className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                     style={{
-                      background: "rgba(255,69,0,0.15)",
-                      color: "#ff4500",
-                      border: "1px solid rgba(255,69,0,0.25)",
+                      background: "rgba(22,163,74,0.12)",
+                      color: "#16a34a",
+                      border: "1px solid rgba(22,163,74,0.25)",
                     }}
                   >
                     {act.email[0].toUpperCase()}
@@ -1725,9 +1736,9 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
             style={
               section === item.id
                 ? {
-                    background: "rgba(255,69,0,0.1)",
-                    color: "#ff4500",
-                    border: "1px solid rgba(255,69,0,0.2)",
+                    background: "rgba(22,163,74,0.1)",
+                    color: "#16a34a",
+                    border: "1px solid rgba(22,163,74,0.2)",
                     fontFamily: "'Sora', sans-serif",
                     fontWeight: 600,
                     letterSpacing: "0.02em",
@@ -1793,10 +1804,12 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       <div
         className={`fixed top-0 left-0 h-full z-50 flex flex-col w-72 transition-transform duration-300 md:hidden ${drawerOpen ? "translate-x-0" : "-translate-x-full"}`}
         style={{
-          background: "#111117",
-          borderRight: "1px solid rgba(255,255,255,0.06)",
+          background: "#0e0e14",
+          borderRight: "1px solid rgba(22,163,74,0.1)",
         }}
       >
+        {/* Green gradient top line */}
+        <div style={{ height: "3px", background: "linear-gradient(90deg,#16a34a,#10b981,#34d399)", flexShrink: 0 }} />
         <SidebarContent />
       </div>
 
@@ -1804,11 +1817,13 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       <aside
         className="hidden md:flex flex-shrink-0 flex-col"
         style={{
-          background: "#111117",
-          borderRight: "1px solid rgba(255,255,255,0.06)",
+          background: "#0e0e14",
+          borderRight: "1px solid rgba(22,163,74,0.1)",
           width: "224px",
         }}
       >
+        {/* Green gradient top line */}
+        <div style={{ height: "3px", background: "linear-gradient(90deg,#16a34a,#10b981,#34d399)", flexShrink: 0 }} />
         <SidebarContent />
       </aside>
 
@@ -1897,7 +1912,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
               key={item.id}
               onClick={() => goTo(item.id)}
               className="flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-colors relative"
-              style={{ color: section === item.id ? "#ff4500" : "#52525b" }}
+              style={{ color: section === item.id ? "#16a34a" : "#52525b" }}
             >
               <item.icon size={20} />
               <span
@@ -1914,7 +1929,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
               {section === item.id && (
                 <div
                   className="absolute top-0 h-0.5 w-10 rounded-full"
-                  style={{ background: "#ff4500" }}
+                  style={{ background: "linear-gradient(90deg,#16a34a,#10b981)" }}
                 />
               )}
             </button>
