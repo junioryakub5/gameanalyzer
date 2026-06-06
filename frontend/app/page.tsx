@@ -173,7 +173,7 @@ export default function HomePage() {
             </p>
 
             {/* Stats row */}
-            <div className="flex items-center justify-center flex-wrap gap-3 mb-12 animate-fadeInUp">
+            <div className="flex items-center justify-center gap-2 mb-12 animate-fadeInUp w-full">
               {[
                 { value: "87%", label: "Win Rate", color: "#16a34a", glow: "rgba(22,163,74,0.3)" },
                 { value: "500+", label: "Predictions", color: "#10b981", glow: "rgba(16,185,129,0.3)" },
@@ -181,19 +181,18 @@ export default function HomePage() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-center gap-0.5 px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1"
+                  className="flex flex-col items-center gap-0.5 flex-1 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1"
                   style={{
                     background: "rgba(255,255,255,0.03)",
                     border: "1px solid rgba(255,255,255,0.07)",
                     backdropFilter: "blur(10px)",
-                    minWidth: "110px",
                   }}
                 >
                   <span
                     style={{
                       fontFamily: "'Sora', sans-serif",
                       fontWeight: 900,
-                      fontSize: "1.8rem",
+                      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
                       color: stat.color,
                       lineHeight: 1,
                       filter: `drop-shadow(0 0 12px ${stat.glow})`,
@@ -203,9 +202,9 @@ export default function HomePage() {
                   </span>
                   <span
                     style={{
-                      fontSize: "0.65rem",
+                      fontSize: "0.6rem",
                       fontWeight: 700,
-                      letterSpacing: "0.12em",
+                      letterSpacing: "0.1em",
                       textTransform: "uppercase",
                       color: "#3f3f46",
                       marginTop: "4px",
