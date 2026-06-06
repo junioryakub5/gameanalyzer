@@ -96,7 +96,7 @@ export default function HistoryPage() {
 
               {/* Right: stat pills */}
               <div className="flex items-center gap-3 md:ml-auto flex-wrap justify-center">
-                {/* Win Rate */}
+                 {/* Win Rate */}
                 <div
                   className="flex flex-col items-center px-5 py-3 rounded-xl"
                   style={{
@@ -104,15 +104,8 @@ export default function HistoryPage() {
                     border: "1px solid rgba(16,185,129,0.18)",
                   }}
                 >
-                  <span
-                    className="text-2xl font-black"
-                    style={{ color: "#10b981" }}
-                  >
-                    {winRate}%
-                  </span>
-                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>
-                    Win Rate
-                  </span>
+                  <span className="text-2xl font-black" style={{ color: "#10b981" }}>{winRate}%</span>
+                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>Win Rate</span>
                 </div>
                 {/* Wins */}
                 <div
@@ -122,15 +115,8 @@ export default function HistoryPage() {
                     border: "1px solid rgba(16,185,129,0.18)",
                   }}
                 >
-                  <span
-                    className="text-2xl font-black"
-                    style={{ color: "#10b981" }}
-                  >
-                    {wins}
-                  </span>
-                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>
-                    Wins
-                  </span>
+                  <span className="text-2xl font-black" style={{ color: "#10b981" }}>{wins}</span>
+                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>Wins</span>
                 </div>
                 {/* Losses */}
                 <div
@@ -140,33 +126,19 @@ export default function HistoryPage() {
                     border: "1px solid rgba(239,68,68,0.18)",
                   }}
                 >
-                  <span
-                    className="text-2xl font-black"
-                    style={{ color: "#ef4444" }}
-                  >
-                    {losses}
-                  </span>
-                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>
-                    Losses
-                  </span>
+                  <span className="text-2xl font-black" style={{ color: "#ef4444" }}>{losses}</span>
+                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>Losses</span>
                 </div>
                 {/* Total */}
                 <div
                   className="flex flex-col items-center px-5 py-3 rounded-xl"
                   style={{
-                    background: "rgba(255,69,0,0.08)",
-                    border: "1px solid rgba(255,69,0,0.18)",
+                    background: "rgba(22,163,74,0.08)",
+                    border: "1px solid rgba(22,163,74,0.18)",
                   }}
                 >
-                  <span
-                    className="text-2xl font-black"
-                    style={{ color: "#ff4500" }}
-                  >
-                    {predictions.length}
-                  </span>
-                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>
-                    Total
-                  </span>
+                  <span className="text-2xl font-black" style={{ color: "#16a34a" }}>{predictions.length}</span>
+                  <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#a1a1aa" }}>Total</span>
                 </div>
               </div>
             </div>
@@ -198,10 +170,10 @@ export default function HistoryPage() {
                       boxShadow: "0 2px 8px rgba(239,68,68,0.12)",
                     }
                   : {
-                      background: "rgba(255,69,0,0.15)",
-                      color: "#ff4500",
-                      border: "1px solid rgba(255,69,0,0.3)",
-                      boxShadow: "0 2px 8px rgba(255,69,0,0.12)",
+                      background: "rgba(22,163,74,0.15)",
+                      color: "#16a34a",
+                      border: "1px solid rgba(22,163,74,0.3)",
+                      boxShadow: "0 2px 8px rgba(22,163,74,0.12)",
                     };
               return (
                 <button
@@ -313,9 +285,9 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
         <span
           className="text-xs font-bold px-3 py-1 rounded-lg"
           style={{
-            background: "rgba(255,69,0,0.1)",
-            color: "#ff4500",
-            border: "1px solid rgba(255,69,0,0.2)",
+            background: "rgba(22,163,74,0.1)",
+            color: "#16a34a",
+            border: "1px solid rgba(22,163,74,0.2)",
           }}
         >
           {prediction.oddsCategory} ODDS
@@ -348,7 +320,7 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
         </span>
       </div>
 
-      {/* Image evidence */}
+      {/* Slips side-by-side */}
       {hasImages ? (
         <div
           className={`grid gap-0 ${hasBefore && hasProof ? "grid-cols-2" : "grid-cols-1"}`}
@@ -359,8 +331,9 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
               className={`flex flex-col ${hasBefore && hasProof ? "border-r" : ""}`}
               style={{ borderColor: "rgba(255,255,255,0.06)" }}
             >
+              {/* Label: Our Prediction */}
               <div
-                className="flex items-center justify-between px-3 py-2"
+                className="flex items-center justify-center px-3 py-2"
                 style={{
                   background: "#1a1a24",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -370,13 +343,7 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
                   className="text-[11px] font-bold uppercase tracking-wide"
                   style={{ color: "#a1a1aa" }}
                 >
-                  Bet Slip
-                </span>
-                <span
-                  className="text-[10px] uppercase tracking-widest"
-                  style={{ color: "#52525b" }}
-                >
-                  Before
+                  Our Prediction
                 </span>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -386,7 +353,7 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
                 className="w-full object-contain"
                 style={{
                   background: "#0d0d10",
-                  maxHeight: hasBefore && hasProof ? "280px" : "360px",
+                  maxHeight: hasBefore && hasProof ? "320px" : "400px",
                   minHeight: "140px",
                 }}
               />
@@ -394,30 +361,19 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
           )}
           {hasProof && (
             <div className="flex flex-col">
+              {/* Label: Actual Result */}
               <div
-                className="flex items-center justify-between px-3 py-2"
+                className="flex items-center justify-center px-3 py-2"
                 style={{
-                  background: isWin
-                    ? "rgba(16,185,129,0.08)"
-                    : "rgba(239,68,68,0.08)",
-                  borderBottom: `1px solid ${
-                    isWin
-                      ? "rgba(16,185,129,0.16)"
-                      : "rgba(239,68,68,0.16)"
-                  }`,
+                  background: isWin ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
+                  borderBottom: `1px solid ${isWin ? "rgba(16,185,129,0.2)" : "rgba(239,68,68,0.2)"}`,
                 }}
               >
                 <span
                   className="text-[11px] font-bold uppercase tracking-wide"
                   style={{ color: isWin ? "#10b981" : "#ef4444" }}
                 >
-                  Result Proof
-                </span>
-                <span
-                  className="text-[10px] uppercase tracking-widest"
-                  style={{ color: "#52525b" }}
-                >
-                  After
+                  Actual Result: {isWin ? "WON ✓" : "LOST ✗"}
                 </span>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -427,7 +383,7 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
                 className="w-full object-contain"
                 style={{
                   background: "#0d0d10",
-                  maxHeight: hasBefore && hasProof ? "280px" : "360px",
+                  maxHeight: hasBefore && hasProof ? "320px" : "400px",
                   minHeight: "140px",
                 }}
               />
@@ -567,13 +523,20 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
         <span className="text-xs" style={{ color: "#52525b" }}>
           {prediction.league}
         </span>
-        <span
-          className="text-xs font-semibold flex items-center gap-1"
-          style={{ color: isWin ? "#10b981" : "#ef4444" }}
-        >
-          {isWin ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
-          {isWin ? "Prediction correct" : "Prediction missed"}
-        </span>
+        {hasImages ? (
+          <span className="text-xs font-semibold flex items-center gap-1" style={{ color: "#16a34a" }}>
+            <CheckCircle2 size={12} />
+            Transparent Results — See Both Prediction &amp; Proof
+          </span>
+        ) : (
+          <span
+            className="text-xs font-semibold flex items-center gap-1"
+            style={{ color: isWin ? "#10b981" : "#ef4444" }}
+          >
+            {isWin ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
+            {isWin ? "Prediction correct" : "Prediction missed"}
+          </span>
+        )}
       </div>
     </div>
   );
