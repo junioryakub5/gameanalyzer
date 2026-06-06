@@ -186,7 +186,7 @@ function CountrySelectModal({
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
@@ -478,7 +478,7 @@ function PaymentModal({
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
@@ -643,7 +643,7 @@ function NigeriaPaymentModal({
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
