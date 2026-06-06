@@ -129,68 +129,142 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center p-4"
+      className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
       style={{ background: "#09090b" }}
     >
-      <div className="w-full max-w-sm">
-        {/* Card */}
+      {/* ── Background atmosphere ── */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        {/* Top-right green orb */}
+        <div style={{
+          position: "absolute", top: "-15%", right: "-10%",
+          width: "600px", height: "600px", borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(22,163,74,0.15) 0%, rgba(22,163,74,0.04) 50%, transparent 70%)",
+          filter: "blur(60px)",
+        }} />
+        {/* Bottom-left orb */}
+        <div style={{
+          position: "absolute", bottom: "-10%", left: "-10%",
+          width: "500px", height: "500px", borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)",
+          filter: "blur(50px)",
+        }} />
+        {/* Dot grid */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "radial-gradient(circle, rgba(22,163,74,0.06) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+          maskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)",
+        }} />
+      </div>
+
+      <div className="w-full max-w-sm relative z-10">
+
+        {/* ── Glassmorphism card ── */}
         <div
-          className="rounded-2xl overflow-hidden"
           style={{
-            background: "#111117",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(17,17,23,0.85)",
+            border: "1px solid rgba(22,163,74,0.15)",
+            borderRadius: "24px",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset",
+            backdropFilter: "blur(20px)",
+            overflow: "hidden",
           }}
         >
-          {/* Top accent bar */}
-          <div style={{ height: "3px", background: "#ff4500" }} />
+          {/* Top green accent bar */}
+          <div style={{
+            height: "3px",
+            background: "linear-gradient(90deg, #16a34a, #10b981, #34d399)",
+          }} />
 
           <div className="p-8">
-            {/* Logo area */}
+            {/* Logo + brand */}
             <div className="flex flex-col items-center mb-8">
               <div
-                className="w-14 h-14 rounded-full flex items-center justify-center mb-4 overflow-hidden"
+                className="mb-5"
                 style={{
+                  width: "72px", height: "72px",
+                  borderRadius: "20px",
                   background: "rgba(22,163,74,0.1)",
-                  border: "1px solid rgba(22,163,74,0.2)",
+                  border: "1px solid rgba(22,163,74,0.25)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: "0 0 40px rgba(22,163,74,0.15)",
+                  overflow: "hidden",
                 }}
               >
-                <Image src="/logo.png" alt="365Analyst" width={56} height={56} className="w-full h-full object-cover rounded-full" />
+                <Image src="/logo.png" alt="365Analyst" width={72} height={72} className="w-full h-full object-cover rounded-[18px]" />
               </div>
+
               <div className="text-center">
                 <div
-                  className="text-2xl font-bold leading-none"
-                  style={{ fontFamily: "'Sora', sans-serif", letterSpacing: "-0.03em" }}
+                  style={{
+                    fontFamily: "'Sora', sans-serif",
+                    fontWeight: 900,
+                    fontSize: "1.6rem",
+                    letterSpacing: "-0.03em",
+                    lineHeight: 1,
+                  }}
                 >
                   <span style={{ color: "#f4f4f5" }}>365</span>
-                  <span style={{ color: "#16a34a" }}> Analyst</span>
+                  <span style={{
+                    background: "linear-gradient(135deg, #16a34a, #10b981)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}>Analyst</span>
                 </div>
                 <div
-                  className="text-xs mt-1.5 font-medium tracking-widest uppercase"
-                  style={{ color: "#52525b" }}
+                  className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
+                  style={{
+                    background: "rgba(22,163,74,0.08)",
+                    border: "1px solid rgba(22,163,74,0.2)",
+                    color: "#16a34a",
+                    fontSize: "0.6rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                  }}
                 >
+                  <span style={{
+                    width: "5px", height: "5px", borderRadius: "50%",
+                    background: "#16a34a",
+                    boxShadow: "0 0 6px #16a34a",
+                    display: "inline-block",
+                  }} />
                   Admin Portal
                 </div>
               </div>
             </div>
 
-            {/* Form heading */}
+            {/* Heading */}
             <div className="mb-6">
               <h1
-                className="text-xl font-bold mb-1"
-                style={{ color: "#f4f4f5", fontFamily: "'Sora', sans-serif" }}
+                style={{
+                  color: "#f4f4f5",
+                  fontFamily: "'Sora', sans-serif",
+                  fontWeight: 800,
+                  fontSize: "1.3rem",
+                  letterSpacing: "-0.02em",
+                  marginBottom: "4px",
+                }}
               >
-                Admin Access
+                Welcome back
               </h1>
-              <p className="text-sm" style={{ color: "#a1a1aa" }}>
-                Enter your admin token to continue
+              <p style={{ color: "#52525b", fontSize: "0.82rem", lineHeight: 1.5 }}>
+                Enter your admin token to access the dashboard
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
-                  className="block text-xs font-bold uppercase tracking-widest mb-2"
-                  style={{ color: "rgba(22,163,74,0.8)" }}
+                  className="block mb-2"
+                  style={{
+                    color: "rgba(22,163,74,0.9)",
+                    fontSize: "0.65rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                  }}
                 >
                   Admin Token
                 </label>
@@ -201,8 +275,8 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
                     onChange={(e) => setToken(e.target.value)}
                     placeholder="Enter admin token..."
                     autoFocus
-                    className="input-field w-full pr-10"
-                    style={{ paddingRight: "2.5rem" }}
+                    className="input-field w-full"
+                    style={{ paddingRight: "2.75rem" }}
                   />
                   <button
                     type="button"
@@ -218,15 +292,33 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
               </div>
 
               {error && (
-                <p className="text-sm flex items-center gap-1.5" style={{ color: "#f87171" }}>
-                  <XCircle size={14} /> {error}
-                </p>
+                <div
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm"
+                  style={{
+                    background: "rgba(239,68,68,0.08)",
+                    border: "1px solid rgba(239,68,68,0.2)",
+                    color: "#f87171",
+                  }}
+                >
+                  <XCircle size={14} className="flex-shrink-0" />
+                  {error}
+                </div>
               )}
 
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-primary w-full flex items-center justify-center gap-2"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300"
+                style={{
+                  background: loading
+                    ? "rgba(22,163,74,0.4)"
+                    : "linear-gradient(135deg, #16a34a 0%, #10b981 100%)",
+                  color: "#ffffff",
+                  letterSpacing: "0.03em",
+                  boxShadow: loading ? "none" : "0 4px 24px rgba(22,163,74,0.35)",
+                }}
+                onMouseEnter={e => { if (!loading) (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(22,163,74,0.5)"; }}
+                onMouseLeave={e => { if (!loading) (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(22,163,74,0.35)"; }}
               >
                 {loading ? <Loader2 size={16} className="animate-spin" /> : null}
                 {loading ? "Verifying..." : "Access Dashboard"}
@@ -236,10 +328,10 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
         </div>
 
         <p
-          className="text-center text-xs mt-6"
-          style={{ color: "#52525b" }}
+          className="text-center mt-5"
+          style={{ color: "#3f3f46", fontSize: "0.7rem", letterSpacing: "0.05em" }}
         >
-          365Analyst · Admin Portal
+          365Analyst · Admin Portal · Restricted Access
         </p>
       </div>
     </div>
