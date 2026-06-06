@@ -19,44 +19,65 @@ function BetSlipImage({ src, alt }: { src: string; alt: string }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="relative w-full rounded-xl overflow-hidden group cursor-zoom-in"
-          style={{ height: "120px", background: "#111117", border: "1px solid rgba(255,255,255,0.06)" }}
+          className="relative w-full rounded-2xl overflow-hidden group cursor-zoom-in"
+          style={{
+            height: "280px",
+            background: "#0e0e14",
+            border: "1px solid rgba(22,163,74,0.15)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+          }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt={alt} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+          <img
+            src={src}
+            alt={alt}
+            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Tap overlay */}
           <div
-            className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ background: "rgba(0,0,0,0.7)" }}
+            className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%)" }}
           >
             <span
-              className="text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5"
-              style={{ background: "#ff4500", color: "#ffffff" }}
+              className="text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5"
+              style={{ background: "linear-gradient(135deg,#16a34a,#10b981)", color: "#ffffff", boxShadow: "0 2px 12px rgba(22,163,74,0.4)" }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-              View Full Slip
+              Tap to expand
             </span>
           </div>
+          {/* Always-visible bottom gradient label */}
+          <div
+            className="absolute bottom-0 left-0 right-0 flex items-center justify-center pb-3 group-hover:opacity-0 transition-opacity duration-200"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)", paddingTop: "40px" }}
+          >
+            <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.7rem", fontWeight: 600 }}>Tap to view full bet slip</span>
+          </div>
         </button>
-        <p className="text-center text-[10px] mt-1.5" style={{ color: "#52525b" }}>Tap to view full bet slip</p>
       </div>
 
       {/* Lightbox */}
       {open && (
         <div
           className="fixed inset-0 z-[9999] overflow-y-auto"
-          style={{ background: "rgba(0,0,0,0.92)" }}
+          style={{ background: "rgba(0,0,0,0.95)", backdropFilter: "blur(8px)" }}
           onClick={() => setOpen(false)}
         >
           <button
             onClick={() => setOpen(false)}
-            className="fixed top-4 right-4 text-white rounded-full w-10 h-10 flex items-center justify-center z-[10000]"
-            style={{ background: "rgba(255,69,0,0.9)" }}
+            className="fixed top-4 right-4 z-[10000] w-10 h-10 flex items-center justify-center rounded-full transition-all"
+            style={{ background: "rgba(22,163,74,0.9)", color: "#ffffff", boxShadow: "0 2px 16px rgba(22,163,74,0.4)" }}
           >
             <X size={18} />
           </button>
-          <div className="min-h-full flex items-center justify-center p-4 py-12" onClick={e => e.stopPropagation()}>
+          <div className="min-h-full flex items-center justify-center p-4 py-16" onClick={e => e.stopPropagation()}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt={alt} className="rounded-2xl shadow-2xl" style={{ maxWidth: "100%", width: "auto", height: "auto" }} />
+            <img
+              src={src}
+              alt={alt}
+              className="rounded-2xl shadow-2xl"
+              style={{ maxWidth: "100%", width: "auto", height: "auto", boxShadow: "0 32px 80px rgba(0,0,0,0.8)" }}
+            />
           </div>
         </div>
       )}
