@@ -10,6 +10,9 @@ export default function Footer() {
       style={{
         background: "#09090b",
         borderTop: "1px solid rgba(255,255,255,0.06)",
+        zIndex: 0,
+        position: "relative",
+        isolation: "auto",
       }}
     >
       {/* Top radial glow */}
@@ -17,7 +20,7 @@ export default function Footer() {
         className="pointer-events-none absolute top-0 left-0 right-0 h-40"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255,69,0,0.06), transparent)",
+            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(22,163,74,0.06), transparent)",
         }}
         aria-hidden="true"
       />
@@ -25,7 +28,7 @@ export default function Footer() {
       {/* Glow line at the top edge */}
       <div className="glow-line absolute top-0 left-0 right-0" aria-hidden="true" />
 
-      <div className="page-container relative z-10">
+      <div className="page-container">
 
         {/* Brand */}
         <div className="flex items-center justify-center gap-2.5 mb-3">
@@ -57,14 +60,14 @@ export default function Footer() {
         <div className="flex items-center justify-center gap-6 mb-6">
           <Link
             href="/"
-            className="text-xs font-medium transition-colors duration-200 hover:text-[#ff4500]"
+            className="text-xs font-medium transition-colors duration-200 hover:text-[#16a34a]"
             style={{ color: "#52525b" }}
           >
             Home
           </Link>
           <Link
             href="/history"
-            className="text-xs font-medium transition-colors duration-200 hover:text-[#ff4500]"
+            className="text-xs font-medium transition-colors duration-200 hover:text-[#16a34a]"
             style={{ color: "#52525b" }}
           >
             History
