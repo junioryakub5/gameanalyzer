@@ -268,7 +268,7 @@ export default function HistoryPage() {
 
 function ResultCard({ prediction }: { prediction: Prediction }) {
   const isWin    = prediction.result === "win";
-  const hasBefore = !!prediction.imageUrl;
+  const hasBefore = !!prediction.previewImageUrl;
   const hasProof  = !!prediction.proofImageUrl;
   const hasImages = hasBefore || hasProof;
 
@@ -348,7 +348,7 @@ function ResultCard({ prediction }: { prediction: Prediction }) {
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={prediction.imageUrl!}
+                src={prediction.previewImageUrl!}
                 alt={`Bet slip — ${prediction.match}`}
                 className="w-full object-contain"
                 style={{
