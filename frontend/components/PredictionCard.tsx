@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import {
-  Calendar, Lock, X, Loader2, Shield, Zap,
+  Calendar, Lock, X, Loader2, Shield, Zap, XCircle,
   CheckCircle, Copy, Check, Trophy, RefreshCcw, Mail, ExternalLink,
   CheckCircle2,
 } from "lucide-react";
@@ -118,10 +118,10 @@ interface Props {
 
 // ── Accent colours per odds category ─────────────────────────────────────────
 const ACCENT: Record<string, { bg: string; text: string; glow: string; border: string }> = {
-  "2+":  { bg: "rgba(255,69,0,0.08)",    text: "#ff4500", glow: "rgba(255,69,0,0.2)",    border: "rgba(255,69,0,0.25)" },
-  "5+":  { bg: "rgba(245,158,11,0.08)",  text: "#f59e0b", glow: "rgba(245,158,11,0.2)",  border: "rgba(245,158,11,0.25)" },
-  "10+": { bg: "rgba(168,85,247,0.08)",  text: "#a855f7", glow: "rgba(168,85,247,0.2)",  border: "rgba(168,85,247,0.25)" },
-  "20+": { bg: "rgba(239,68,68,0.08)",   text: "#ef4444", glow: "rgba(239,68,68,0.2)",   border: "rgba(239,68,68,0.25)" },
+  "2+":  { bg: "rgba(22,163,74,0.1)",   text: "#16a34a", glow: "rgba(22,163,74,0.25)",   border: "rgba(22,163,74,0.3)" },
+  "5+":  { bg: "rgba(16,185,129,0.1)",  text: "#10b981", glow: "rgba(16,185,129,0.25)",  border: "rgba(16,185,129,0.3)" },
+  "10+": { bg: "rgba(52,211,153,0.1)",  text: "#34d399", glow: "rgba(52,211,153,0.25)",  border: "rgba(52,211,153,0.3)" },
+  "20+": { bg: "rgba(6,214,160,0.1)",   text: "#06d6a0", glow: "rgba(6,214,160,0.25)",   border: "rgba(6,214,160,0.3)" },
 };
 
 // ── Exchange rate: 1 GHS → NGN (update as needed) ────────────────────────────
@@ -186,98 +186,106 @@ function CountrySelectModal({
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.7)" }} />
+      <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.75)" }} />
 
       {/* Modal card */}
       <div
         className="relative w-full max-w-sm overflow-hidden"
         style={{
-          background: "#111117",
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: "20px",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
+          background: "rgba(14,14,20,0.95)",
+          border: "1px solid rgba(22,163,74,0.2)",
+          borderRadius: "24px",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
+          backdropFilter: "blur(20px)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top accent line */}
-        <div style={{ height: "3px", background: acc.text, width: "100%" }} />
+        {/* Green gradient top bar */}
+        <div style={{ height: "3px", background: "linear-gradient(90deg,#16a34a,#10b981,#34d399)", width: "100%" }} />
 
         {/* Header */}
-        <div
-          className="px-6 pt-5 pb-4"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", background: "#111117" }}
-        >
+        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-semibold text-base" style={{ color: "#f4f4f5" }}>Choose your country</h2>
-              <p className="text-xs mt-0.5" style={{ color: "#a1a1aa" }}>Select to continue with payment</p>
+              <h2 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "1rem", fontFamily: "'Sora',sans-serif", letterSpacing: "-0.01em" }}>Choose your country</h2>
+              <p style={{ color: "#52525b", fontSize: "0.75rem", marginTop: "2px" }}>Select your country to continue with payment</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors"
-              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)" }}
+              className="w-8 h-8 flex items-center justify-center rounded-xl transition-colors"
+              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
             >
-              <X size={16} />
+              <X size={15} />
             </button>
           </div>
         </div>
 
-        {/* Options */}
-        <div className="px-6 py-5 space-y-3">
+        {/* Country options */}
+        <div className="px-5 py-4 space-y-2.5">
           {/* Ghana */}
           <button
             onClick={onGhana}
-            className="w-full flex items-center justify-between px-4 py-4 rounded-2xl transition-all duration-200 active:scale-[0.98]"
-            style={{
-              background: "#1a1a24",
-              border: "1px solid rgba(255,255,255,0.06)",
+            className="w-full flex items-center justify-between px-4 py-4 rounded-2xl transition-all duration-200 active:scale-[0.98] group"
+            style={{ background: "rgba(22,163,74,0.06)", border: "1px solid rgba(22,163,74,0.15)" }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(22,163,74,0.12)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(22,163,74,0.3)";
             }}
-            onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
-            onMouseLeave={e => (e.currentTarget.style.background = "#1a1a24")}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(22,163,74,0.06)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(22,163,74,0.15)";
+            }}
           >
             <div className="flex items-center gap-3">
               <span className="text-2xl">🇬🇭</span>
               <div className="text-left">
-                <p className="font-semibold text-sm" style={{ color: "#f4f4f5" }}>Ghana</p>
-                <p className="text-xs" style={{ color: "#a1a1aa" }}>GHS {prediction.price} — Mobile Money / Card</p>
+                <p style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.88rem" }}>Ghana</p>
+                <p style={{ color: "#52525b", fontSize: "0.72rem", marginTop: "2px" }}>GHS {prediction.price} · Mobile Money / Card</p>
               </div>
             </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#52525b" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(22,163,74,0.1)", border: "1px solid rgba(22,163,74,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
           </button>
 
           {/* Nigeria */}
           <button
             onClick={onNigeria}
             className="w-full flex items-center justify-between px-4 py-4 rounded-2xl transition-all duration-200 active:scale-[0.98]"
-            style={{
-              background: "#1a1a24",
-              border: "1px solid rgba(255,255,255,0.06)",
+            style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.15)" }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(16,185,129,0.12)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(16,185,129,0.3)";
             }}
-            onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
-            onMouseLeave={e => (e.currentTarget.style.background = "#1a1a24")}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(16,185,129,0.06)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(16,185,129,0.15)";
+            }}
           >
             <div className="flex items-center gap-3">
               <span className="text-2xl">🇳🇬</span>
               <div className="text-left">
-                <p className="font-semibold text-sm" style={{ color: "#f4f4f5" }}>Nigeria</p>
-                <p className="text-xs" style={{ color: "#a1a1aa" }}>₦{ngn.toLocaleString()} — Telegram Payment</p>
+                <p style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.88rem" }}>Nigeria</p>
+                <p style={{ color: "#52525b", fontSize: "0.72rem", marginTop: "2px" }}>₦{ngn.toLocaleString()} · Telegram Payment</p>
               </div>
             </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#52525b" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
           </button>
         </div>
 
         {/* Cancel */}
-        <div className="px-6 pb-5">
+        <div className="px-5 pb-5">
           <button
             onClick={onClose}
-            className="w-full py-3 text-sm font-medium rounded-2xl transition-all"
-            style={{ background: "rgba(255,255,255,0.04)", color: "#52525b", border: "1px solid rgba(255,255,255,0.06)" }}
+            className="w-full py-3 text-sm font-semibold rounded-2xl transition-all"
+            style={{ background: "rgba(255,255,255,0.03)", color: "#3f3f46", border: "1px solid rgba(255,255,255,0.06)" }}
           >
             Cancel
           </button>
@@ -441,26 +449,27 @@ function PaymentModal({
         className="fixed inset-0 z-[200] flex items-center justify-center p-4"
         style={{ overscrollBehavior: "contain" }}
       >
-        <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.7)" }} />
+        <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.75)" }} />
         <div
           className="relative w-full max-w-sm overflow-hidden flex flex-col items-center justify-center gap-5 py-14 px-8"
           style={{
-            background: "#111117",
-            border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: "20px",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
+            background: "rgba(14,14,20,0.95)",
+            border: "1px solid rgba(22,163,74,0.2)",
+            borderRadius: "24px",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.7)",
+            backdropFilter: "blur(20px)",
           }}
         >
-          <div style={{ height: "3px", background: acc.text, width: "100%", position: "absolute", top: 0, left: 0 }} />
+          <div style={{ height: "3px", background: "linear-gradient(90deg,#16a34a,#10b981,#34d399)", width: "100%", position: "absolute", top: 0, left: 0 }} />
           <div
             className="w-16 h-16 rounded-2xl flex items-center justify-center"
-            style={{ background: acc.bg, border: `1px solid ${acc.border}` }}
+            style={{ background: "rgba(22,163,74,0.1)", border: "1px solid rgba(22,163,74,0.25)", boxShadow: "0 0 30px rgba(22,163,74,0.15)" }}
           >
-            <Loader2 size={28} style={{ color: acc.text }} className="animate-spin" />
+            <Loader2 size={28} style={{ color: "#16a34a" }} className="animate-spin" />
           </div>
           <div className="text-center">
-            <p className="font-semibold text-base mb-1" style={{ color: "#f4f4f5" }}>Verifying Payment…</p>
-            <p className="text-xs" style={{ color: "#a1a1aa" }}>Confirming with Paystack and unlocking your prediction</p>
+            <p style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "1rem", fontFamily: "'Sora',sans-serif", marginBottom: "6px" }}>Verifying Payment…</p>
+            <p style={{ color: "#52525b", fontSize: "0.75rem", lineHeight: 1.5 }}>Confirming with Paystack and unlocking your prediction</p>
           </div>
         </div>
       </div>
@@ -469,57 +478,60 @@ function PaymentModal({
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
-      <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.7)" }} />
+      <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.75)" }} />
 
       <div
         className="relative w-full max-w-sm overflow-hidden"
         style={{
-          background: "#111117",
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: "20px",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
+          background: "rgba(14,14,20,0.95)",
+          border: "1px solid rgba(22,163,74,0.2)",
+          borderRadius: "24px",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
+          backdropFilter: "blur(20px)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top accent line */}
-        <div style={{ height: "3px", background: acc.text, width: "100%" }} />
+        {/* Green gradient top bar */}
+        <div style={{ height: "3px", background: "linear-gradient(90deg,#16a34a,#10b981,#34d399)", width: "100%" }} />
 
         {/* Header */}
-        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[11px] mb-1" style={{ color: "#a1a1aa" }}>{prediction.match}</p>
-              <p className="text-2xl font-bold" style={{ color: acc.text }}>GHS {prediction.price}</p>
+              <p style={{ color: "#52525b", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "4px" }}>{prediction.match}</p>
+              <p style={{ color: "#f4f4f5", fontWeight: 900, fontSize: "1.6rem", fontFamily: "'Sora',sans-serif", lineHeight: 1, letterSpacing: "-0.02em" }}>GHS {prediction.price}</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors mt-0.5 flex-shrink-0"
-              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)" }}
+              className="w-8 h-8 flex items-center justify-center rounded-xl transition-colors mt-0.5 flex-shrink-0"
+              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
             >
-              <X size={16} />
+              <X size={15} />
             </button>
           </div>
         </div>
 
-        {/* Pill tabs */}
-        <div className="px-6 pt-4 pb-2 flex gap-2">
+        {/* Tab pills */}
+        <div className="px-5 pt-4 pb-2 flex gap-2">
           {(["pay", "restore"] as ModalTab[]).map((t) => (
             <button
               key={t}
               onClick={() => { setTab(t); setError(""); setRestoreError(""); }}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold rounded-xl transition-all duration-200"
               style={{
-                background: tab === t ? acc.text : "rgba(255,255,255,0.04)",
-                color: tab === t ? "#ffffff" : "#a1a1aa",
+                background: tab === t ? "linear-gradient(135deg,#16a34a,#10b981)" : "rgba(255,255,255,0.04)",
+                color: tab === t ? "#ffffff" : "#52525b",
                 border: tab === t ? "none" : "1px solid rgba(255,255,255,0.06)",
+                boxShadow: tab === t ? "0 2px 12px rgba(22,163,74,0.35)" : "none",
+                letterSpacing: "0.03em",
               }}
             >
               {t === "pay"
-                ? <><Lock size={11} />Pay</>
+                ? <><Lock size={11} />Pay & Unlock</>
                 : <><RefreshCcw size={11} />Restore Access</>}
             </button>
           ))}
@@ -528,17 +540,17 @@ function PaymentModal({
         {tab === "pay" ? (
           <>
             {/* Perks */}
-            <div className="px-6 pt-2 pb-3 flex gap-5">
+            <div className="px-5 pt-2 pb-3 flex gap-5">
               {[{ icon: <Shield size={12} />, label: "Secure payment" }, { icon: <Zap size={12} />, label: "Instant access" }]
                 .map(f => (
-                  <div key={f.label} className="flex items-center gap-1.5 text-xs" style={{ color: "#52525b" }}>{f.icon}{f.label}</div>
+                  <div key={f.label} className="flex items-center gap-1.5 text-xs" style={{ color: "#3f3f46" }}>{f.icon}{f.label}</div>
                 ))}
             </div>
 
             {/* Form */}
-            <div className="px-6 pb-6 space-y-3">
+            <div className="px-5 pb-5 space-y-3">
               <div>
-                <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>Your email address</label>
+                <label className="block text-xs font-bold mb-1.5" style={{ color: "rgba(22,163,74,0.9)", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.62rem" }}>Email address</label>
                 <input
                   type="email" placeholder="you@example.com" value={email} autoFocus
                   onChange={(e) => setEmail(e.target.value)}
@@ -547,39 +559,42 @@ function PaymentModal({
                   disabled={step === "paying"}
                 />
               </div>
-              {error && <p className="text-red-400 text-xs leading-relaxed">{error}</p>}
+              {error && (
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
+                  <XCircle size={13} className="flex-shrink-0" />{error}
+                </div>
+              )}
               <button
                 onClick={handlePay} disabled={step === "paying"}
                 className="w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all duration-300 active:scale-[0.97]"
                 style={{
-                  background: step === "paying" ? "rgba(255,69,0,0.4)" : "#ff4500",
+                  background: step === "paying" ? "rgba(22,163,74,0.4)" : "linear-gradient(135deg,#16a34a,#10b981)",
                   color: "#ffffff",
-                  boxShadow: step === "paying" ? "none" : "0 4px 20px rgba(255,69,0,0.35)",
+                  boxShadow: step === "paying" ? "none" : "0 4px 20px rgba(22,163,74,0.4)",
+                  letterSpacing: "0.03em",
                 }}
               >
                 {step === "paying"
                   ? (<><Loader2 size={16} className="animate-spin" />Opening Paystack…</>)
-                  : (<><Lock size={15} />Pay &amp; Unlock — GHS {prediction.price}</>)}
+                  : (<><Lock size={15} />Pay & Unlock — GHS {prediction.price}</>)}
               </button>
-              <p className="text-center text-[11px]" style={{ color: "#52525b" }}>
-                One-time payment · Powered by Paystack
-              </p>
+              <p className="text-center" style={{ color: "#3f3f46", fontSize: "0.68rem" }}>One-time payment · Powered by Paystack</p>
             </div>
           </>
         ) : (
           /* Restore Access tab */
-          <div className="px-6 py-5 space-y-4">
+          <div className="px-5 py-4 space-y-3">
             <div
-              className="rounded-xl p-4 flex gap-3"
-              style={{ background: "rgba(168,85,247,0.06)", border: "1px solid rgba(168,85,247,0.15)" }}
+              className="rounded-xl p-3.5 flex gap-3"
+              style={{ background: "rgba(22,163,74,0.06)", border: "1px solid rgba(22,163,74,0.15)" }}
             >
-              <Mail size={16} className="flex-shrink-0 mt-0.5" style={{ color: "#a855f7" }} />
-              <p className="text-xs leading-relaxed" style={{ color: "#a1a1aa" }}>
-                Already paid for this prediction? Enter the email you used and we&apos;ll restore your access instantly — no need to pay again.
+              <Mail size={15} className="flex-shrink-0 mt-0.5" style={{ color: "#16a34a" }} />
+              <p style={{ color: "#52525b", fontSize: "0.75rem", lineHeight: 1.55 }}>
+                Already paid? Enter the email you used and we&apos;ll restore your access instantly — no need to pay again.
               </p>
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>Email used at payment</label>
+              <label className="block text-xs font-bold mb-1.5" style={{ color: "rgba(22,163,74,0.9)", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.62rem" }}>Email used at payment</label>
               <input
                 type="email" placeholder="you@example.com" value={restoreEmail} autoFocus
                 onChange={(e) => setRestoreEmail(e.target.value)}
@@ -588,23 +603,26 @@ function PaymentModal({
                 disabled={restoreLoading}
               />
             </div>
-            {restoreError && <p className="text-red-400 text-xs leading-relaxed">{restoreError}</p>}
+            {restoreError && (
+              <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
+                <XCircle size={13} className="flex-shrink-0" />{restoreError}
+              </div>
+            )}
             <button
               onClick={handleRestore} disabled={restoreLoading}
               className="w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all duration-300 active:scale-[0.97]"
               style={{
-                background: restoreLoading ? "rgba(168,85,247,0.4)" : "#a855f7",
+                background: restoreLoading ? "rgba(16,185,129,0.4)" : "linear-gradient(135deg,#10b981,#34d399)",
                 color: "#ffffff",
-                boxShadow: restoreLoading ? "none" : "0 4px 20px rgba(168,85,247,0.3)",
+                boxShadow: restoreLoading ? "none" : "0 4px 20px rgba(16,185,129,0.35)",
+                letterSpacing: "0.03em",
               }}
             >
               {restoreLoading
                 ? (<><Loader2 size={16} className="animate-spin" />Checking…</>)
                 : (<><RefreshCcw size={15} />Restore My Access</>)}
             </button>
-            <p className="text-center text-[11px]" style={{ color: "#52525b" }}>
-              One-time payment — access never expires
-            </p>
+            <p className="text-center" style={{ color: "#3f3f46", fontSize: "0.68rem" }}>One-time payment — access never expires</p>
           </div>
         )}
       </div>
@@ -625,56 +643,57 @@ function NigeriaPaymentModal({
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4"
       onClick={onClose}
       style={{ overscrollBehavior: "contain" }}
     >
-      <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.7)" }} />
+      <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.75)" }} />
       <div
         className="relative w-full max-w-sm overflow-hidden"
         style={{
-          background: "#111117",
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: "20px",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
+          background: "rgba(14,14,20,0.95)",
+          border: "1px solid rgba(22,163,74,0.2)",
+          borderRadius: "24px",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
+          backdropFilter: "blur(20px)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top accent line */}
-        <div style={{ height: "3px", background: acc.text, width: "100%" }} />
+        {/* Green gradient top bar */}
+        <div style={{ height: "3px", background: "linear-gradient(90deg,#16a34a,#10b981,#34d399)", width: "100%" }} />
 
         {/* Header */}
-        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="text-2xl">🇳🇬</span>
               <div>
-                <h2 className="font-semibold text-sm" style={{ color: "#f4f4f5" }}>Pay via Transfer</h2>
-                <p className="text-xs" style={{ color: "#a1a1aa" }}>Nigeria — Instant Access</p>
+                <h2 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.95rem", fontFamily: "'Sora',sans-serif" }}>Pay via Transfer</h2>
+                <p style={{ color: "#52525b", fontSize: "0.72rem", marginTop: "2px" }}>Nigeria · Instant Access</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors"
-              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)" }}
+              className="w-8 h-8 flex items-center justify-center rounded-xl transition-colors"
+              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
             >
-              <X size={16} />
+              <X size={15} />
             </button>
           </div>
         </div>
 
-        {/* Info card */}
-        <div className="px-6 pt-5">
+        {/* Bank details card */}
+        <div className="px-5 pt-4">
           <div
-            className="rounded-2xl px-5 py-4"
-            style={{ background: "#1a1a24", border: "1px solid rgba(255,255,255,0.06)" }}
+            className="rounded-2xl px-4 py-4"
+            style={{ background: "rgba(22,163,74,0.05)", border: "1px solid rgba(22,163,74,0.15)" }}
           >
-            {/* Amount row */}
+            {/* Amount */}
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-medium" style={{ color: "#a1a1aa" }}>Amount to send</span>
-              <span className="font-bold text-lg" style={{ color: "#f59e0b" }}>₦{ngn.toLocaleString()}</span>
+              <span style={{ color: "#52525b", fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Amount to send</span>
+              <span style={{ fontWeight: 900, fontSize: "1.3rem", color: "#10b981", fontFamily: "'Sora',sans-serif", letterSpacing: "-0.02em" }}>₦{ngn.toLocaleString()}</span>
             </div>
-            <div className="h-px w-full mb-4" style={{ background: "rgba(255,255,255,0.06)" }} />
+            <div style={{ height: "1px", background: "rgba(22,163,74,0.1)", marginBottom: "0.75rem" }} />
             {/* Bank details */}
             <div className="space-y-2.5">
               {([
@@ -683,10 +702,15 @@ function NigeriaPaymentModal({
                 { label: "Account Name", value: "Atinuolaji Alakija", highlight: false },
               ] as { label: string; value: string; highlight: boolean }[]).map(({ label, value, highlight }) => (
                 <div key={label} className="flex items-center justify-between">
-                  <span className="text-xs" style={{ color: "#52525b" }}>{label}</span>
+                  <span style={{ color: "#3f3f46", fontSize: "0.72rem" }}>{label}</span>
                   <span
-                    className="text-xs font-semibold"
-                    style={{ color: highlight ? "#f59e0b" : "#f4f4f5", letterSpacing: highlight ? "0.06em" : undefined }}
+                    style={{
+                      fontSize: "0.82rem",
+                      fontWeight: highlight ? 800 : 600,
+                      color: highlight ? "#10b981" : "#f4f4f5",
+                      letterSpacing: highlight ? "0.08em" : undefined,
+                      fontFamily: highlight ? "'Sora',sans-serif" : undefined,
+                    }}
                   >
                     {value}
                   </span>
@@ -695,25 +719,27 @@ function NigeriaPaymentModal({
             </div>
           </div>
         </div>
+
         {/* Instruction */}
-        <div className="px-6 pt-3">
-          <p className="text-xs leading-relaxed text-center" style={{ color: "#52525b" }}>
+        <div className="px-5 pt-3">
+          <p style={{ color: "#3f3f46", fontSize: "0.72rem", textAlign: "center", lineHeight: 1.5 }}>
             After sending, share your receipt on Telegram to get instant access.
           </p>
         </div>
 
         {/* Actions */}
-        <div className="px-6 py-5 space-y-2.5">
+        <div className="px-5 py-4 space-y-2.5">
           <a
             href="https://t.me/notyourregulardude"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all duration-300 active:scale-[0.97]"
             style={{
-              background: "#10b981",
+              background: "linear-gradient(135deg,#16a34a,#10b981)",
               color: "#ffffff",
-              boxShadow: "0 4px 20px rgba(16,185,129,0.3)",
+              boxShadow: "0 4px 20px rgba(22,163,74,0.4)",
               display: "flex",
+              letterSpacing: "0.02em",
             }}
           >
             <ExternalLink size={15} />
@@ -721,12 +747,8 @@ function NigeriaPaymentModal({
           </a>
           <button
             onClick={onClose}
-            className="w-full py-3 text-sm font-medium rounded-2xl transition-all"
-            style={{
-              background: "transparent",
-              color: "#a1a1aa",
-              border: "1px solid rgba(255,255,255,0.08)",
-            }}
+            className="w-full py-3 text-sm font-semibold rounded-2xl transition-all"
+            style={{ background: "transparent", color: "#3f3f46", border: "1px solid rgba(255,255,255,0.06)" }}
           >
             Dismiss
           </button>
