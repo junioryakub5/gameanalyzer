@@ -216,13 +216,14 @@ function CountrySelectModal({
 
       {/* Modal card */}
       <div
-        className="relative w-full max-w-sm overflow-hidden"
+        className="relative w-full max-w-sm overflow-y-auto"
         style={{
           background: "rgba(14,14,20,0.95)",
           border: "1px solid rgba(22,163,74,0.2)",
           borderRadius: "24px",
           boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
           backdropFilter: "blur(20px)",
+          maxHeight: "90vh",
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -251,7 +252,7 @@ function CountrySelectModal({
           {/* Ghana */}
           <button
             onClick={onGhana}
-            className="w-full flex items-center justify-between px-4 py-4 rounded-2xl transition-all duration-200 active:scale-[0.98] group"
+            className="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-200 active:scale-[0.98] group"
             style={{ background: "rgba(22,163,74,0.06)", border: "1px solid rgba(22,163,74,0.15)" }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLElement).style.background = "rgba(22,163,74,0.12)";
@@ -277,7 +278,7 @@ function CountrySelectModal({
           {/* Nigeria */}
           <button
             onClick={onNigeria}
-            className="w-full flex items-center justify-between px-4 py-4 rounded-2xl transition-all duration-200 active:scale-[0.98]"
+            className="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-200 active:scale-[0.98]"
             style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.15)" }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLElement).style.background = "rgba(16,185,129,0.12)";
@@ -506,13 +507,14 @@ function PaymentModal({
       <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.75)" }} />
 
       <div
-        className="relative w-full max-w-sm overflow-hidden"
+        className="relative w-full max-w-sm overflow-y-auto"
         style={{
           background: "rgba(14,14,20,0.95)",
           border: "1px solid rgba(22,163,74,0.2)",
           borderRadius: "24px",
           boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
           backdropFilter: "blur(20px)",
+          maxHeight: "90vh",
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -670,13 +672,14 @@ function NigeriaPaymentModal({
     >
       <div className="absolute inset-0 backdrop-blur-md" style={{ background: "rgba(0,0,0,0.75)" }} />
       <div
-        className="relative w-full max-w-sm overflow-hidden"
+        className="relative w-full max-w-sm overflow-y-auto"
         style={{
           background: "rgba(14,14,20,0.95)",
           border: "1px solid rgba(22,163,74,0.2)",
           borderRadius: "24px",
           boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
           backdropFilter: "blur(20px)",
+          maxHeight: "90vh",
         }}
         onClick={(e) => e.stopPropagation()}
       >
