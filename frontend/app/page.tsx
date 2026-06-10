@@ -52,8 +52,8 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section
-          className="pt-24 pb-0 relative overflow-hidden"
-          style={{ background: "#09090b", minHeight: "92vh", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}
+          className="pt-24 pb-12 md:pb-0 relative overflow-hidden"
+          style={{ background: "#09090b", minHeight: "clamp(600px, 85vh, 92vh)", display: "flex", flexDirection: "column", justifyContent: "center" }}
         >
           {/* ── Background: layered green glow atmosphere ── */}
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -87,7 +87,7 @@ export default function HomePage() {
             }} />
           </div>
 
-          <div className="page-container relative z-10 text-center flex flex-col items-center" style={{ paddingBottom: "5rem" }}>
+          <div className="page-container relative z-10 text-center flex flex-col items-center" style={{ paddingBottom: "2rem" }}>
 
             {/* Live badge */}
             <div className="flex justify-center mb-8 animate-fadeInUp">
