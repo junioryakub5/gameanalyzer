@@ -52,8 +52,8 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section
-          className="pt-24 pb-12 md:pb-0 relative overflow-hidden"
-          style={{ background: "#09090b", minHeight: "clamp(600px, 85vh, 92vh)", display: "flex", flexDirection: "column", justifyContent: "center" }}
+          className="pt-20 pb-10 md:pt-24 md:pb-0 relative overflow-hidden"
+          style={{ background: "#09090b", minHeight: "clamp(500px, 80vh, 90vh)", display: "flex", flexDirection: "column", justifyContent: "center" }}
         >
           {/* ── Background: layered green glow atmosphere ── */}
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -280,15 +280,15 @@ export default function HomePage() {
         >
           <div className="page-container pt-10">
             {loading ? (
-              <div className="flex flex-col items-center justify-center py-24 gap-4">
+              <div className="flex flex-col items-center justify-center py-12 gap-4">
                 <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "rgba(255,69,0,0.08)",
-                    border: "1px solid rgba(255,69,0,0.18)",
+                    background: "rgba(22,163,74,0.08)",
+                    border: "1px solid rgba(22,163,74,0.18)",
                   }}
                 >
-                  <Loader2 size={28} style={{ color: "#ff4500" }} className="animate-spin" />
+                  <Loader2 size={26} style={{ color: "#16a34a" }} className="animate-spin" />
                 </div>
                 <p style={{ color: "#52525b" }} className="text-sm">
                   Loading predictions...
