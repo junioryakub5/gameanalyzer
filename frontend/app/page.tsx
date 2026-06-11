@@ -21,6 +21,32 @@ export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [count, setCount] = useState(1);
+
+  // Count-up animation: 1 → 365 over 1.8s with easeOut
+  useEffect(() => {
+    const target = 365;
+    const duration = 1800;
+    const startDelay = 300;
+    let startTime: number | null = null;
+    let raf: number;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOut cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * (target - 1) + 1));
+      if (progress < 1) raf = requestAnimationFrame(step);
+    };
+
+    const timer = setTimeout(() => {
+      raf = requestAnimationFrame(step);
+    }, startDelay);
+
+    return () => { clearTimeout(timer); cancelAnimationFrame(raf); };
+  }, []);
 
   useEffect(() => {
     fetchPredictions("all");
@@ -146,11 +172,12 @@ export default function HomePage() {
               }}>
                 FOR{" "}
                 <span style={{
-                  color: "#f4f4f5",
-                  fontWeight: 900,
-                  fontSize: "clamp(2.2rem, 7vw, 5.5rem)",
-                }}>
-                  365
+                    color: "#f4f4f5",
+                    fontWeight: 900,
+                    fontSize: "clamp(2.2rem, 7vw, 5.5rem)",
+                  }}
+                >
+                  {count}
                 </span>
                 {" "}DAYS
               </span>
