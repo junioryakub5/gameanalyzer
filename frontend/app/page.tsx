@@ -78,7 +78,7 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section
-          className="pt-16 pb-4 lg:pt-24 lg:min-h-[90vh] relative overflow-hidden"
+          className="pt-20 pb-4 lg:pt-24 lg:min-h-[90vh] relative overflow-hidden"
           style={{ background: "#09090b", display: "flex", flexDirection: "column", justifyContent: "center" }}
         >
           {/* ── Background: layered green glow atmosphere ── */}
