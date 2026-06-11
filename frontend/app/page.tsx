@@ -78,7 +78,7 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section
-          className="pt-16 pb-10 lg:pt-24 lg:min-h-[90vh] relative overflow-hidden"
+          className="pt-16 pb-4 lg:pt-24 lg:min-h-[90vh] relative overflow-hidden"
           style={{ background: "#09090b", display: "flex", flexDirection: "column", justifyContent: "center" }}
         >
           {/* ── Background: layered green glow atmosphere ── */}
@@ -113,10 +113,10 @@ export default function HomePage() {
             }} />
           </div>
 
-          <div className="page-container relative z-10 text-center flex flex-col items-center" style={{ paddingBottom: "2rem" }}>
+          <div className="page-container relative z-10 text-center flex flex-col items-center">
 
             {/* Live badge */}
-            <div className="flex justify-center mb-8 animate-fadeInUp">
+            <div className="flex justify-center mb-5 animate-fadeInUp">
               <div
                 className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
                 style={{
@@ -200,7 +200,7 @@ export default function HomePage() {
             </p>
 
             {/* Stats row */}
-            <div className="flex items-center justify-center gap-2 mb-12 animate-fadeInUp w-full">
+            <div className="flex items-center justify-center gap-2 mb-6 animate-fadeInUp w-full">
               {[
                 { value: "87%", label: "Win Rate", color: "#16a34a", glow: "rgba(22,163,74,0.3)" },
                 { value: "500+", label: "Predictions", color: "#10b981", glow: "rgba(16,185,129,0.3)" },
@@ -299,7 +299,7 @@ export default function HomePage() {
           className="pb-20 relative z-10"
           style={{ background: "#09090b" }}
         >
-          <div className="page-container pt-10">
+          <div className="page-container pt-4">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-4">
                 <div
