@@ -52,8 +52,8 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section
-          className="pt-20 pb-10 md:pt-24 md:pb-0 relative overflow-hidden"
-          style={{ background: "#09090b", minHeight: "clamp(500px, 80vh, 90vh)", display: "flex", flexDirection: "column", justifyContent: "center" }}
+          className="pt-20 pb-10 md:pt-24 md:min-h-[90vh] relative"
+          style={{ background: "#09090b", display: "flex", flexDirection: "column", justifyContent: "center" }}
         >
           {/* ── Background: layered green glow atmosphere ── */}
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -183,9 +183,8 @@ export default function HomePage() {
                   key={stat.label}
                   className="flex flex-col items-center gap-0.5 flex-1 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1"
                   style={{
-                    background: "rgba(255,255,255,0.03)",
+                    background: "rgba(255,255,255,0.04)",
                     border: "1px solid rgba(255,255,255,0.07)",
-                    backdropFilter: "blur(10px)",
                   }}
                 >
                   <span
@@ -265,12 +264,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Bottom fade into cards */}
-          <div
-            className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
-            style={{ background: "linear-gradient(to bottom, transparent, #09090b)" }}
-            aria-hidden="true"
-          />
+
         </section>
 
         {/* ── Cards Grid ── */}
