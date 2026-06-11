@@ -52,7 +52,7 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section
-          className="pt-20 pb-10 md:pt-24 md:min-h-[90vh] relative"
+          className="pt-16 pb-10 lg:pt-24 lg:min-h-[90vh] relative"
           style={{ background: "#09090b", display: "flex", flexDirection: "column", justifyContent: "center" }}
         >
           {/* ── Background: layered green glow atmosphere ── */}
