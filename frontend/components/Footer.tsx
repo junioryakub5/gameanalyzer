@@ -56,22 +56,23 @@ export default function Footer() {
           Premium football predictions for smart bettors
         </p>
 
-        {/* Nav links */}
-        <div className="flex items-center justify-center gap-6 mb-6">
-          <Link
-            href="/"
-            className="text-xs font-medium transition-colors duration-200 hover:text-[#16a34a]"
-            style={{ color: "#52525b" }}
-          >
-            Home
-          </Link>
-          <Link
-            href="/history"
-            className="text-xs font-medium transition-colors duration-200 hover:text-[#16a34a]"
-            style={{ color: "#52525b" }}
-          >
-            History
-          </Link>
+        <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
+          {[
+            { href: "/", label: "Home" },
+            { href: "/history", label: "History" },
+            { href: "/about", label: "About" },
+            { href: "/faq", label: "FAQ" },
+            { href: "/terms", label: "Terms of Service" },
+          ].map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-xs font-medium transition-colors duration-200 hover:text-[#16a34a]"
+              style={{ color: "#52525b" }}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
 
         {/* Divider */}
