@@ -26,11 +26,11 @@ export default function Footer() {
       />
 
       <div className="page-container py-14 md:py-20">
-        {/* Three-column grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-12">
+        {/* Three-column grid — inline, never stacked */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-16 mb-12">
 
-          {/* Col 1 — Brand */}
-          <div>
+          {/* Col 1 — Brand (spans full width on xs, 1 col on md+) */}
+          <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-4 w-fit">
               <div
                 className="w-7 h-7 flex items-center justify-center overflow-hidden flex-shrink-0"

@@ -380,8 +380,8 @@ export default function HomePage() {
               </h2>
             </div>
 
-            {/* 3-col grid — angular cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* 3-col grid — angular cards, always inline */}
+            <div className="grid grid-cols-3 gap-4 md:gap-6">
               {[
                 {
                   icon: <BarChart2 size={20} />,
