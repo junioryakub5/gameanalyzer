@@ -344,14 +344,14 @@ export default function HomePage() {
 
         {/* ── Trust Section ── */}
         <section
-          className="py-16 relative z-10"
+          className="relative z-10"
           style={{ background: "#0a0a0a" }}
         >
-          <div className="glow-line mb-12" aria-hidden="true" />
+          <div className="glow-line" aria-hidden="true" />
 
-          <div className="page-container">
+          <div className="page-container py-16 md:py-20">
             {/* Section heading — left aligned */}
-            <div className="mb-10">
+            <div className="mb-12">
               <p
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
@@ -381,7 +381,7 @@ export default function HomePage() {
             </div>
 
             {/* 3-col grid — angular cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
                   icon: <BarChart2 size={20} />,
@@ -410,7 +410,7 @@ export default function HomePage() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="p-6 transition-all duration-200 hover:border-l-[var(--accent-text)] group"
+                  className="p-7 md:p-8 transition-all duration-200 group"
                   style={{
                     background: "#111111",
                     border: "1px solid rgba(255,255,255,0.06)",
@@ -419,7 +419,7 @@ export default function HomePage() {
                   }}
                 >
                   <div
-                    className="w-10 h-10 flex items-center justify-center mb-4"
+                    className="w-11 h-11 flex items-center justify-center mb-5"
                     style={{
                       background: item.iconBg,
                       border: `1px solid ${item.iconBorder}`,
@@ -430,7 +430,7 @@ export default function HomePage() {
                     {item.icon}
                   </div>
                   <h3
-                    className="font-display font-bold text-sm mb-2"
+                    className="font-display font-bold text-sm mb-3"
                     style={{ color: "#f2f2f2" }}
                   >
                     {item.title}

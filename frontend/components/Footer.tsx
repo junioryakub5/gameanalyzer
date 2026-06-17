@@ -25,9 +25,9 @@ export default function Footer() {
         aria-hidden="true"
       />
 
-      <div className="page-container py-12">
+      <div className="page-container py-14 md:py-20">
         {/* Three-column grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-12">
 
           {/* Col 1 — Brand */}
           <div>
@@ -54,7 +54,7 @@ export default function Footer() {
                 GAME<span style={{ color: "#3aaa3a" }}>ANALYZER</span>
               </span>
             </Link>
-            <p style={{ color: "#5a5a5a", fontSize: "0.8rem", lineHeight: 1.7, maxWidth: "240px" }}>
+            <p style={{ color: "#5a5a5a", fontSize: "0.82rem", lineHeight: 1.8, maxWidth: "260px", marginTop: "0.25rem" }}>
               Statistical football predictions for serious bettors in Ghana and Nigeria.
             </p>
           </div>
@@ -65,16 +65,16 @@ export default function Footer() {
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 700,
-                fontSize: "0.7rem",
-                letterSpacing: "0.12em",
+                fontSize: "0.68rem",
+                letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "#3aaa3a",
-                marginBottom: "1rem",
+                marginBottom: "1.25rem",
               }}
             >
               Navigation
             </p>
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-3">
               {[
                 { href: "/", label: "Home" },
                 { href: "/history", label: "Results History" },
@@ -100,16 +100,16 @@ export default function Footer() {
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 700,
-                fontSize: "0.7rem",
-                letterSpacing: "0.12em",
+                fontSize: "0.68rem",
+                letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "#3aaa3a",
-                marginBottom: "1rem",
+                marginBottom: "1.25rem",
               }}
             >
               Legal
             </p>
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-4">
               <p style={{ color: "#5a5a5a", fontSize: "0.8rem", lineHeight: 1.7 }}>
                 © {year} GameAnalyzer.<br />All rights reserved.
               </p>
@@ -132,12 +132,13 @@ export default function Footer() {
         <div
           style={{
             borderTop: "1px solid rgba(255,255,255,0.05)",
-            paddingTop: "1.25rem",
+            paddingTop: "1.5rem",
+            marginTop: "0.5rem",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: "0.5rem",
+            gap: "0.75rem",
           }}
         >
           <span style={{ color: "#3a3a3a", fontSize: "0.72rem" }}>
