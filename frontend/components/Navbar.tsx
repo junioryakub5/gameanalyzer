@@ -21,38 +21,45 @@ export default function Navbar() {
     <nav
       className="fixed top-0 left-0 right-0 z-50"
       style={{
-        background: "rgba(9,9,11,0.85)",
-        backdropFilter: "saturate(180%) blur(24px)",
-        WebkitBackdropFilter: "saturate(180%) blur(24px)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        background: "#0a0a0a",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
       <div className="page-container">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-[60px]">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-3 group">
+            {/* Square badge — matches flat logo aesthetic */}
             <div
-              className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 overflow-hidden"
+              className="w-8 h-8 flex items-center justify-center flex-shrink-0 overflow-hidden transition-all duration-200 group-hover:opacity-80"
               style={{
-                background: "rgba(22,163,74,0.1)",
-                border: "1px solid rgba(22,163,74,0.3)",
-                boxShadow: "0 0 12px rgba(22,163,74,0.15)",
+                borderRadius: "6px",
+                border: "1px solid rgba(31,122,31,0.45)",
+                background: "rgba(31,122,31,0.08)",
               }}
             >
-              <Image src="/logo.png" alt="GameAnalyzer" width={36} height={36} className="w-full h-full object-cover rounded-full" />
+              <Image src="/logo.png" alt="GameAnalyzer" width={32} height={32} className="w-full h-full object-contain" />
             </div>
-            <span
-              className="font-display font-bold tracking-tight leading-none"
-              style={{ fontSize: "1.15rem", letterSpacing: "-0.02em", color: "#f4f4f5" }}
-            >
-              GAME
-              <span style={{ color: "#16a34a" }}>ANALYZER</span>
-            </span>
+            <div className="leading-none">
+              <span
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  letterSpacing: "0.04em",
+                  color: "#f2f2f2",
+                  display: "block",
+                }}
+              >
+                GAME
+                <span style={{ color: "#3aaa3a" }}>ANALYZER</span>
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-7">
+          <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -63,33 +70,35 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Admin CTA pill */}
+            {/* Admin portal — rectangular, outlined */}
             <Link
               href="/portal"
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold tracking-widest transition-all duration-200 hover:bg-[rgba(31,122,31,0.12)]"
               style={{
-                background: "#16a34a",
-                color: "#ffffff",
-                boxShadow: "0 4px 14px rgba(22,163,74,0.3)",
-                letterSpacing: "0.04em",
+                fontFamily: "'Space Grotesk', sans-serif",
+                border: "1px solid rgba(31,122,31,0.5)",
+                color: "#3aaa3a",
+                borderRadius: "6px",
+                letterSpacing: "0.08em",
               }}
             >
-              Admin
+              PORTAL
             </Link>
           </div>
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden p-2 rounded-xl transition-all duration-200"
+            className="md:hidden p-2 transition-all duration-200"
             style={{
-              color: "#a1a1aa",
+              color: "#9a9a9a",
               background: "rgba(255,255,255,0.04)",
               border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: "6px",
             }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
@@ -100,34 +109,36 @@ export default function Navbar() {
           mobileOpen ? "max-h-72 opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{
-          background: "#0d0d11",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          background: "#0d0d0d",
+          borderTop: "1px solid rgba(255,255,255,0.07)",
         }}
       >
-        <div className="page-container py-5 flex flex-col gap-1">
+        <div className="page-container py-4 flex flex-col gap-0.5">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`nav-link text-base py-2 ${pathname === link.href ? "active" : ""}`}
+              className={`nav-link text-sm py-3 border-b ${pathname === link.href ? "active" : ""}`}
+              style={{ borderColor: "rgba(255,255,255,0.05)" }}
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
             </Link>
           ))}
-          <div className="pt-3 pb-1">
+          <div className="pt-4 pb-1">
             <Link
               href="/portal"
               onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-bold tracking-wide transition-all duration-200"
+              className="inline-flex items-center gap-1.5 px-5 py-2 text-xs font-bold tracking-widest transition-all duration-200"
               style={{
-                background: "#16a34a",
-                color: "#ffffff",
-                boxShadow: "0 4px 14px rgba(22,163,74,0.25)",
-                letterSpacing: "0.04em",
+                fontFamily: "'Space Grotesk', sans-serif",
+                border: "1px solid rgba(31,122,31,0.5)",
+                color: "#3aaa3a",
+                borderRadius: "6px",
+                letterSpacing: "0.08em",
               }}
             >
-              Admin
+              PORTAL
             </Link>
           </div>
         </div>

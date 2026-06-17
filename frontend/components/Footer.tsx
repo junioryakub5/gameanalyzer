@@ -6,96 +6,158 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative py-12 text-center overflow-hidden"
       style={{
-        background: "#09090b",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-        zIndex: 0,
+        background: "#0a0a0a",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
         position: "relative",
-        isolation: "auto",
       }}
     >
-      {/* Top radial glow */}
+      {/* Green top accent line */}
       <div
-        className="pointer-events-none absolute top-0 left-0 right-0 h-40"
         style={{
-          background:
-            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(22,163,74,0.06), transparent)",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "2px",
+          background: "linear-gradient(90deg, transparent 0%, #1f7a1f 30%, #3aaa3a 50%, #1f7a1f 70%, transparent 100%)",
         }}
         aria-hidden="true"
       />
 
-      {/* Glow line at the top edge */}
-      <div className="glow-line absolute top-0 left-0 right-0" aria-hidden="true" />
+      <div className="page-container py-12">
+        {/* Three-column grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 mb-10">
 
-      <div className="page-container">
+          {/* Col 1 — Brand */}
+          <div>
+            <Link href="/" className="flex items-center gap-2.5 mb-4 w-fit">
+              <div
+                className="w-7 h-7 flex items-center justify-center overflow-hidden flex-shrink-0"
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid rgba(31,122,31,0.4)",
+                  background: "rgba(31,122,31,0.07)",
+                }}
+              >
+                <Image src="/logo.png" alt="GameAnalyzer" width={28} height={28} className="w-full h-full object-contain" />
+              </div>
+              <span
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontWeight: 800,
+                  fontSize: "0.9rem",
+                  letterSpacing: "0.04em",
+                  color: "#f2f2f2",
+                }}
+              >
+                GAME<span style={{ color: "#3aaa3a" }}>ANALYZER</span>
+              </span>
+            </Link>
+            <p style={{ color: "#5a5a5a", fontSize: "0.8rem", lineHeight: 1.7, maxWidth: "240px" }}>
+              Statistical football predictions for serious bettors in Ghana and Nigeria.
+            </p>
+          </div>
 
-        {/* Brand */}
-        <div className="flex items-center justify-center gap-2.5 mb-3">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden"
+          {/* Col 2 — Navigation */}
+          <div>
+            <p
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 700,
+                fontSize: "0.7rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "#3aaa3a",
+                marginBottom: "1rem",
+              }}
+            >
+              Navigation
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/history", label: "Results History" },
+                { href: "/about", label: "About Us" },
+                { href: "/faq", label: "FAQ" },
+                { href: "/terms", label: "Terms of Service" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-xs transition-colors duration-200 hover:text-[#3aaa3a] w-fit"
+                  style={{ color: "#5a5a5a" }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Col 3 — Legal */}
+          <div>
+            <p
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 700,
+                fontSize: "0.7rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "#3aaa3a",
+                marginBottom: "1rem",
+              }}
+            >
+              Legal
+            </p>
+            <div className="flex flex-col gap-2.5">
+              <p style={{ color: "#5a5a5a", fontSize: "0.8rem", lineHeight: 1.7 }}>
+                © {year} GameAnalyzer.<br />All rights reserved.
+              </p>
+              <p
+                style={{
+                  fontSize: "0.75rem",
+                  color: "#3a3a3a",
+                  lineHeight: 1.6,
+                  maxWidth: "200px",
+                }}
+              >
+                Bet responsibly.{" "}
+                <span style={{ color: "#5a5a5a" }}>18+ only.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom divider */}
+        <div
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.05)",
+            paddingTop: "1.25rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          <span style={{ color: "#3a3a3a", fontSize: "0.72rem" }}>
+            Premium analysis. Verified results.
+          </span>
+          <Link
+            href="/portal"
             style={{
-              background: "rgba(22,163,74,0.1)",
-              border: "1px solid rgba(22,163,74,0.25)",
-              boxShadow: "0 0 10px rgba(22,163,74,0.12)",
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "0.7rem",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              color: "#2a5a2a",
+              textDecoration: "none",
+              transition: "color 0.15s",
             }}
           >
-            <Image src="/logo.png" alt="GameAnalyzer" width={32} height={32} className="w-full h-full object-cover rounded-full" />
-          </div>
-          <span
-            className="font-display font-bold tracking-tight leading-none"
-            style={{ fontSize: "1.1rem", letterSpacing: "-0.02em", color: "#f4f4f5" }}
-          >
-            GAME
-            <span style={{ color: "#16a34a" }}>ANALYZER</span>
-          </span>
+            ADMIN PORTAL
+          </Link>
         </div>
-
-        {/* Tagline */}
-        <p className="text-sm mb-6" style={{ color: "#a1a1aa" }}>
-          Premium football predictions for smart bettors
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
-          {[
-            { href: "/", label: "Home" },
-            { href: "/history", label: "History" },
-            { href: "/about", label: "About" },
-            { href: "/faq", label: "FAQ" },
-            { href: "/terms", label: "Terms of Service" },
-          ].map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-xs font-medium transition-colors duration-200 hover:text-[#16a34a]"
-              style={{ color: "#52525b" }}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div
-          className="mx-auto mb-5"
-          style={{
-            width: "60px",
-            height: "1px",
-            background: "rgba(255,255,255,0.06)",
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Copyright */}
-        <p className="text-xs mb-1.5" style={{ color: "#52525b" }}>
-          © {year} GameAnalyzer. All rights reserved.
-        </p>
-
-        {/* Disclaimer */}
-        <p className="text-xs" style={{ color: "#52525b" }}>
-          Bet responsibly.{" "}
-          <span style={{ color: "#a1a1aa" }}>18+ only.</span>
-        </p>
       </div>
     </footer>
   );
