@@ -380,29 +380,26 @@ export default function HomePage() {
               </h2>
             </div>
 
-            {/* 3-col grid — angular cards, always inline */}
+            {/* 3-col grid — square icon cards, always inline */}
             <div className="grid grid-cols-3 gap-4 md:gap-6">
               {[
                 {
-                  icon: <BarChart2 size={20} />,
+                  icon: <BarChart2 size={22} />,
                   title: "Expert Analysis",
-                  desc: "Statistic-driven predictions backed by deep match research and team data.",
                   color: "#3aaa3a",
                   iconBg: "rgba(31,122,31,0.1)",
                   iconBorder: "rgba(31,122,31,0.22)",
                 },
                 {
-                  icon: <ShieldCheck size={20} />,
+                  icon: <ShieldCheck size={22} />,
                   title: "Secure Payments",
-                  desc: "Paystack-powered payments — safe, instant, and fully encrypted.",
                   color: "#4ab84a",
                   iconBg: "rgba(74,184,74,0.1)",
                   iconBorder: "rgba(74,184,74,0.2)",
                 },
                 {
-                  icon: <Zap size={20} />,
+                  icon: <Zap size={22} />,
                   title: "Instant Access",
-                  desc: "Unlock your prediction immediately after payment confirmation.",
                   color: "#f59e0b",
                   iconBg: "rgba(245,158,11,0.1)",
                   iconBorder: "rgba(245,158,11,0.18)",
@@ -410,7 +407,7 @@ export default function HomePage() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="p-7 md:p-8 transition-all duration-200 group"
+                  className="aspect-square flex flex-col items-center justify-center gap-3 p-4 transition-all duration-200"
                   style={{
                     background: "#111111",
                     border: "1px solid rgba(255,255,255,0.06)",
@@ -419,7 +416,7 @@ export default function HomePage() {
                   }}
                 >
                   <div
-                    className="w-11 h-11 flex items-center justify-center mb-5"
+                    className="w-11 h-11 flex items-center justify-center flex-shrink-0"
                     style={{
                       background: item.iconBg,
                       border: `1px solid ${item.iconBorder}`,
@@ -430,14 +427,11 @@ export default function HomePage() {
                     {item.icon}
                   </div>
                   <h3
-                    className="font-display font-bold text-sm mb-3"
-                    style={{ color: "#f2f2f2" }}
+                    className="font-display font-bold text-center leading-tight"
+                    style={{ color: "#f2f2f2", fontSize: "clamp(0.6rem, 2vw, 0.82rem)" }}
                   >
                     {item.title}
                   </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "#5a5a5a" }}>
-                    {item.desc}
-                  </p>
                 </div>
               ))}
             </div>
