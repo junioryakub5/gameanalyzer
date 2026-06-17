@@ -1699,8 +1699,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
                 color: "#f4f4f5",
               }}
             >
-              365{" "}
-              <span style={{ color: "#16a34a" }}>Analyst</span>
+              GAME{" "}
+              <span style={{ color: "#16a34a" }}>ANALYZER</span>
             </div>
             <div
               className="text-[10px] mt-0.5"
@@ -1859,7 +1859,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
               color: "#f4f4f5",
             }}
           >
-            365 <span style={{ color: "#16a34a" }}>Analyst</span>
+            GAME <span style={{ color: "#16a34a" }}>ANALYZER</span>
           </div>
           <button
             onClick={onLogout}

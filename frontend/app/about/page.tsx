@@ -173,7 +173,7 @@ export default function AboutPage() {
               Expert football predictions tailored for bettors in{" "}
               <span style={{ color: "#f4f4f5", fontWeight: 600 }}>Ghana</span> and{" "}
               <span style={{ color: "#f4f4f5", fontWeight: 600 }}>Nigeria</span>.
-              Statistic-driven tips, secure payments, and instant slip access — 365 days a year.
+              Statistic-driven tips, secure payments, and instant slip access — every day of the year.
             </p>
 
             {/* Stats row */}
@@ -239,7 +239,7 @@ export default function AboutPage() {
                     marginBottom: "1.25rem",
                   }}
                 >
-                  365 Days of{" "}
+                  Daily{" "}
                   <span className="gradient-text">Winning Tips</span>
                 </h2>
                 <p style={{ color: "#a1a1aa", lineHeight: 1.75, marginBottom: "1rem", fontSize: "0.95rem" }}>

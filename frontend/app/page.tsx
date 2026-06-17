@@ -23,9 +23,9 @@ export default function HomePage() {
   const [error, setError] = useState("");
   const [count, setCount] = useState(1);
 
-  // Count-up animation: 1 → 365 over 1.8s with easeOut
+  // Count-up animation: 1 → 500 over 1.8s with easeOut
   useEffect(() => {
-    const target = 365;
+    const target = 500;
     const duration = 1800;
     const startDelay = 300;
     let startTime: number | null = null;
