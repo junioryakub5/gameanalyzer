@@ -40,14 +40,14 @@ export default function Footer() {
               boxShadow: "0 0 10px rgba(22,163,74,0.12)",
             }}
           >
-            <Image src="/logo.png" alt="365Analyst" width={32} height={32} className="w-full h-full object-cover rounded-full" />
+            <Image src="/logo.png" alt="GameAnalyzer" width={32} height={32} className="w-full h-full object-cover rounded-full" />
           </div>
           <span
             className="font-display font-bold tracking-tight leading-none"
             style={{ fontSize: "1.1rem", letterSpacing: "-0.02em", color: "#f4f4f5" }}
           >
-            365
-            <span style={{ color: "#16a34a" }}>Analyst</span>
+            GAME
+            <span style={{ color: "#16a34a" }}>ANALYZER</span>
           </span>
         </div>
 
@@ -88,7 +88,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="text-xs mb-1.5" style={{ color: "#52525b" }}>
-          © {year} 365Analyst. All rights reserved.
+          © {year} GameAnalyzer. All rights reserved.
         </p>
 
         {/* Disclaimer */}

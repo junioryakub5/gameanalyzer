@@ -3,14 +3,14 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: "365Analyst — Premium Football Tips",
+  title: "GameAnalyzer — Premium Football Tips",
   description:
-    "Expert football predictions with guaranteed odds. Unlock premium betting slips with 2+, 5+, 10+ odds. 365Analyst — bet smarter, win more.",
+    "Expert football predictions with guaranteed odds. Unlock premium betting slips with 2+, 5+, 10+ odds. GameAnalyzer — bet smarter, win more.",
   keywords:
-    "football predictions, betting tips, soccer predictions, betting odds, premium tips, sports betting, 365Analyst, 365 analyst",
+    "football predictions, betting tips, soccer predictions, betting odds, premium tips, sports betting, GameAnalyzer, game analyzer",
   openGraph: {
-    title: "365Analyst — Premium Football Tips",
-    description: "Expert football predictions with guaranteed odds. 365Analyst.",
+    title: "GameAnalyzer — Premium Football Tips",
+    description: "Expert football predictions with guaranteed odds. GameAnalyzer.",
     type: "website",
   },
 };
@@ -32,7 +32,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="theme-color" content="#16a34a" />
         <link rel="icon" href="/logo.png" type="image/png" />
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/logo.png" />
       </head>
       <body>
         {children}

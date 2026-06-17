@@ -40,14 +40,14 @@ export default function Navbar() {
                 boxShadow: "0 0 12px rgba(22,163,74,0.15)",
               }}
             >
-              <Image src="/logo.png" alt="365Analyst" width={36} height={36} className="w-full h-full object-cover rounded-full" />
+              <Image src="/logo.png" alt="GameAnalyzer" width={36} height={36} className="w-full h-full object-cover rounded-full" />
             </div>
             <span
               className="font-display font-bold tracking-tight leading-none"
               style={{ fontSize: "1.15rem", letterSpacing: "-0.02em", color: "#f4f4f5" }}
             >
-              365
-              <span style={{ color: "#16a34a" }}>Analyst</span>
+              GAME
+              <span style={{ color: "#16a34a" }}>ANALYZER</span>
             </span>
           </Link>
 

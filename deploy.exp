@@ -1,13 +1,13 @@
 #!/usr/bin/expect -f
-# ─── 365Analyst — VPS Deployment Script ─────────────────────────────────────────
+# ─── GameAnalyzer — VPS Deployment Script ─────────────────────────────────────
 # Usage: ./deploy.exp
 # Prerequisites:
 #   1. SSH key auth configured: ssh-copy-id root@YOUR_NEW_VPS_IP
-#   2. After deploy, copy .env to /var/www/365analyst/backend/.env on VPS
+#   2. After deploy, copy .env to /var/www/gameanalyzer/backend/.env on VPS
 #   3. Update VPS_IP below before running
 
 set timeout 300
-set VPS_IP "YOUR_NEW_VPS_IP"
+set VPS_IP "72.60.23.133"
 
 spawn ssh -o StrictHostKeyChecking=no root@$VPS_IP
 
@@ -28,19 +28,19 @@ expect "# " {
 }
 
 expect "# " {
-    send "mkdir -p /var/www && rm -rf /var/www/365analyst && git clone https://github.com/YOUR_GITHUB_USERNAME/365analyst.git /var/www/365analyst\r"
+    send "mkdir -p /var/www && rm -rf /var/www/gameanalyzer && git clone https://github.com/junioryakub5/365analyst.git /var/www/gameanalyzer\r"
 }
 
 expect "# " {
-    send "cd /var/www/365analyst/backend && npm install --production\r"
+    send "cd /var/www/gameanalyzer/backend && npm install --production\r"
 }
 
 expect "# " {
-    send "pm2 delete analyst-api 2>/dev/null; pm2 start /var/www/365analyst/backend/ecosystem.config.js && pm2 save && pm2 startup\r"
+    send "pm2 delete gameanalyzer-api 2>/dev/null; pm2 start /var/www/gameanalyzer/backend/ecosystem.config.js && pm2 save\r"
 }
 
 expect "# " {
-    send "curl -s http://localhost:5002/api/health\r"
+    send "curl -s http://localhost:5003/api/health\r"
 }
 
 expect "# " {

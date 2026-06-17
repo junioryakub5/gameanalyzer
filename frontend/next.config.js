@@ -16,10 +16,10 @@ const nextConfig = {
         destination: "/admin",
       },
       // Proxy backend API calls through Vercel to avoid mixed-content (HTTP→HTTPS) issues.
-      // Browser calls /backend/api/* → Vercel server proxies to VPS http://72.60.23.133:8080/api/*
+      // Browser calls /backend/api/* → Vercel server proxies to VPS http://YOUR_NEW_VPS_IP:8080/api/*
       {
         source: "/backend/:path*",
-        destination: "http://72.60.23.133:8080/:path*",
+        destination: "http://72.60.23.133:8081/:path*",
       },
     ];
   },

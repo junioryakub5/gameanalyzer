@@ -89,7 +89,7 @@ function BetSlipImage({ src, alt }: { src: string; alt: string }) {
 // Paystack public key — must be set via NEXT_PUBLIC_PAYSTACK_KEY env var
 const PAYSTACK_KEY = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 if (!PAYSTACK_KEY) {
-  console.error('[365Analyst] NEXT_PUBLIC_PAYSTACK_KEY is not set. Payment will not work.');
+  console.error('[GameAnalyzer] NEXT_PUBLIC_PAYSTACK_KEY is not set. Payment will not work.');
 }
 
 // Load Paystack v2 inline.js dynamically
@@ -746,7 +746,7 @@ function NigeriaPaymentModal({
         {/* Actions */}
         <div className="px-5 py-4 space-y-2.5">
           <a
-            href="https://t.me/notyourregulardude"
+            href="https://t.me/game_analyzer"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all duration-300 active:scale-[0.97]"
@@ -759,7 +759,7 @@ function NigeriaPaymentModal({
             }}
           >
             <ExternalLink size={15} />
-            Send Receipt — @notyourregulardude
+            Send Receipt — @game_analyzer
           </a>
           <button
             onClick={onClose}

@@ -1,4 +1,4 @@
-# 365Analyst
+# GameAnalyzer
 
 Premium football predictions platform. Users pay to unlock expert betting tips with verified results.
 
@@ -9,17 +9,60 @@ Premium football predictions platform. Users pay to unlock expert betting tips w
 | Frontend | Next.js 14, TypeScript, Tailwind CSS |
 | Backend | Node.js, Express |
 | Database | Supabase (PostgreSQL) |
-| Storage | Supabase Storage (`analyst-tips` bucket) |
-| Payments | Paystack (Ghana) + Moniepoint bank transfer (Nigeria) |
+| Storage | Supabase Storage (`gameanalyzer-tips` bucket) |
+| Payments | Paystack (Ghana/Nigeria) |
 | Frontend hosting | Vercel |
 | Backend hosting | VPS — port 5003, nginx port 8080 |
-| Process manager | PM2 (`analyst-api`) |
+| Process manager | PM2 (`gameanalyzer-api`) |
 
-## Live URLs
+## Setup Checklist (New Deployment)
 
-- **Production:** https://365analyst.vercel.app
-- **Admin Panel:** https://365analyst.vercel.app/portal
-- **Backend API:** http://72.60.23.133:8080/api/health
+Before deploying, complete these steps:
+
+1. **Supabase** — Create a new project at https://supabase.com
+   - Run the SQL in `backend/supabase-schema.sql` in the SQL Editor
+   - Create a **public** storage bucket named `gameanalyzer-tips`
+   - Copy your `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` (service_role)
+
+2. **Paystack** — Register at https://paystack.com
+   - Get your `sk_live_` (secret key) and `pk_live_` (public key)
+   - Register webhook URL: `https://YOUR_DOMAIN/api/payment/webhook`
+
+3. **VPS** — Provision a new VPS (DigitalOcean / Hetzner / Vultr)
+   - Install Node 20, Nginx, PM2
+   - Clone this repo to `/var/www/gameanalyzer`
+   - Copy `backend/.env` with real values to the VPS
+   - Replace `YOUR_NEW_VPS_IP` in `nginx.conf`, `next.config.js`, `vercel.json`
+
+4. **Vercel** — Create a new Vercel project
+   - `vercel link` from the `frontend/` directory
+   - Set `NEXT_PUBLIC_PAYSTACK_KEY` as an environment variable in Vercel dashboard
+
+5. **Admin token** — Generate a strong random token:
+   ```
+   openssl rand -hex 32
+   ```
+   Set it as `ADMIN_TOKEN` in `backend/.env`
+
+## Environment Variables
+
+### Backend (`backend/.env`)
+```
+PORT=5003
+NODE_ENV=production
+PAYSTACK_SECRET_KEY=sk_live_...
+ADMIN_TOKEN=<generated with openssl rand -hex 32>
+CLIENT_URL=https://gameanalyzer.vercel.app,https://YOUR_DOMAIN
+SUPABASE_URL=https://YOUR_REF.supabase.co
+SUPABASE_SERVICE_KEY=eyJ...
+SUPABASE_BUCKET=gameanalyzer-tips
+```
+
+### Frontend (`frontend/.env.local`)
+```
+NEXT_PUBLIC_API_URL=http://localhost:5003/api
+NEXT_PUBLIC_PAYSTACK_KEY=pk_live_...
+```
 
 ## Local Development
 
@@ -38,54 +81,24 @@ cd backend && node server.js
 cd frontend && PORT=3002 npm run dev
 ```
 
-## Environment Variables
-
-### Backend (`backend/.env`)
-```
-PORT=5003
-NODE_ENV=production
-PAYSTACK_SECRET_KEY=sk_...
-ADMIN_TOKEN=...
-CLIENT_URL=https://365analyst.vercel.app
-SUPABASE_URL=https://...supabase.co
-SUPABASE_SERVICE_KEY=eyJ...
-SUPABASE_BUCKET=analyst-tips
-```
-
-### Frontend (`frontend/.env.local`)
-```
-NEXT_PUBLIC_API_URL=http://localhost:5003/api
-NEXT_PUBLIC_PAYSTACK_KEY=pk_...
-```
-
-## Database Setup
-
-Run the SQL in `backend/supabase-schema.sql` in the Supabase SQL editor.
-Then create a **public** storage bucket named `analyst-tips`.
-
 ## VPS Deployment
 
 ```bash
 # SSH to VPS
-ssh root@72.60.23.133
+ssh root@YOUR_NEW_VPS_IP
 
 # Update app
-cd /var/www/365analyst && git pull
+cd /var/www/gameanalyzer && git pull
 cd backend && npm install --production
-pm2 restart analyst-api
+pm2 restart gameanalyzer-api
 ```
 
 ## Paystack Webhook
 
 Register this URL in your Paystack dashboard:
 ```
-https://365analyst.vercel.app/api/payment/webhook
+https://YOUR_DOMAIN/api/payment/webhook
 ```
-
-## Nigeria Payment
-
-Bank transfer to **Moniepoint MFB** — account details shown in the payment modal.
-After transfer, user sends receipt to **@notyourregulardude** on Telegram.
 
 ## Admin Access
 

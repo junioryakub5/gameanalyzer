@@ -387,7 +387,7 @@ export default function HomePage() {
               }}
             >
               Why Trust{" "}
-              <span className="gradient-text">365Analyst?</span>
+              <span className="gradient-text">GameAnalyzer?</span>
             </h2>
             <p
               className="text-xs md:text-sm max-w-md mx-auto mb-6 md:mb-14 leading-relaxed"

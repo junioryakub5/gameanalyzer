@@ -10,11 +10,11 @@ import Link from "next/link";
 const faqs = [
   {
     id: "how-it-works",
-    question: "How does 365Analyst work?",
+    question: "How does GameAnalyzer work?",
     answer: (
       <>
         <p>
-          365Analyst publishes premium football prediction slips every day. Each slip is
+          GameAnalyzer publishes premium football prediction slips every day. Each slip is
           independently researched by our analysts using form data, team news, head-to-head records,
           and statistical models.
         </p>
@@ -57,7 +57,7 @@ const faqs = [
           payment platforms. Paystack is PCI DSS Level 1 compliant and uses bank-grade encryption.
         </p>
         <p>
-          365Analyst does <strong>not</strong> store, see, or have any access to your card details
+          GameAnalyzer does <strong>not</strong> store, see, or have any access to your card details
           or bank information. Your financial data stays entirely within Paystack&apos;s secure system.
         </p>
       </>
@@ -121,10 +121,10 @@ const faqs = [
         </ul>
         <p>
           Reach us on{" "}
-          <a href="https://t.me/notyourregulardude" target="_blank" rel="noopener noreferrer" style={{ color: "#16a34a" }}>
-            Telegram @notyourregulardude
+          <a href="https://t.me/game_analyzer" target="_blank" rel="noopener noreferrer" style={{ color: "#16a34a" }}>
+            Telegram @game_analyzer
           </a>{" "}
-          or email <a href="mailto:support@365analyst.com" style={{ color: "#16a34a" }}>support@365analyst.com</a>.
+          or email <a href="mailto:support@gameanalyzer.com" style={{ color: "#16a34a" }}>support@gameanalyzer.com</a>.
           We typically restore access within minutes.
         </p>
       </>
@@ -204,14 +204,14 @@ const faqs = [
         <ul>
           <li>
             <strong>Telegram (fastest):</strong>{" "}
-            <a href="https://t.me/notyourregulardude" target="_blank" rel="noopener noreferrer" style={{ color: "#16a34a" }}>
-              @notyourregulardude
+            <a href="https://t.me/game_analyzer" target="_blank" rel="noopener noreferrer" style={{ color: "#16a34a" }}>
+              @game_analyzer
             </a>
           </li>
           <li>
             <strong>Email:</strong>{" "}
-            <a href="mailto:support@365analyst.com" style={{ color: "#16a34a" }}>
-              support@365analyst.com
+            <a href="mailto:support@gameanalyzer.com" style={{ color: "#16a34a" }}>
+              support@gameanalyzer.com
             </a>
           </li>
         </ul>
@@ -291,7 +291,7 @@ export default function FAQPage() {
             </h1>
 
             <p style={{ color: "#a1a1aa", fontSize: "0.92rem", maxWidth: "480px", lineHeight: 1.7 }}>
-              Everything you need to know about 365Analyst — from payments to predictions.
+              Everything you need to know about GameAnalyzer — from payments to predictions.
             </p>
           </div>
         </section>
@@ -454,7 +454,7 @@ export default function FAQPage() {
                 Our team is available every day. We typically reply on Telegram within an hour.
               </p>
               <a
-                href="https://t.me/notyourregulardude"
+                href="https://t.me/game_analyzer"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"

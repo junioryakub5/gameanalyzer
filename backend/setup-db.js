@@ -1,4 +1,4 @@
-// ─── Kaana Predictions — Supabase Schema Setup Script ─────────────────────────
+// ─── GameAnalyzer — Supabase Schema Setup Script ─────────────────────────────
 // Run once: node setup-db.js
 // Requires: SUPABASE_URL and SUPABASE_SERVICE_KEY in backend/.env
 // Get service_role key from: Supabase Dashboard → Project Settings → API → service_role (secret)
@@ -81,7 +81,7 @@ const req = https.request(options, (res) => {
     if (res.statusCode === 200 || res.statusCode === 201) {
       console.log('✅  Schema created successfully!\n');
       console.log('Next steps:');
-      console.log('  1. Create a storage bucket named "analyst-tips" in Supabase → Storage');
+      console.log('  1. Create a storage bucket named "gameanalyzer-tips" in Supabase → Storage');
       console.log('  2. Set the bucket to PUBLIC');
       console.log('  3. Start backend: cd backend && node server.js\n');
     } else {

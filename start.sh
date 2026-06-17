@@ -1,5 +1,5 @@
 #!/bin/bash
-# ─── 365Analyst — One-command local startup ─────────────────────────────────────
+# ─── GameAnalyzer — One-command local startup ─────────────────────────────────
 # Kills everything, starts backend + frontend + two Cloudflare tunnels,
 # auto-updates .env.local with the fresh backend tunnel URL.
 
@@ -18,25 +18,25 @@ if [ -z "$PAYSTACK_KEY" ] || [[ "$PAYSTACK_KEY" == REPLACE* ]]; then
 fi
 
 echo ""
-echo "🟢 365Analyst — Starting up..."
+echo "🟢 GameAnalyzer — Starting up..."
 echo "─────────────────────────────────────"
 
-# ── 1. Kill anything already running on 365Analyst ports ──────────────────────
+# ── 1. Kill anything already running on GameAnalyzer ports ──────────────────────
 echo "⏹  Stopping old processes..."
-lsof -ti:5003 | xargs kill -9 2>/dev/null || true
+lsof -ti:5004 | xargs kill -9 2>/dev/null || true
 lsof -ti:3002 | xargs kill -9 2>/dev/null || true
-ps aux | grep 'cloudflared.*5003\|cloudflared.*3002' | grep -v grep | awk '{print $2}' | xargs kill -9 2>/dev/null || true
+ps aux | grep 'cloudflared.*5004\|cloudflared.*3002' | grep -v grep | awk '{print $2}' | xargs kill -9 2>/dev/null || true
 sleep 1
 
 # ── 2. Start backend ──────────────────────────────────────────────────────────
-echo "⚙️  Starting backend on port 5003..."
+echo "⚙️  Starting backend on port 5004..."
 cd "$BACKEND_DIR"
-node server.js > /tmp/analyst-backend.log 2>&1 &
+node server.js > /tmp/gameanalyzer-backend.log 2>&1 &
 BACKEND_PID=$!
 
 # Wait until backend is up
 for i in {1..15}; do
-  if curl -s http://localhost:5003/api/health > /dev/null 2>&1; then
+  if curl -s http://localhost:5004/api/health > /dev/null 2>&1; then
     echo "✅ Backend running (PID $BACKEND_PID)"
     break
   fi
@@ -45,12 +45,12 @@ done
 
 # ── 3. Tunnel backend ─────────────────────────────────────────────────────────
 echo "🌐 Creating backend tunnel..."
-cloudflared tunnel --url http://localhost:5003 > /tmp/analyst-tunnel-backend.log 2>&1 &
+cloudflared tunnel --url http://localhost:5004 > /tmp/gameanalyzer-tunnel-backend.log 2>&1 &
 sleep 8
 
-BACKEND_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/analyst-tunnel-backend.log | head -1)
+BACKEND_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/gameanalyzer-tunnel-backend.log | head -1)
 if [ -z "$BACKEND_URL" ]; then
-  echo "❌ Could not get backend tunnel URL. Check /tmp/analyst-tunnel-backend.log"
+  echo "❌ Could not get backend tunnel URL. Check /tmp/gameanalyzer-tunnel-backend.log"
   exit 1
 fi
 echo "✅ Backend tunnel: $BACKEND_URL"
@@ -66,7 +66,7 @@ EOF
 # ── 5. Start frontend ─────────────────────────────────────────────────────────
 echo "🖥  Starting frontend on port 3002..."
 cd "$FRONTEND_DIR"
-PORT=3002 npm run dev > /tmp/analyst-frontend.log 2>&1 &
+PORT=3002 npm run dev > /tmp/gameanalyzer-frontend.log 2>&1 &
 FRONTEND_PID=$!
 
 # Wait until frontend is up
@@ -80,12 +80,12 @@ done
 
 # ── 6. Tunnel frontend ────────────────────────────────────────────────────────
 echo "🌐 Creating frontend tunnel..."
-cloudflared tunnel --url http://localhost:3002 > /tmp/analyst-tunnel-frontend.log 2>&1 &
+cloudflared tunnel --url http://localhost:3002 > /tmp/gameanalyzer-tunnel-frontend.log 2>&1 &
 sleep 8
 
-FRONTEND_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/analyst-tunnel-frontend.log | head -1)
+FRONTEND_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/gameanalyzer-tunnel-frontend.log | head -1)
 if [ -z "$FRONTEND_URL" ]; then
-  echo "❌ Could not get frontend tunnel URL. Check /tmp/analyst-tunnel-frontend.log"
+  echo "❌ Could not get frontend tunnel URL. Check /tmp/gameanalyzer-tunnel-frontend.log"
   exit 1
 fi
 echo "✅ Frontend tunnel: $FRONTEND_URL"
@@ -93,7 +93,7 @@ echo "✅ Frontend tunnel: $FRONTEND_URL"
 # ── 7. Print summary ──────────────────────────────────────────────────────────
 echo ""
 echo "══════════════════════════════════════════════"
-echo "  🟢 365Analyst is LIVE!"
+echo "  🟢 GameAnalyzer is LIVE!"
 echo "══════════════════════════════════════════════"
 echo ""
 echo "  📱 Share this link (phone / public):"

@@ -120,7 +120,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
     setLoading(true); setError("");
     try {
       await adminGetPredictions(token.trim());
-      sessionStorage.setItem("bt_admin_token", token.trim());
+      sessionStorage.setItem("ga_admin_token", token.trim());
       onLogin(token.trim());
     } catch {
       setError("Invalid admin token. Access denied.");
@@ -191,7 +191,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
                   overflow: "hidden",
                 }}
               >
-                <Image src="/logo.png" alt="365Analyst" width={72} height={72} className="w-full h-full object-cover rounded-[18px]" />
+                <Image src="/logo.png" alt="GameAnalyzer" width={72} height={72} className="w-full h-full object-cover rounded-[18px]" />
               </div>
 
               <div className="text-center">
@@ -204,13 +204,13 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
                     lineHeight: 1,
                   }}
                 >
-                  <span style={{ color: "#f4f4f5" }}>365</span>
+                  <span style={{ color: "#f4f4f5" }}>GAME</span>
                   <span style={{
                     background: "linear-gradient(135deg, #16a34a, #10b981)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
-                  }}>Analyst</span>
+                  }}>ANALYZER</span>
                 </div>
                 <div
                   className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
@@ -331,7 +331,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
           className="text-center mt-5"
           style={{ color: "#3f3f46", fontSize: "0.7rem", letterSpacing: "0.05em" }}
         >
-          365Analyst · Admin Portal · Restricted Access
+          GameAnalyzer · Admin Portal · Restricted Access
         </p>
       </div>
     </div>
@@ -1687,7 +1687,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
             className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden"
             style={{ background: "rgba(22,163,74,0.12)", border: "1px solid rgba(22,163,74,0.2)" }}
           >
-            <Image src="/logo.png" alt="365Analyst" width={32} height={32} className="w-full h-full object-cover rounded-full" />
+            <Image src="/logo.png" alt="GameAnalyzer" width={32} height={32} className="w-full h-full object-cover rounded-full" />
           </div>
           <div>
             <div
@@ -1947,7 +1947,7 @@ export default function AdminPage() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem("bt_admin_token");
+    const saved = sessionStorage.getItem("ga_admin_token");
     if (saved) setToken(saved);
     setReady(true);
   }, []);
@@ -1962,7 +1962,7 @@ export default function AdminPage() {
   const handleLogin = (t: string) => setToken(t);
   const handleLogout = () => {
     setToken("");
-    sessionStorage.removeItem("bt_admin_token");
+    sessionStorage.removeItem("ga_admin_token");
     window.location.href = "/";
   };
 

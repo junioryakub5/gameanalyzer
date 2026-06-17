@@ -22,7 +22,7 @@ const steps = [
   {
     number: "02",
     title: "Secure Payment via Paystack",
-    desc: "Complete your purchase through Paystack — the leading payment gateway in West Africa. Your card details are never stored by 365Analyst.",
+    desc: "Complete your purchase through Paystack — the leading payment gateway in West Africa. Your card details are never stored by GameAnalyzer.",
     badge: "Secure Payment",
     badgeColor: "#10b981",
     badgeBg: "rgba(16,185,129,0.1)",
@@ -46,19 +46,19 @@ const testimonials = [
     name: "Kwame A.",
     country: "🇬🇭 Ghana",
     rating: 5,
-    text: "I've been following 365Analyst for 3 months now. Won GHS 4,800 from a single 10+ odds slip last week. The tips are seriously researched — this isn't guesswork.",
+    text: "I\'ve been following GameAnalyzer for 3 months now. Won GHS 4,800 from a single 10+ odds slip last week. The tips are seriously researched — this isn\'t guesswork.",
   },
   {
     name: "Emeka O.",
     country: "🇳🇬 Nigeria",
     rating: 5,
-    text: "Best football prediction service I've used in Nigeria. The Paystack payment is smooth and the slip unlocks instantly. No stress. Won ₦62,000 last Saturday.",
+    text: "Best football prediction service I\'ve used in Nigeria. The Paystack payment is smooth and the slip unlocks instantly. No stress. Won ₦62,000 last Saturday.",
   },
   {
     name: "Abena M.",
     country: "🇬🇭 Ghana",
     rating: 5,
-    text: "I was skeptical at first but my friend convinced me. The 5+ odds card hit 4 weeks in a row. Cashing out consistently now. 365Analyst is the real deal.",
+    text: "I was skeptical at first but my friend convinced me. The 5+ odds card hit 4 weeks in a row. Cashing out consistently now. GameAnalyzer is the real deal.",
   },
   {
     name: "Chidi N.",
@@ -76,7 +76,7 @@ const testimonials = [
     name: "Tunde B.",
     country: "🇳🇬 Nigeria",
     rating: 5,
-    text: "I tried free tips before and kept losing. Switched to 365Analyst and haven't looked back. The premium quality is clear — every pick has reasoning behind it.",
+    text: "I tried free tips before and kept losing. Switched to GameAnalyzer and haven\'t looked back. The premium quality is clear — every pick has reasoning behind it.",
   },
 ];
 
@@ -131,7 +131,7 @@ export default function AboutPage() {
                 background: "#16a34a", boxShadow: "0 0 8px #16a34a",
                 display: "inline-block", animation: "pulse 2s infinite",
               }} />
-              About 365Analyst
+              About GameAnalyzer
             </div>
 
             <h1
@@ -147,7 +147,7 @@ export default function AboutPage() {
                 marginBottom: "1.25rem",
               }}
             >
-              365Analyst —{" "}
+              GameAnalyzer —{" "}
               <span style={{
                 background: "linear-gradient(135deg, #16a34a 0%, #10b981 50%, #34d399 100%)",
                 WebkitBackgroundClip: "text",
@@ -243,13 +243,13 @@ export default function AboutPage() {
                   <span className="gradient-text">Winning Tips</span>
                 </h2>
                 <p style={{ color: "#a1a1aa", lineHeight: 1.75, marginBottom: "1rem", fontSize: "0.95rem" }}>
-                  We started 365Analyst because we were tired of losing money on unreliable free tips. 
-                  We built a system that combines deep statistical analysis, team form data, injury news, 
+                  We started GameAnalyzer because we were tired of losing money on unreliable free tips.
+                  We built a system that combines deep statistical analysis, team form data, injury news,
                   and head-to-head records to deliver predictions that actually win.
                 </p>
                 <p style={{ color: "#a1a1aa", lineHeight: 1.75, fontSize: "0.95rem" }}>
-                  Our name says it all — we are here every single day of the year. Whether it's a midweek 
-                  cup tie or a Sunday league classic, our analysts are watching, calculating, and 
+                  Our analysts work every single day of the year. Whether it\'s a midweek
+                  cup tie or a Sunday league classic, we are watching, calculating, and
                   giving you the best possible edge.
                 </p>
               </div>
@@ -528,7 +528,7 @@ export default function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <a
-                href="https://t.me/notyourregulardude"
+                href="https://t.me/game_analyzer"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
@@ -541,11 +541,11 @@ export default function AboutPage() {
                 }}
               >
                 <span style={{ fontSize: "1.1rem" }}>✈️</span>
-                Telegram: @notyourregulardude
+                Telegram: @game_analyzer
               </a>
 
               <a
-                href="mailto:support@365analyst.com"
+                href="mailto:support@gameanalyzer.com"
                 className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5"
                 style={{
                   background: "rgba(255,255,255,0.04)",
@@ -556,7 +556,7 @@ export default function AboutPage() {
                 }}
               >
                 <span style={{ fontSize: "1rem" }}>✉️</span>
-                support@365analyst.com
+                support@gameanalyzer.com
               </a>
             </div>
 

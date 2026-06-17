@@ -12,13 +12,13 @@ const sections = [
     content: (
       <>
         <p>
-          Welcome to 365Analyst. By accessing or using our website and services, you agree to be
+          Welcome to GameAnalyzer. By accessing or using our website and services, you agree to be
           bound by these Terms of Service (&ldquo;Terms&rdquo;). Please read them carefully before making
           any purchase.
         </p>
         <p>
           If you do not agree to these Terms, please do not use our services. These Terms apply to
-          all visitors, users, and customers of 365Analyst.
+          all visitors, users, and customers of GameAnalyzer.
         </p>
       </>
     ),
@@ -30,7 +30,7 @@ const sections = [
     content: (
       <>
         <p>
-          365Analyst provides premium football prediction tips (&ldquo;Predictions&rdquo;) to registered
+          GameAnalyzer provides premium football prediction tips (&ldquo;Predictions&rdquo;) to registered
           customers in Ghana and Nigeria. Our service includes:
         </p>
         <ul>
@@ -102,7 +102,7 @@ const sections = [
           by Paystack, which uses industry-standard encryption and security protocols.
         </p>
         <ul>
-          <li>365Analyst does <strong>not</strong> collect, store, or have access to your card details.</li>
+          <li>GameAnalyzer does <strong>not</strong> collect, store, or have access to your card details.</li>
           <li>All payment data is encrypted end-to-end by Paystack.</li>
           <li>Paystack is licensed by the Central Bank of Nigeria and approved by the Bank of Ghana.</li>
         </ul>
@@ -140,7 +140,7 @@ const sections = [
       <>
         <p>
           Our services are intended <strong>strictly for individuals aged 18 years and older</strong>.
-          By using 365Analyst, you confirm that you are at least 18 years of age.
+          By using GameAnalyzer, you confirm that you are at least 18 years of age.
         </p>
         <ul>
           <li>Sports betting is regulated in Ghana and Nigeria. You are responsible for compliance
@@ -164,7 +164,7 @@ const sections = [
         <ul>
           <li>Past performance (including our 87% win rate) does not guarantee future results.</li>
           <li>Never bet more than you can afford to lose.</li>
-          <li>365Analyst is not responsible for any financial losses resulting from acting on our predictions.</li>
+          <li>GameAnalyzer is not responsible for any financial losses resulting from acting on our predictions.</li>
           <li>Please gamble responsibly. If you need support, contact the National Problem Gambling Helpline in your country.</li>
         </ul>
       </>
@@ -177,8 +177,8 @@ const sections = [
     content: (
       <>
         <p>
-          All content on 365Analyst — including prediction slips, analysis, branding, design, and
-          text — is the intellectual property of 365Analyst and is protected by applicable copyright laws.
+          All content on GameAnalyzer — including prediction slips, analysis, branding, design, and
+          text — is the intellectual property of GameAnalyzer and is protected by applicable copyright laws.
         </p>
         <ul>
           <li>You may not reproduce, redistribute, resell, or share predictions with third parties.</li>
@@ -220,21 +220,21 @@ const sections = [
           <li>
             <strong>Telegram:</strong>{" "}
             <a
-              href="https://t.me/notyourregulardude"
+              href="https://t.me/game_analyzer"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "#16a34a", textDecoration: "none" }}
             >
-              @notyourregulardude
+              @game_analyzer
             </a>
           </li>
           <li>
             <strong>Email:</strong>{" "}
             <a
-              href="mailto:support@365analyst.com"
+              href="mailto:support@gameanalyzer.com"
               style={{ color: "#16a34a", textDecoration: "none" }}
             >
-              support@365analyst.com
+              support@gameanalyzer.com
             </a>
           </li>
         </ul>
