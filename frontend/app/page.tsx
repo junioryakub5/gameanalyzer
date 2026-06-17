@@ -154,23 +154,9 @@ export default function HomePage() {
                 textTransform: "uppercase",
               }}
             >
-              YOU CAN&apos;T BE{" "}
-              <span style={{ color: "#3aaa3a" }}>UNLUCKY</span>
+              ANALYZE THE GAME.
               <br />
-              <span
-                style={{
-                  fontSize: "clamp(1.6rem, 5.5vw, 4.2rem)",
-                  color: "#5a5a5a",
-                  fontWeight: 700,
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                FOR{" "}
-                <span style={{ color: "#f2f2f2", fontWeight: 800, fontSize: "clamp(2.4rem, 7vw, 5.8rem)" }}>
-                  {count}
-                </span>
-                {" "}DAYS
-              </span>
+              <span style={{ color: "#3aaa3a" }}>WIN THE BET.</span>
             </h1>
 
             {/* Sub-headline */}
@@ -179,13 +165,13 @@ export default function HomePage() {
               style={{
                 color: "#5a5a5a",
                 fontSize: "clamp(0.85rem, 2vw, 1rem)",
-                maxWidth: "400px",
+                maxWidth: "420px",
                 lineHeight: 1.7,
                 marginBottom: "2.5rem",
                 fontWeight: 400,
               }}
             >
-              Expert-verified football tips. Unlock the slip, place the bet,{" "}
+              We break down every match so you don&apos;t have to. Deep stats, verified tips — unlock the slip,{" "}
               <span style={{ color: "#3aaa3a", fontWeight: 600 }}>collect the money.</span>
             </p>
 
@@ -200,7 +186,7 @@ export default function HomePage() {
             >
               {[
                 { value: "87%", label: "WIN RATE", icon: <TrendingUp size={14} /> },
-                { value: `${count}+`, label: "PREDICTIONS", icon: <BarChart2 size={14} /> },
+                { value: `${count}+`, label: "GAMES ANALYZED", icon: <BarChart2 size={14} /> },
                 { value: "100%", label: "VERIFIED", icon: <ShieldCheck size={14} /> },
               ].map((stat, i) => (
                 <div
