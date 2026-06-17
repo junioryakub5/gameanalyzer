@@ -28,7 +28,7 @@ expect "# " {
 }
 
 expect "# " {
-    send "mkdir -p /var/www && rm -rf /var/www/gameanalyzer && git clone https://github.com/junioryakub5/365analyst.git /var/www/gameanalyzer\r"
+    send "mkdir -p /var/www && rm -rf /var/www/gameanalyzer && git clone https://github.com/junioryakub5/gameanalyzer.git /var/www/gameanalyzer\r"
 }
 
 expect "# " {
