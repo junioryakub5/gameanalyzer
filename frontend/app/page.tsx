@@ -380,58 +380,72 @@ export default function HomePage() {
               </h2>
             </div>
 
-            {/* 3-col grid — square icon cards, always inline */}
-            <div className="grid grid-cols-3 gap-4 md:gap-6">
+            {/* Horizontal feature strip — 3 items side by side */}
+            <div
+              style={{
+                background: "#111111",
+                border: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: "8px",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+              }}
+            >
               {[
                 {
-                  icon: <BarChart2 size={22} />,
+                  icon: <BarChart2 size={20} />,
                   title: "Expert Analysis",
+                  desc: "Stat-driven predictions backed by deep match research.",
                   color: "#3aaa3a",
                   iconBg: "rgba(31,122,31,0.1)",
                   iconBorder: "rgba(31,122,31,0.22)",
                 },
                 {
-                  icon: <ShieldCheck size={22} />,
+                  icon: <ShieldCheck size={20} />,
                   title: "Secure Payments",
+                  desc: "Paystack-powered — safe, instant, fully encrypted.",
                   color: "#4ab84a",
                   iconBg: "rgba(74,184,74,0.1)",
                   iconBorder: "rgba(74,184,74,0.2)",
                 },
                 {
-                  icon: <Zap size={22} />,
+                  icon: <Zap size={20} />,
                   title: "Instant Access",
+                  desc: "Unlock your slip immediately after payment.",
                   color: "#f59e0b",
                   iconBg: "rgba(245,158,11,0.1)",
                   iconBorder: "rgba(245,158,11,0.18)",
                 },
-              ].map((item) => (
+              ].map((item, i) => (
                 <div
                   key={item.title}
-                  className="aspect-square flex flex-col items-center justify-center gap-3 p-4 transition-all duration-200"
                   style={{
-                    background: "#111111",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    borderLeft: "3px solid #1f7a1f",
-                    borderRadius: "8px",
+                    padding: "1.75rem 1.5rem",
+                    borderLeft: i === 0 ? "3px solid #1f7a1f" : "none",
+                    borderRight: i < 2 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                    borderRadius: i === 0 ? "8px 0 0 8px" : i === 2 ? "0 8px 8px 0" : "0",
                   }}
                 >
                   <div
-                    className="w-11 h-11 flex items-center justify-center flex-shrink-0"
+                    className="w-10 h-10 flex items-center justify-center mb-4"
                     style={{
                       background: item.iconBg,
                       border: `1px solid ${item.iconBorder}`,
                       color: item.color,
                       borderRadius: "6px",
+                      flexShrink: 0,
                     }}
                   >
                     {item.icon}
                   </div>
                   <h3
-                    className="font-display font-bold text-center leading-tight"
-                    style={{ color: "#f2f2f2", fontSize: "clamp(0.6rem, 2vw, 0.82rem)" }}
+                    className="font-display font-bold mb-2"
+                    style={{ color: "#f2f2f2", fontSize: "0.9rem", letterSpacing: "-0.01em" }}
                   >
                     {item.title}
                   </h3>
+                  <p style={{ color: "#5a5a5a", fontSize: "0.78rem", lineHeight: 1.6 }}>
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
