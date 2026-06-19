@@ -90,19 +90,11 @@ export default function HomePage() {
             aria-hidden="true"
           />
 
-          {/* Left green edge accent */}
-          <div
-            className="pointer-events-none absolute left-0 top-[60px] bottom-0 w-[3px]"
-            style={{
-              background: "linear-gradient(to bottom, #1f7a1f 0%, rgba(31,122,31,0.2) 60%, transparent 100%)",
-            }}
-            aria-hidden="true"
-          />
 
-          <div className="page-container relative z-10 pt-14 pb-12">
+          <div className="page-container relative z-10 pt-14 pb-12 flex flex-col items-center text-center">
 
             {/* Live indicator row */}
-            <div className="flex items-center gap-3 mb-7 animate-fadeInUp">
+            <div className="flex items-center justify-center gap-3 mb-7 animate-fadeInUp">
               <div
                 className="inline-flex items-center gap-2 px-3 py-1.5 text-[11px] font-bold tracking-widest uppercase"
                 style={{
@@ -152,6 +144,7 @@ export default function HomePage() {
                 maxWidth: "820px",
                 marginBottom: "1.5rem",
                 textTransform: "uppercase",
+                textAlign: "center",
               }}
             >
               ANALYZE THE GAME.
@@ -165,10 +158,11 @@ export default function HomePage() {
               style={{
                 color: "#5a5a5a",
                 fontSize: "clamp(0.85rem, 2vw, 1rem)",
-                maxWidth: "420px",
+                maxWidth: "480px",
                 lineHeight: 1.7,
                 marginBottom: "2.5rem",
                 fontWeight: 400,
+                textAlign: "center",
               }}
             >
               We break down every match so you don&apos;t have to. Deep stats, verified tips — unlock the slip,{" "}
@@ -177,7 +171,7 @@ export default function HomePage() {
 
             {/* Stats — horizontal data strip */}
             <div
-              className="animate-fadeInUp flex items-stretch mb-8 w-full max-w-md overflow-hidden"
+              className="animate-fadeInUp flex items-stretch mb-8 w-full max-w-md mx-auto overflow-hidden"
               style={{
                 border: "1px solid rgba(255,255,255,0.07)",
                 borderRadius: "8px",
@@ -236,7 +230,7 @@ export default function HomePage() {
           >
             <div className="page-container">
               <div
-                className="flex items-center overflow-x-auto scrollbar-none"
+                className="flex items-center justify-center overflow-x-auto scrollbar-none"
                 style={{ gap: 0 }}
               >
                 {FILTER_TABS.map((tab) => {
@@ -350,8 +344,8 @@ export default function HomePage() {
           <div className="glow-line" aria-hidden="true" />
 
           <div className="page-container py-16 md:py-20">
-            {/* Section heading — left aligned */}
-            <div className="mb-12">
+            {/* Section heading — centered */}
+            <div className="mb-12 text-center">
               <p
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
