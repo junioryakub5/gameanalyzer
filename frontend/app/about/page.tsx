@@ -5,9 +5,9 @@ import Link from "next/link";
 /* ── Static data ──────────────────────────────────────────────── */
 
 const stats = [
-  { value: "87%", label: "Win Rate", color: "#16a34a", glow: "rgba(22,163,74,0.35)" },
-  { value: "500+", label: "Predictions", color: "#10b981", glow: "rgba(16,185,129,0.3)" },
-  { value: "100%", label: "Verified", color: "#34d399", glow: "rgba(52,211,153,0.3)" },
+  { value: "87%", label: "Win Rate", color: "#3aaa3a", glow: "rgba(31,122,31,0.35)" },
+  { value: "500+", label: "Predictions", color: "#4ab84a", glow: "rgba(74,184,74,0.3)" },
+  { value: "100%", label: "Verified", color: "#6dd56d", glow: "rgba(109,213,109,0.3)" },
   { value: "2", label: "Countries", color: "#a3e635", glow: "rgba(163,230,53,0.3)" },
 ];
 
@@ -24,9 +24,9 @@ const steps = [
     title: "Secure Payment via Paystack",
     desc: "Complete your purchase through Paystack — the leading payment gateway in West Africa. Your card details are never stored by GameAnalyzer.",
     badge: "Secure Payment",
-    badgeColor: "#10b981",
-    badgeBg: "rgba(16,185,129,0.1)",
-    badgeBorder: "rgba(16,185,129,0.25)",
+    badgeColor: "#4ab84a",
+    badgeBg: "rgba(74,184,74,0.1)",
+    badgeBorder: "rgba(74,184,74,0.25)",
     icon: "🔒",
   },
   {
@@ -87,48 +87,39 @@ export default function AboutPage() {
     <>
       <Navbar />
 
-      <main style={{ background: "var(--bg, #09090b)", minHeight: "100vh" }}>
+      <main style={{ background: "var(--bg, #0a0a0a)", minHeight: "100vh" }}>
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <section
           className="pt-28 pb-16 relative overflow-hidden"
-          style={{ background: "#09090b" }}
+          style={{ background: "#0a0a0a" }}
         >
-          {/* Background atmosphere */}
-          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-            <div style={{
-              position: "absolute", top: "-15%", right: "-8%",
-              width: "700px", height: "700px", borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(22,163,74,0.15) 0%, rgba(22,163,74,0.05) 50%, transparent 70%)",
-              filter: "blur(70px)",
-            }} />
-            <div style={{
-              position: "absolute", bottom: "0%", left: "-10%",
-              width: "500px", height: "500px", borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)",
-              filter: "blur(60px)",
-            }} />
-            <div style={{
-              position: "absolute", inset: 0,
-              backgroundImage: "linear-gradient(rgba(22,163,74,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(22,163,74,0.025) 1px, transparent 1px)",
-              backgroundSize: "80px 80px",
+          {/* Dot grid — analytical, no orbs */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: "radial-gradient(circle, rgba(31,122,31,0.06) 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
               maskImage: "radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 100%)",
-            }} />
-          </div>
+              WebkitMaskImage: "radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 100%)",
+            }}
+            aria-hidden="true"
+          />
 
           <div className="page-container relative z-10 text-center flex flex-col items-center">
-            {/* Label pill */}
+            {/* Label */}
             <div
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-6 animate-fadeInUp"
+              className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold tracking-widest uppercase mb-6 animate-fadeInUp"
               style={{
-                background: "rgba(22,163,74,0.08)",
-                border: "1px solid rgba(22,163,74,0.28)",
-                color: "#16a34a",
+                background: "rgba(31,122,31,0.08)",
+                border: "1px solid rgba(31,122,31,0.3)",
+                color: "#3aaa3a",
+                borderRadius: "4px",
               }}
             >
               <span style={{
                 width: "6px", height: "6px", borderRadius: "50%",
-                background: "#16a34a", boxShadow: "0 0 8px #16a34a",
+                background: "#3aaa3a",
                 display: "inline-block", animation: "pulse 2s infinite",
               }} />
               About GameAnalyzer
@@ -137,23 +128,23 @@ export default function AboutPage() {
             <h1
               className="section-title animate-fadeInUp"
               style={{
-                fontFamily: "'Sora', sans-serif",
+                fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 900,
                 fontSize: "clamp(2rem, 6vw, 4rem)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.08,
-                color: "#f4f4f5",
+                color: "#f2f2f2",
                 maxWidth: "780px",
                 marginBottom: "1.25rem",
               }}
             >
               GameAnalyzer —{" "}
               <span style={{
-                background: "linear-gradient(135deg, #16a34a 0%, #10b981 50%, #34d399 100%)",
+                background: "#1f7a1f",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 24px rgba(22,163,74,0.35))",
+                filter: "drop-shadow(0 0 24px rgba(31,122,31,0.35))",
                 display: "inline-block",
               }}>
                 Built for Smart Bettors
@@ -171,39 +162,41 @@ export default function AboutPage() {
               }}
             >
               Expert football predictions tailored for bettors in{" "}
-              <span style={{ color: "#f4f4f5", fontWeight: 600 }}>Ghana</span> and{" "}
-              <span style={{ color: "#f4f4f5", fontWeight: 600 }}>Nigeria</span>.
+              <span style={{ color: "#f2f2f2", fontWeight: 600 }}>Ghana</span> and{" "}
+              <span style={{ color: "#f2f2f2", fontWeight: 600 }}>Nigeria</span>.
               Statistic-driven tips, secure payments, and instant slip access — every day of the year.
             </p>
 
-            {/* Stats row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-2xl animate-fadeInUp">
-              {stats.map((stat) => (
+            {/* Stats strip */}
+            <div
+              className="flex items-stretch w-full max-w-xl animate-fadeInUp overflow-hidden"
+              style={{
+                border: "1px solid rgba(255,255,255,0.07)",
+                borderRadius: "8px",
+                background: "#111111",
+              }}
+            >
+              {stats.map((stat, i) => (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-center gap-1 py-5 rounded-2xl transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                  }}
+                  className="flex-1 flex flex-col items-center justify-center py-4 px-2 gap-1"
+                  style={{ borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none" }}
                 >
                   <span style={{
-                    fontFamily: "'Sora', sans-serif",
-                    fontWeight: 900,
-                    fontSize: "clamp(1.4rem, 4vw, 2rem)",
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontWeight: 800,
+                    fontSize: "clamp(1.1rem, 3vw, 1.6rem)",
                     color: stat.color,
                     lineHeight: 1,
-                    filter: `drop-shadow(0 0 14px ${stat.glow})`,
                   }}>
                     {stat.value}
                   </span>
                   <span style={{
-                    fontSize: "0.6rem",
+                    fontSize: "0.58rem",
                     fontWeight: 700,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    color: "#3f3f46",
-                    marginTop: "2px",
+                    color: "#3a3a3a",
                   }}>
                     {stat.label}
                   </span>
@@ -217,24 +210,24 @@ export default function AboutPage() {
         <div className="glow-line" aria-hidden="true" />
 
         {/* ── Mission ──────────────────────────────────────────── */}
-        <section className="py-20" style={{ background: "#09090b" }}>
+        <section className="py-20" style={{ background: "#0a0a0a" }}>
           <div className="page-container">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center max-w-5xl mx-auto">
               {/* Text */}
               <div>
                 <p
                   className="text-xs font-bold tracking-widest uppercase mb-4"
-                  style={{ color: "#16a34a", letterSpacing: "0.12em" }}
+                  style={{ color: "#3aaa3a", letterSpacing: "0.12em" }}
                 >
                   Our Mission
                 </p>
                 <h2
                   style={{
-                    fontFamily: "'Sora', sans-serif",
+                    fontFamily: "'Space Grotesk', sans-serif",
                     fontWeight: 800,
                     fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
                     letterSpacing: "-0.03em",
-                    color: "#f4f4f5",
+                    color: "#f2f2f2",
                     lineHeight: 1.15,
                     marginBottom: "1.25rem",
                   }}
@@ -261,15 +254,15 @@ export default function AboutPage() {
                     icon: "📊",
                     title: "Data-Driven Analysis",
                     desc: "Every prediction is backed by form tables, xG stats, and historical matchups.",
-                    color: "rgba(22,163,74,0.12)",
-                    border: "rgba(22,163,74,0.2)",
+                    color: "rgba(31,122,31,0.12)",
+                    border: "rgba(31,122,31,0.2)",
                   },
                   {
                     icon: "🏆",
                     title: "Consistent Track Record",
                     desc: "87% win rate maintained across 500+ published predictions — fully verifiable.",
-                    color: "rgba(16,185,129,0.1)",
-                    border: "rgba(16,185,129,0.2)",
+                    color: "rgba(74,184,74,0.1)",
+                    border: "rgba(74,184,74,0.2)",
                   },
                   {
                     icon: "🌍",
@@ -281,20 +274,22 @@ export default function AboutPage() {
                 ].map((item) => (
                   <div
                     key={item.title}
-                    className="flex items-start gap-4 p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
+                    className="flex items-start gap-4 p-5 transition-all duration-200"
                     style={{
                       background: item.color,
                       border: `1px solid ${item.border}`,
+                      borderRadius: "8px",
+                      borderLeft: "3px solid #1f7a1f",
                     }}
                   >
                     <span style={{ fontSize: "1.5rem", flexShrink: 0, lineHeight: 1.2 }}>{item.icon}</span>
                     <div>
                       <h3
                         style={{
-                          fontFamily: "'Sora', sans-serif",
+                          fontFamily: "'Space Grotesk', sans-serif",
                           fontWeight: 700,
                           fontSize: "0.9rem",
-                          color: "#f4f4f5",
+                          color: "#f2f2f2",
                           marginBottom: "0.25rem",
                         }}
                       >
@@ -313,18 +308,18 @@ export default function AboutPage() {
         <div className="glow-line" aria-hidden="true" />
 
         {/* ── How It Works ─────────────────────────────────────── */}
-        <section className="py-20" style={{ background: "#09090b" }}>
+        <section className="py-20" style={{ background: "#0a0a0a" }}>
           <div className="page-container text-center">
-            <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "#16a34a", letterSpacing: "0.12em" }}>
+            <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "#3aaa3a", letterSpacing: "0.12em" }}>
               Simple Process
             </p>
             <h2
               style={{
-                fontFamily: "'Sora', sans-serif",
+                fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(1.6rem, 4vw, 2.6rem)",
                 letterSpacing: "-0.03em",
-                color: "#f4f4f5",
+                color: "#f2f2f2",
                 lineHeight: 1.15,
                 marginBottom: "0.75rem",
               }}
@@ -339,17 +334,19 @@ export default function AboutPage() {
               {steps.map((step, i) => (
                 <div
                   key={step.number}
-                  className="relative flex flex-col p-7 rounded-2xl text-left transition-all duration-300 hover:-translate-y-2"
+                  className="relative flex flex-col p-7 text-left transition-all duration-200"
                   style={{
-                    background: "rgba(255,255,255,0.02)",
+                    background: "#111111",
                     border: "1px solid rgba(255,255,255,0.06)",
+                    borderLeft: "3px solid #1f7a1f",
+                    borderRadius: "8px",
                   }}
                 >
                   {/* Connector line (desktop) */}
                   {i < steps.length - 1 && (
                     <div
                       className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10"
-                      style={{ width: "2px", height: "40px", background: "rgba(22,163,74,0.2)" }}
+                      style={{ width: "2px", height: "40px", background: "rgba(31,122,31,0.2)" }}
                       aria-hidden="true"
                     />
                   )}
@@ -358,11 +355,11 @@ export default function AboutPage() {
                   <div className="flex items-center gap-3 mb-5">
                     <span
                       style={{
-                        fontFamily: "'Sora', sans-serif",
+                        fontFamily: "'Space Grotesk', sans-serif",
                         fontWeight: 900,
                         fontSize: "0.65rem",
                         letterSpacing: "0.15em",
-                        color: "rgba(22,163,74,0.5)",
+                        color: "rgba(31,122,31,0.5)",
                         textTransform: "uppercase",
                       }}
                     >
@@ -373,10 +370,10 @@ export default function AboutPage() {
 
                   <h3
                     style={{
-                      fontFamily: "'Sora', sans-serif",
+                      fontFamily: "'Space Grotesk', sans-serif",
                       fontWeight: 700,
                       fontSize: "1rem",
-                      color: "#f4f4f5",
+                      color: "#f2f2f2",
                       marginBottom: "0.6rem",
                     }}
                   >
@@ -396,7 +393,7 @@ export default function AboutPage() {
                         color: step.badgeColor,
                         fontSize: "0.72rem",
                         fontWeight: 700,
-                        fontFamily: "'Sora', sans-serif",
+                        fontFamily: "'Space Grotesk', sans-serif",
                         letterSpacing: "0.04em",
                       }}
                     >
@@ -417,19 +414,19 @@ export default function AboutPage() {
         <div className="glow-line" aria-hidden="true" />
 
         {/* ── Testimonials ─────────────────────────────────────── */}
-        <section className="py-20" style={{ background: "#09090b" }}>
+        <section className="py-20" style={{ background: "#0a0a0a" }}>
           <div className="page-container">
             <div className="text-center mb-12">
-              <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "#16a34a", letterSpacing: "0.12em" }}>
+              <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "#3aaa3a", letterSpacing: "0.12em" }}>
                 Real Winners
               </p>
               <h2
                 style={{
-                  fontFamily: "'Sora', sans-serif",
+                  fontFamily: "'Space Grotesk', sans-serif",
                   fontWeight: 800,
                   fontSize: "clamp(1.6rem, 4vw, 2.6rem)",
                   letterSpacing: "-0.03em",
-                  color: "#f4f4f5",
+                  color: "#f2f2f2",
                   lineHeight: 1.15,
                   marginBottom: "0.75rem",
                 }}
@@ -445,10 +442,12 @@ export default function AboutPage() {
               {testimonials.map((t) => (
                 <div
                   key={t.name}
-                  className="flex flex-col p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
+                  className="flex flex-col p-6 transition-all duration-200"
                   style={{
-                    background: "rgba(255,255,255,0.02)",
+                    background: "#111111",
                     border: "1px solid rgba(255,255,255,0.06)",
+                    borderLeft: "3px solid rgba(31,122,31,0.4)",
+                    borderRadius: "8px",
                   }}
                 >
                   {/* Stars */}
@@ -477,18 +476,18 @@ export default function AboutPage() {
                     <div
                       className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
                       style={{
-                        background: "linear-gradient(135deg, rgba(22,163,74,0.2), rgba(16,185,129,0.1))",
-                        border: "1px solid rgba(22,163,74,0.25)",
-                        fontFamily: "'Sora', sans-serif",
+                        background: "linear-gradient(135deg, rgba(31,122,31,0.2), rgba(74,184,74,0.1))",
+                        border: "1px solid rgba(31,122,31,0.25)",
+                        fontFamily: "'Space Grotesk', sans-serif",
                         fontWeight: 700,
                         fontSize: "0.75rem",
-                        color: "#10b981",
+                        color: "#4ab84a",
                       }}
                     >
                       {t.name.charAt(0)}
                     </div>
                     <div>
-                      <p style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "0.82rem", color: "#f4f4f5" }}>
+                      <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "0.82rem", color: "#f2f2f2" }}>
                         {t.name}
                       </p>
                       <p style={{ fontSize: "0.72rem", color: "#52525b" }}>{t.country}</p>
@@ -504,18 +503,18 @@ export default function AboutPage() {
         <div className="glow-line" aria-hidden="true" />
 
         {/* ── Contact ──────────────────────────────────────────── */}
-        <section className="py-20" style={{ background: "#09090b" }}>
+        <section className="py-20" style={{ background: "#0a0a0a" }}>
           <div className="page-container text-center max-w-2xl mx-auto">
-            <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "#16a34a", letterSpacing: "0.12em" }}>
+            <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "#3aaa3a", letterSpacing: "0.12em" }}>
               Get in Touch
             </p>
             <h2
               style={{
-                fontFamily: "'Sora', sans-serif",
+                fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(1.6rem, 4vw, 2.2rem)",
                 letterSpacing: "-0.03em",
-                color: "#f4f4f5",
+                color: "#f2f2f2",
                 lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
@@ -531,13 +530,13 @@ export default function AboutPage() {
                 href="https://t.me/game_analyzer"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 font-bold text-sm transition-all duration-200"
                 style={{
-                  background: "linear-gradient(135deg, #16a34a, #10b981)",
+                  background: "#1f7a1f",
                   color: "#ffffff",
-                  fontFamily: "'Sora', sans-serif",
-                  boxShadow: "0 4px 20px rgba(22,163,74,0.35)",
+                  fontFamily: "'Space Grotesk', sans-serif",
                   textDecoration: "none",
+                  borderRadius: "8px",
                 }}
               >
                 <span style={{ fontSize: "1.1rem" }}>✈️</span>
@@ -546,12 +545,12 @@ export default function AboutPage() {
 
               <a
                 href="mailto:support@gameanalyzer.com"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 transition-all duration-200"
                 style={{
                   background: "rgba(255,255,255,0.04)",
                   border: "1px solid rgba(255,255,255,0.1)",
                   color: "#a1a1aa",
-                  fontFamily: "'Sora', sans-serif",
+                  fontFamily: "'Space Grotesk', sans-serif",
                   textDecoration: "none",
                 }}
               >
@@ -564,7 +563,7 @@ export default function AboutPage() {
             <div className="flex items-center justify-center gap-6">
               <Link
                 href="/terms"
-                className="text-sm font-medium transition-colors duration-200 hover:text-[#16a34a]"
+                className="text-sm font-medium transition-colors duration-200 hover:text-[#3aaa3a]"
                 style={{ color: "#52525b" }}
               >
                 Terms of Service
@@ -572,7 +571,7 @@ export default function AboutPage() {
               <span style={{ color: "#3f3f46" }}>·</span>
               <Link
                 href="/faq"
-                className="text-sm font-medium transition-colors duration-200 hover:text-[#16a34a]"
+                className="text-sm font-medium transition-colors duration-200 hover:text-[#3aaa3a]"
                 style={{ color: "#52525b" }}
               >
                 FAQ

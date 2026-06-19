@@ -50,13 +50,13 @@ const sections = [
     number: "3",
     title: "Payment Terms",
     highlight: true,
-    highlightColor: "#10b981",
-    highlightBg: "rgba(16,185,129,0.06)",
-    highlightBorder: "rgba(16,185,129,0.15)",
+    highlightColor: "#4ab84a",
+    highlightBg: "rgba(74,184,74,0.06)",
+    highlightBorder: "rgba(74,184,74,0.15)",
     content: (
       <>
         <p>
-          All payments are processed securely through <strong style={{ color: "#10b981" }}>Paystack</strong>,
+          All payments are processed securely through <strong style={{ color: "#4ab84a" }}>Paystack</strong>,
           a PCI DSS-compliant payment gateway trusted across West Africa.
         </p>
         <ul>
@@ -223,7 +223,7 @@ const sections = [
               href="https://t.me/game_analyzer"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#16a34a", textDecoration: "none" }}
+              style={{ color: "#3aaa3a", textDecoration: "none" }}
             >
               @game_analyzer
             </a>
@@ -232,7 +232,7 @@ const sections = [
             <strong>Email:</strong>{" "}
             <a
               href="mailto:support@gameanalyzer.com"
-              style={{ color: "#16a34a", textDecoration: "none" }}
+              style={{ color: "#3aaa3a", textDecoration: "none" }}
             >
               support@gameanalyzer.com
             </a>
@@ -251,29 +251,33 @@ export default function TermsPage() {
     <>
       <Navbar />
 
-      <main style={{ background: "var(--bg, #09090b)", minHeight: "100vh" }}>
+      <main style={{ background: "var(--bg, #0a0a0a)", minHeight: "100vh" }}>
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <section
           className="pt-28 pb-14 relative overflow-hidden"
-          style={{ background: "#09090b" }}
+          style={{ background: "#0a0a0a" }}
         >
-          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-            <div style={{
-              position: "absolute", top: "-20%", left: "50%", transform: "translateX(-50%)",
-              width: "700px", height: "500px", borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(22,163,74,0.1) 0%, transparent 70%)",
-              filter: "blur(80px)",
-            }} />
-          </div>
+          {/* Dot grid */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: "radial-gradient(circle, rgba(31,122,31,0.06) 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
+              maskImage: "radial-gradient(ellipse 70% 50% at 50% 0%, black 20%, transparent 100%)",
+              WebkitMaskImage: "radial-gradient(ellipse 70% 50% at 50% 0%, black 20%, transparent 100%)",
+            }}
+            aria-hidden="true"
+          />
 
           <div className="page-container relative z-10 text-center flex flex-col items-center">
             <div
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-6"
+              className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold tracking-widest uppercase mb-6"
               style={{
-                background: "rgba(22,163,74,0.08)",
-                border: "1px solid rgba(22,163,74,0.25)",
-                color: "#16a34a",
+                background: "rgba(31,122,31,0.08)",
+                border: "1px solid rgba(31,122,31,0.25)",
+                color: "#3aaa3a",
+                borderRadius: "4px",
               }}
             >
               Legal
@@ -281,18 +285,18 @@ export default function TermsPage() {
 
             <h1
               style={{
-                fontFamily: "'Sora', sans-serif",
+                fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 900,
                 fontSize: "clamp(2rem, 6vw, 3.5rem)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.1,
-                color: "#f4f4f5",
+                color: "#f2f2f2",
                 marginBottom: "1rem",
               }}
             >
               Terms of{" "}
               <span style={{
-                background: "linear-gradient(135deg, #16a34a 0%, #10b981 60%, #34d399 100%)",
+                background: "linear-gradient(135deg, #3aaa3a 0%, #4ab84a 60%, #6dd56d 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -311,7 +315,7 @@ export default function TermsPage() {
         <div className="glow-line" aria-hidden="true" />
 
         {/* ── Content ──────────────────────────────────────────── */}
-        <section className="py-16" style={{ background: "#09090b" }}>
+        <section className="py-16" style={{ background: "#0a0a0a" }}>
           <div className="page-container max-w-3xl mx-auto">
 
             {/* Table of Contents */}
@@ -324,10 +328,10 @@ export default function TermsPage() {
             >
               <h2
                 style={{
-                  fontFamily: "'Sora', sans-serif",
+                  fontFamily: "'Space Grotesk', sans-serif",
                   fontWeight: 700,
                   fontSize: "0.85rem",
-                  color: "#f4f4f5",
+                  color: "#f2f2f2",
                   marginBottom: "1rem",
                   letterSpacing: "0.02em",
                 }}
@@ -347,7 +351,7 @@ export default function TermsPage() {
                         display: "inline-flex",
                         gap: "0.5rem",
                       }}
-                      className="hover:text-[#16a34a]"
+                      className="hover:text-[#3aaa3a]"
                     >
                       <span style={{ color: "#3f3f46", minWidth: "1.4rem" }}>{s.number}.</span>
                       {s.title}
@@ -376,15 +380,15 @@ export default function TermsPage() {
                         width: "28px",
                         height: "28px",
                         borderRadius: "8px",
-                        background: section.highlight ? `${section.highlightColor}22` : "rgba(22,163,74,0.1)",
-                        border: `1px solid ${section.highlight ? section.highlightBorder : "rgba(22,163,74,0.2)"}`,
+                        background: section.highlight ? `${section.highlightColor}22` : "rgba(31,122,31,0.1)",
+                        border: `1px solid ${section.highlight ? section.highlightBorder : "rgba(31,122,31,0.2)"}`,
                         display: "inline-flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        fontFamily: "'Sora', sans-serif",
+                        fontFamily: "'Space Grotesk', sans-serif",
                         fontWeight: 800,
                         fontSize: "0.7rem",
-                        color: section.highlight ? section.highlightColor : "#16a34a",
+                        color: section.highlight ? section.highlightColor : "#3aaa3a",
                         flexShrink: 0,
                       }}
                     >
@@ -392,10 +396,10 @@ export default function TermsPage() {
                     </span>
                     <h2
                       style={{
-                        fontFamily: "'Sora', sans-serif",
+                        fontFamily: "'Space Grotesk', sans-serif",
                         fontWeight: 700,
                         fontSize: "1rem",
-                        color: "#f4f4f5",
+                        color: "#f2f2f2",
                         margin: 0,
                       }}
                     >
@@ -407,14 +411,14 @@ export default function TermsPage() {
                         style={{
                           fontSize: "0.65rem",
                           fontWeight: 700,
-                          fontFamily: "'Sora', sans-serif",
+                          fontFamily: "'Space Grotesk', sans-serif",
                           letterSpacing: "0.08em",
                           textTransform: "uppercase",
                           color: section.highlightColor,
                           background: `${section.highlightColor}18`,
                           border: `1px solid ${section.highlightBorder}`,
                           padding: "2px 8px",
-                          borderRadius: "99px",
+                          borderRadius: "4px",
                         }}
                       >
                         {section.id === "instant-access" ? "Instant Access" : "Secure Payment"}
@@ -429,7 +433,7 @@ export default function TermsPage() {
                       fontSize: "0.875rem",
                       lineHeight: 1.8,
                     }}
-                    className="[&_p]:mb-3 [&_p:last-child]:mb-0 [&_ul]:pl-5 [&_ul]:mt-2 [&_ul]:mb-3 [&_li]:mb-1.5 [&_li]:list-disc [&_strong]:text-[#f4f4f5] [&_strong]:font-semibold"
+                    className="[&_p]:mb-3 [&_p:last-child]:mb-0 [&_ul]:pl-5 [&_ul]:mt-2 [&_ul]:mb-3 [&_li]:mb-1.5 [&_li]:list-disc [&_strong]:text-[#f2f2f2] [&_strong]:font-semibold"
                   >
                     {section.content}
                   </div>
@@ -439,15 +443,15 @@ export default function TermsPage() {
 
             {/* Footer nav */}
             <div className="flex items-center justify-center gap-6 mt-12 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-              <Link href="/about" className="text-sm font-medium transition-colors duration-200 hover:text-[#16a34a]" style={{ color: "#52525b" }}>
+              <Link href="/about" className="text-sm font-medium transition-colors duration-200 hover:text-[#3aaa3a]" style={{ color: "#52525b" }}>
                 About Us
               </Link>
               <span style={{ color: "#3f3f46" }}>·</span>
-              <Link href="/faq" className="text-sm font-medium transition-colors duration-200 hover:text-[#16a34a]" style={{ color: "#52525b" }}>
+              <Link href="/faq" className="text-sm font-medium transition-colors duration-200 hover:text-[#3aaa3a]" style={{ color: "#52525b" }}>
                 FAQ
               </Link>
               <span style={{ color: "#3f3f46" }}>·</span>
-              <Link href="/" className="text-sm font-medium transition-colors duration-200 hover:text-[#16a34a]" style={{ color: "#52525b" }}>
+              <Link href="/" className="text-sm font-medium transition-colors duration-200 hover:text-[#3aaa3a]" style={{ color: "#52525b" }}>
                 Home
               </Link>
             </div>
