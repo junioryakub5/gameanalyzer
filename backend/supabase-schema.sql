@@ -32,6 +32,7 @@ create table if not exists payments (
   currency         text default 'GHS',
   status           text not null default 'pending' check (status in ('success','failed','pending')),
   access_token     text not null default gen_random_uuid()::text,
+  slot             integer not null default 1 check (slot in (1, 2)),
   created_at       timestamptz default now()
 );
 
@@ -40,6 +41,7 @@ create index if not exists idx_predictions_status on predictions(status);
 create index if not exists idx_payments_reference on payments(reference);
 create index if not exists idx_payments_email on payments(email);
 create index if not exists idx_payments_access_token on payments(access_token);
+create index if not exists idx_payments_slot on payments(slot);
 
 -- Storage bucket (run separately if not created via UI)
 -- insert into storage.buckets (id, name, public) values ('boomtips25', 'boomtips25', true);
