@@ -244,13 +244,13 @@ const db = {
   },
   async createPayment(data) {
     if (supabase) {
-      const { data: d, error } = await supabase.from('payments').insert({
+      const { data: d, error } = await supabase.from('payments').upsert({
         prediction_id:data.predictionId, prediction_title:data.predictionTitle,
         reference:data.reference, email:data.email.toLowerCase().trim(),
         amount:data.amount, currency:data.currency||'GHS',
         status:data.status, access_token:data.accessToken||uuidv4(),
         slot:data.slot??1,
-      }).select().single();
+      }, { onConflict: 'reference', ignoreDuplicates: true }).select().single();
       if (error) throw error;
       return toMoney(d);
     }
@@ -407,7 +407,7 @@ app.post('/api/payment/initiate', paymentLimiter, async (req, res) => {
         reference,
         metadata: { predictionId, match: prediction.match },
       },
-      { headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` } }
+      { headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` }, timeout: 15000 }
     );
 
     if (!psRes.status) {
@@ -445,12 +445,14 @@ app.post('/api/payment/verify', paymentLimiter, async (req, res) => {
     try {
       const { data: pRes } = await axios.get(
         `https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`,
-        { headers:{ Authorization:`Bearer ${process.env.PAYSTACK_SECRET_KEY}` } }
+        { headers:{ Authorization:`Bearer ${process.env.PAYSTACK_SECRET_KEY}` }, timeout: 15000 }
       );
       txn = pRes.data;
     } catch (axiosErr) {
+      const isTimeout = axiosErr.code === 'ECONNABORTED' || axiosErr.message?.includes('timeout');
       const paystackMsg = axiosErr.response?.data?.message || axiosErr.message;
       console.error('Paystack verify error:', paystackMsg);
+      if (isTimeout) return res.status(504).json({ error: 'Payment gateway timed out. Please try again in a moment.' });
       return res.status(402).json({ error: 'Payment verification failed. Please contact support.' });
     }
 
