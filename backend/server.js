@@ -686,7 +686,11 @@ app.get('/api/health', (req, res) => {
 });
 
 // ─── Global error handler — never leak stack traces ───────────────────────────
-app.use((err, _req, res, _next) => {
+app.use((err, req, res, _next) => {
+  // CORS rejections are expected for blocked origins — don't pollute error logs
+  if (err.message === 'Not allowed by CORS') {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
   console.error('Unhandled error:', err.message);
   res.status(500).json({ error: IS_PROD ? 'Internal server error' : err.message });
 });
