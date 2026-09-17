@@ -310,25 +310,19 @@ const db = {
 
 // ─── Helper: determine next payment slot (alternates 1 → 2 → 1 → 2 …) ────────
 // Slot 1 = visible on admin dashboard | Slot 2 = hidden from dashboard
+// Uses total count parity to avoid race conditions from near-simultaneous payments.
 async function getNextSlot() {
   if (supabase) {
-    const { data } = await supabase
+    const { count } = await supabase
       .from('payments')
-      .select('slot')
-      .eq('status', 'success')
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    // null → no payments yet → first payment gets slot 1
-    // 1 → next is 2; 2 → next is 1
-    const lastSlot = data?.slot ?? null;
-    return lastSlot === 1 ? 2 : 1;
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'success');
+    // Even count → slot 1, Odd count → slot 2
+    return ((count ?? 0) % 2 === 0) ? 1 : 2;
   }
   // In-memory fallback
   const successPayments = memPayments.filter(p => p.status === 'success');
-  if (!successPayments.length) return 1;
-  const lastSlot = successPayments[0].slot ?? 1;
-  return lastSlot === 1 ? 2 : 1;
+  return (successPayments.length % 2 === 0) ? 1 : 2;
 }
 
 // ─── Helper: safe error response (never leak internals) ──────────────────────
