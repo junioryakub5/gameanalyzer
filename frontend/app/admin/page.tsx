@@ -11,6 +11,7 @@ import Image from "next/image";
 import {
   adminGetPredictions, adminCreatePrediction, adminUpdatePrediction,
   adminDeletePrediction, adminGetStats, adminGetPayments, adminUploadImage,
+  adminClearStats,
 } from "@/lib/api";
 import { Prediction, RecentActivity, PaymentRecord } from "@/lib/types";
 
@@ -43,7 +44,7 @@ function StatusBadge({ status }: { status: string }) {
     loss: { background: "rgba(239,68,68,0.12)", color: "#ef4444", border: "1px solid rgba(239,68,68,0.25)" },
   };
   const fallback: React.CSSProperties = {
-    background: "rgba(255,255,255,0.06)", color: "#a1a1aa", border: "1px solid rgba(255,255,255,0.1)",
+    background: "rgba(0,0,0,0.08)", color: "#4a4a4a", border: "1px solid rgba(0,0,0,0.1)",
   };
   return (
     <span
@@ -75,7 +76,7 @@ function Pagination({ page, pages, onPage }: { page: number; pages: number; onPa
         onClick={() => onPage(page - 1)}
         disabled={page <= 1}
         className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
-        style={{ background: "rgba(255,255,255,0.03)", color: "#a1a1aa", border: "1px solid rgba(255,255,255,0.07)" }}
+        style={{ background: "rgba(0,0,0,0.03)", color: "#4a4a4a", border: "1px solid rgba(0,0,0,0.08)" }}
       >
         <ChevronLeft size={15} /> Previous
       </button>
@@ -88,7 +89,7 @@ function Pagination({ page, pages, onPage }: { page: number; pages: number; onPa
             style={
               n === page
                 ? { background: "#1f7a1f", color: "#ffffff", border: "none", boxShadow: "0 2px 12px rgba(31,122,31,0.25)" }
-                : { background: "rgba(255,255,255,0.03)", color: "#52525b", border: "1px solid rgba(255,255,255,0.07)" }
+                : { background: "rgba(0,0,0,0.03)", color: "#52525b", border: "1px solid rgba(0,0,0,0.08)" }
             }
           >
             {n}
@@ -99,7 +100,7 @@ function Pagination({ page, pages, onPage }: { page: number; pages: number; onPa
         onClick={() => onPage(page + 1)}
         disabled={page >= pages}
         className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium transition-colors disabled:opacity-40"
-        style={{ background: "rgba(255,255,255,0.03)", color: "#a1a1aa", border: "1px solid rgba(255,255,255,0.07)" }}
+        style={{ background: "rgba(0,0,0,0.03)", color: "#4a4a4a", border: "1px solid rgba(0,0,0,0.08)" }}
       >
         Next <ChevronRight size={15} />
       </button>
@@ -130,7 +131,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
-      style={{ background: "#0a0a0a" }}
+      style={{ background: "#ffffff" }}
     >
       {/* Dot grid only — clean, analytical */}
       <div
@@ -149,8 +150,8 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
         {/* Solid card — analytics terminal style */}
         <div
           style={{
-            background: "#111111",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "#f7f8f6",
+            border: "1px solid rgba(0,0,0,0.08)",
             borderLeft: "3px solid #1f7a1f",
             borderRadius: "10px",
             overflow: "hidden",
@@ -190,7 +191,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
                     lineHeight: 1,
                   }}
                 >
-                  <span style={{ color: "#f2f2f2" }}>GAME</span>
+                  <span style={{ color: "#0d0d0d" }}>GAME</span>
                   <span style={{ color: "#3aaa3a" }}>ANALYZER</span>
                 </div>
                 <div
@@ -221,7 +222,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
             <div className="mb-6">
               <h1
                 style={{
-                  color: "#f4f4f5",
+                  color: "#0d0d0d",
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontWeight: 800,
                   fontSize: "1.3rem",
@@ -327,10 +328,28 @@ function OverviewSection({ token }: { token: string }) {
     totalRevenue: number; totalSales: number; recentActivity: RecentActivity[];
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [clearing, setClearing] = useState(false);
+  const [confirmClear, setConfirmClear] = useState(false);
 
-  useEffect(() => {
+  const loadStats = () => {
+    setLoading(true);
     adminGetStats(token).then(setStats).catch(console.error).finally(() => setLoading(false));
-  }, [token]);
+  };
+
+  useEffect(() => { loadStats(); }, [token]);
+
+  const handleClear = async () => {
+    setClearing(true);
+    try {
+      await adminClearStats(token);
+      setConfirmClear(false);
+      loadStats();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setClearing(false);
+    }
+  };
 
   if (loading) return (
     <div className="flex items-center justify-center py-24">
@@ -338,7 +357,7 @@ function OverviewSection({ token }: { token: string }) {
     </div>
   );
   if (!stats) return (
-    <div className="text-center py-24" style={{ color: "#a1a1aa" }}>
+    <div className="text-center py-24" style={{ color: "#4a4a4a" }}>
       Failed to load stats.
     </div>
   );
@@ -352,14 +371,71 @@ function OverviewSection({ token }: { token: string }) {
 
   return (
     <div className="space-y-6">
+
+      {/* Confirm clear modal */}
+      {confirmClear && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={() => setConfirmClear(false)}
+        >
+          <div className="absolute inset-0 backdrop-blur-sm" style={{ background: "rgba(0,0,0,0.65)" }} />
+          <div
+            className="relative w-full max-w-sm rounded-2xl p-6 space-y-4"
+            style={{ background: "#f7f8f6", border: "1px solid rgba(0,0,0,0.1)" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: "1.1rem", color: "#0d0d0d" }}>
+              Clear Dashboard Stats?
+            </h3>
+            <p style={{ fontSize: "0.82rem", color: "#52525b", lineHeight: 1.6 }}>
+              All current revenue and sales data will be hidden from the dashboard. Payment records are <strong>not deleted</strong> — this is fully reversible.
+            </p>
+            <div className="flex gap-3 pt-1">
+              <button
+                onClick={() => setConfirmClear(false)}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                style={{ background: "rgba(0,0,0,0.05)", color: "#52525b", border: "1px solid rgba(0,0,0,0.08)" }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleClear}
+                disabled={clearing}
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all"
+                style={{ background: "#ef4444", color: "#ffffff", border: "none", opacity: clearing ? 0.6 : 1 }}
+              >
+                {clearing ? <Loader2 size={14} className="animate-spin" /> : null}
+                {clearing ? "Clearing…" : "Yes, Clear"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Section header + Clear button */}
+      <div className="flex items-center justify-between">
+        <h2 style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: "1rem", color: "#0d0d0d" }}>
+          Overview
+        </h2>
+        <button
+          onClick={() => setConfirmClear(true)}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors"
+          style={{ background: "rgba(239,68,68,0.08)", color: "#ef4444", border: "1px solid rgba(239,68,68,0.2)" }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(239,68,68,0.15)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(239,68,68,0.08)"; }}
+        >
+          <X size={13} /> Clear Dashboard
+        </button>
+      </div>
+
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {statCards.map((s) => (
           <div
             key={s.label}
             style={{
-              background: "#111111",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: "#f7f8f6",
+              border: "1px solid rgba(0,0,0,0.08)",
               borderLeft: `3px solid ${s.iconColor}`,
               borderRadius: "8px",
               padding: "1.25rem",
@@ -397,44 +473,44 @@ function OverviewSection({ token }: { token: string }) {
       {/* Revenue + Slip overview row */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Ghana Payments */}
-        <div style={{ background: "rgba(17,17,23,0.8)", border: "1px solid rgba(31,122,31,0.12)", borderRadius: "8px", padding: "1.25rem", backdropFilter: "blur(10px)" }}>
+        <div style={{ background: "#ffffff", border: "1px solid rgba(0,0,0,0.08)", borderLeft: "3px solid #4ab84a", borderRadius: "8px", padding: "1.25rem" }}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <div style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(74,184,74,0.1)", border: "1px solid rgba(74,184,74,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Globe2 size={16} style={{ color: "#4ab84a" }} />
               </div>
-              <h3 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.9rem", fontFamily: "'Space Grotesk',sans-serif" }}>Ghana Payments</h3>
+              <h3 style={{ color: "#0d0d0d", fontWeight: 700, fontSize: "0.9rem", fontFamily: "'Space Grotesk',sans-serif" }}>Ghana Payments</h3>
             </div>
           </div>
           <div className="flex justify-between text-sm mb-3">
             <span style={{ color: "#52525b" }}>Revenue</span>
             <span style={{ fontWeight: 800, color: "#4ab84a", fontFamily: "'Space Grotesk',sans-serif", fontSize: "1rem" }}>GHS {stats.totalRevenue.toFixed(2)}</span>
           </div>
-          <div style={{ height: "1px", background: "rgba(255,255,255,0.05)", marginBottom: "0.75rem" }} />
+          <div style={{ height: "1px", background: "rgba(0,0,0,0.07)", marginBottom: "0.75rem" }} />
           <div className="flex justify-between text-sm">
             <span style={{ color: "#52525b" }}>Sales</span>
-            <span style={{ fontWeight: 700, color: "#f4f4f5" }}>{stats.totalSales}</span>
+            <span style={{ fontWeight: 700, color: "#0d0d0d" }}>{stats.totalSales}</span>
           </div>
         </div>
 
         {/* Slip Overview */}
-        <div style={{ background: "rgba(17,17,23,0.8)", border: "1px solid rgba(31,122,31,0.12)", borderRadius: "8px", padding: "1.25rem", backdropFilter: "blur(10px)" }}>
+        <div style={{ background: "#ffffff", border: "1px solid rgba(0,0,0,0.08)", borderLeft: "3px solid #3aaa3a", borderRadius: "8px", padding: "1.25rem" }}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <div style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(31,122,31,0.1)", border: "1px solid rgba(31,122,31,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <BarChart2 size={16} style={{ color: "#3aaa3a" }} />
               </div>
-              <h3 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.9rem", fontFamily: "'Space Grotesk',sans-serif" }}>Slip Overview</h3>
+              <h3 style={{ color: "#0d0d0d", fontWeight: 700, fontSize: "0.9rem", fontFamily: "'Space Grotesk',sans-serif" }}>Slip Overview</h3>
             </div>
           </div>
           <div className="flex justify-between text-sm mb-3">
             <span style={{ color: "#52525b" }}>Active</span>
             <span style={{ fontWeight: 800, color: "#3aaa3a", fontFamily: "'Space Grotesk',sans-serif", fontSize: "1rem" }}>{stats.activeSlips}</span>
           </div>
-          <div style={{ height: "1px", background: "rgba(255,255,255,0.05)", marginBottom: "0.75rem" }} />
+          <div style={{ height: "1px", background: "rgba(0,0,0,0.07)", marginBottom: "0.75rem" }} />
           <div className="flex justify-between text-sm">
             <span style={{ color: "#52525b" }}>Completed</span>
-            <span style={{ fontWeight: 700, color: "#f4f4f5" }}>{stats.completedSlips}</span>
+            <span style={{ fontWeight: 700, color: "#0d0d0d" }}>{stats.completedSlips}</span>
           </div>
         </div>
       </div>
@@ -443,15 +519,15 @@ function OverviewSection({ token }: { token: string }) {
       <div
         className="rounded-2xl overflow-hidden"
         style={{
-          background: "#111111",
-          border: "1px solid rgba(255,255,255,0.06)",
+          background: "#f7f8f6",
+          border: "1px solid rgba(0,0,0,0.08)",
         }}
       >
         <div
           className="px-5 py-4"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+          style={{ borderBottom: "1px solid rgba(0,0,0,0.08)" }}
         >
-          <h3 className="font-semibold" style={{ color: "#f4f4f5" }}>
+          <h3 className="font-semibold" style={{ color: "#0d0d0d" }}>
             Recent Payments
           </h3>
         </div>
@@ -468,8 +544,8 @@ function OverviewSection({ token }: { token: string }) {
               <div
                 key={act._id}
                 className="flex items-center justify-between px-5 py-3.5 transition-colors"
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)")}
+                style={{ borderBottom: "1px solid rgba(0,0,0,0.04)" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.02)")}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
               >
                 <div className="flex items-center gap-3">
@@ -484,7 +560,7 @@ function OverviewSection({ token }: { token: string }) {
                     {act.email[0].toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-sm font-medium" style={{ color: "#a1a1aa" }}>
+                    <p className="text-sm font-medium" style={{ color: "#4a4a4a" }}>
                       {act.email}
                     </p>
                     <p className="text-xs" style={{ color: "#52525b" }}>
@@ -599,8 +675,8 @@ function SlipModal({
       <div
         className="relative w-full max-w-2xl rounded-2xl overflow-y-auto max-h-[90vh]"
         style={{
-          background: "#111111",
-          border: "1px solid rgba(255,255,255,0.08)",
+          background: "#f7f8f6",
+          border: "1px solid rgba(0,0,0,0.08)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -608,13 +684,13 @@ function SlipModal({
         <div
           className="flex items-center justify-between px-6 py-4 sticky top-0 z-10"
           style={{
-            background: "#111111",
-            borderBottom: "1px solid rgba(255,255,255,0.07)",
+            background: "#f7f8f6",
+            borderBottom: "1px solid rgba(0,0,0,0.08)",
           }}
         >
           <h2
             className="font-bold text-lg"
-            style={{ color: "#f4f4f5", fontFamily: "'Space Grotesk', sans-serif" }}
+            style={{ color: "#0d0d0d", fontFamily: "'Space Grotesk', sans-serif" }}
           >
             {editing ? "Edit Slip" : "Create Slip"}
           </h2>
@@ -638,7 +714,7 @@ function SlipModal({
             <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#52525b" }}>
               Match Details
             </p>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
               Title *
             </label>
             <input
@@ -653,7 +729,7 @@ function SlipModal({
 
           {/* Odds Category */}
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
               Odds Category
             </label>
             <select
@@ -672,7 +748,7 @@ function SlipModal({
 
           {/* Price */}
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
               Price (GHS)
             </label>
             <input
@@ -693,7 +769,7 @@ function SlipModal({
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+                <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
                   League
                 </label>
                 <input
@@ -705,7 +781,7 @@ function SlipModal({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+                <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
                   Odds (display)
                 </label>
                 <input
@@ -722,7 +798,7 @@ function SlipModal({
           {/* Start / End Day */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
                 Start Day
               </label>
               <input
@@ -734,7 +810,7 @@ function SlipModal({
               />
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
                 End Day
               </label>
               <input
@@ -749,7 +825,7 @@ function SlipModal({
 
           {/* Date */}
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
               Date *
             </label>
             <input
@@ -769,7 +845,7 @@ function SlipModal({
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+                <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
                   Status
                 </label>
                 <select
@@ -784,7 +860,7 @@ function SlipModal({
               </div>
               {form.status === "completed" && (
                 <div>
-                  <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
                     Result
                   </label>
                   <select
@@ -812,7 +888,7 @@ function SlipModal({
             <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#52525b" }}>
               Prediction Content
             </p>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
               Prediction / Booking Code
             </label>
             <textarea
@@ -827,7 +903,7 @@ function SlipModal({
 
           {/* Booking code */}
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
               Betting Code{" "}
               <span style={{ color: "#52525b", fontWeight: 400 }}>(shown prominently when unlocked)</span>
             </label>
@@ -842,7 +918,7 @@ function SlipModal({
 
           {/* Tips list */}
           <div>
-            <label className="block text-xs font-medium mb-1.5" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: "#4a4a4a" }}>
               Tips (one per line)
             </label>
             <textarea
@@ -860,7 +936,7 @@ function SlipModal({
             <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#52525b" }}>
               Images
             </p>
-            <label className="block text-xs font-medium mb-2" style={{ color: "#a1a1aa" }}>
+            <label className="block text-xs font-medium mb-2" style={{ color: "#4a4a4a" }}>
               Bet Slip Image{" "}
               <span style={{ color: "#52525b", fontWeight: 400 }}>(shown blurred before payment)</span>
             </label>
@@ -871,9 +947,9 @@ function SlipModal({
                 disabled={uploading}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors disabled:opacity-60"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "2px dashed rgba(255,255,255,0.12)",
-                  color: "#a1a1aa",
+                  background: "rgba(0,0,0,0.04)",
+                  border: "2px dashed rgba(0,0,0,0.15)",
+                  color: "#4a4a4a",
                   width: "100%",
                   justifyContent: "center",
                 }}
@@ -901,7 +977,7 @@ function SlipModal({
                   src={imgPreview}
                   alt="Slip preview"
                   className="h-28 rounded-xl object-cover"
-                  style={{ border: "1px solid rgba(255,255,255,0.1)", background: "#0d0d0d" }}
+                  style={{ border: "1px solid rgba(0,0,0,0.1)", background: "#f7f8f6" }}
                 />
                 <button
                   type="button"
@@ -977,7 +1053,7 @@ function SlipModal({
                     src={proofPreview}
                     alt="Proof preview"
                     className="h-28 rounded-xl object-cover"
-                    style={{ border: "1px solid rgba(74,184,74,0.3)", background: "#0d0d0d" }}
+                    style={{ border: "1px solid rgba(74,184,74,0.3)", background: "#f7f8f6" }}
                   />
                   <button
                     type="button"
@@ -1141,7 +1217,7 @@ function ManageSlipsSection({ token }: { token: string }) {
           {/* Filter pills */}
           <div
             className="flex items-center gap-1 p-1 rounded-xl"
-            style={{ background: "#191919", border: "1px solid rgba(255,255,255,0.07)" }}
+            style={{ background: "#f0f0f0", border: "1px solid rgba(0,0,0,0.08)" }}
           >
             {(["all", "active", "completed"] as const).map((f) => (
               <button
@@ -1168,8 +1244,8 @@ function ManageSlipsSection({ token }: { token: string }) {
       <div
         className="admin-card overflow-hidden"
         style={{
-          background: "#111111",
-          border: "1px solid rgba(255,255,255,0.06)",
+          background: "#f7f8f6",
+          border: "1px solid rgba(0,0,0,0.08)",
           borderRadius: "8px",
         }}
       >
@@ -1181,7 +1257,7 @@ function ManageSlipsSection({ token }: { token: string }) {
           <div className="py-16 text-center">
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
+              style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.08)" }}
             >
               <Inbox size={22} style={{ color: "#52525b" }} />
             </div>
@@ -1201,14 +1277,14 @@ function ManageSlipsSection({ token }: { token: string }) {
                   key={slip._id}
                   className="px-4 py-4 flex items-center gap-3"
                   style={{
-                    background: idx % 2 === 0 ? "#111111" : "#131318",
-                    borderBottom: "1px solid rgba(255,255,255,0.04)",
+                    background: idx % 2 === 0 ? "#ffffff" : "#f7f8f6",
+                    borderBottom: "1px solid rgba(0,0,0,0.04)",
                   }}
                 >
                   <div className="flex-1 min-w-0">
                     <p
                       className="text-sm font-semibold truncate"
-                      style={{ color: "#f4f4f5" }}
+                      style={{ color: "#0d0d0d" }}
                     >
                       {slip.match}
                     </p>
@@ -1275,7 +1351,7 @@ function ManageSlipsSection({ token }: { token: string }) {
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr style={{ background: "#191919", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                  <tr style={{ background: "#f0f0f0", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
                     {["Title", "Odds", "Price", "Status", "Result", "Actions"].map((h) => (
                       <th
                         key={h}
@@ -1292,20 +1368,20 @@ function ManageSlipsSection({ token }: { token: string }) {
                     <tr
                       key={slip._id}
                       style={{
-                        background: idx % 2 === 0 ? "#111111" : "#131318",
-                        borderBottom: "1px solid rgba(255,255,255,0.04)",
+                        background: idx % 2 === 0 ? "#ffffff" : "#f7f8f6",
+                        borderBottom: "1px solid rgba(0,0,0,0.04)",
                       }}
                     >
                       <td
                         className="px-5 py-4 text-sm font-medium max-w-[220px] truncate"
-                        style={{ color: "#f4f4f5" }}
+                        style={{ color: "#0d0d0d" }}
                       >
                         {slip.match}
                       </td>
                       <td className="px-5 py-4">
                         <OddsBadge cat={slip.oddsCategory} />
                       </td>
-                      <td className="px-5 py-4 text-sm" style={{ color: "#a1a1aa" }}>
+                      <td className="px-5 py-4 text-sm" style={{ color: "#4a4a4a" }}>
                         GHS {slip.price}
                       </td>
                       <td className="px-5 py-4">
@@ -1374,7 +1450,7 @@ function ManageSlipsSection({ token }: { token: string }) {
             <div
               className="px-5 py-3 text-xs"
               style={{
-                borderTop: "1px solid rgba(255,255,255,0.06)",
+                borderTop: "1px solid rgba(0,0,0,0.08)",
                 color: "#52525b",
               }}
             >
@@ -1466,8 +1542,8 @@ function PaymentsSection({ token }: { token: string }) {
       <div
         className="admin-card overflow-hidden"
         style={{
-          background: "#111111",
-          border: "1px solid rgba(255,255,255,0.06)",
+          background: "#f7f8f6",
+          border: "1px solid rgba(0,0,0,0.08)",
           borderRadius: "8px",
         }}
       >
@@ -1488,8 +1564,8 @@ function PaymentsSection({ token }: { token: string }) {
                   key={pmt._id}
                   className="px-4 py-4"
                   style={{
-                    background: idx % 2 === 0 ? "#111111" : "#131318",
-                    borderBottom: "1px solid rgba(255,255,255,0.04)",
+                    background: idx % 2 === 0 ? "#ffffff" : "#f7f8f6",
+                    borderBottom: "1px solid rgba(0,0,0,0.04)",
                   }}
                 >
                   <div className="flex items-center justify-between mb-1.5">
@@ -1506,7 +1582,7 @@ function PaymentsSection({ token }: { token: string }) {
                       </div>
                       <span
                         className="text-sm truncate max-w-[160px]"
-                        style={{ color: "#a1a1aa" }}
+                        style={{ color: "#4a4a4a" }}
                       >
                         {pmt.email}
                       </span>
@@ -1538,7 +1614,7 @@ function PaymentsSection({ token }: { token: string }) {
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr style={{ background: "#191919", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                  <tr style={{ background: "#f0f0f0", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
                     {["Customer", "Slip", "Reference", "Amount", "Status", "Date"].map((h) => (
                       <th
                         key={h}
@@ -1555,8 +1631,8 @@ function PaymentsSection({ token }: { token: string }) {
                     <tr
                       key={pmt._id}
                       style={{
-                        background: idx % 2 === 0 ? "#111111" : "#131318",
-                        borderBottom: "1px solid rgba(255,255,255,0.04)",
+                        background: idx % 2 === 0 ? "#ffffff" : "#f7f8f6",
+                        borderBottom: "1px solid rgba(0,0,0,0.04)",
                       }}
                     >
                       <td className="px-5 py-4">
@@ -1571,7 +1647,7 @@ function PaymentsSection({ token }: { token: string }) {
                           >
                             {pmt.email[0].toUpperCase()}
                           </div>
-                          <span className="text-sm" style={{ color: "#a1a1aa" }}>
+                          <span className="text-sm" style={{ color: "#4a4a4a" }}>
                             {pmt.email}
                           </span>
                         </div>
@@ -1616,7 +1692,7 @@ function PaymentsSection({ token }: { token: string }) {
             <div
               className="px-5 py-3 text-xs"
               style={{
-                borderTop: "1px solid rgba(255,255,255,0.06)",
+                borderTop: "1px solid rgba(0,0,0,0.08)",
                 color: "#52525b",
               }}
             >
@@ -1660,7 +1736,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       {/* Brand */}
       <div
         className="px-5 py-5 flex items-center justify-between"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        style={{ borderBottom: "1px solid rgba(0,0,0,0.08)" }}
       >
         <div className="flex items-center gap-2.5">
           <div
@@ -1676,7 +1752,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
                 fontWeight: 700,
                 fontSize: "0.95rem",
                 letterSpacing: "-0.02em",
-                color: "#f4f4f5",
+                color: "#0d0d0d",
               }}
             >
               GAME{" "}
@@ -1739,7 +1815,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       </nav>
 
       {/* Logout */}
-      <div className="px-2 py-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="px-2 py-4" style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
         <button
           onClick={onLogout}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all"
@@ -1769,7 +1845,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
   return (
     <div
       className="min-h-screen flex flex-col md:flex-row"
-      style={{ background: "#0a0a0a" }}
+      style={{ background: "#ffffff" }}
     >
       {/* ── Mobile drawer overlay ── */}
       {drawerOpen && (
@@ -1784,8 +1860,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       <div
         className={`fixed top-0 left-0 h-full z-50 flex flex-col w-72 transition-transform duration-300 md:hidden ${drawerOpen ? "translate-x-0" : "-translate-x-full"}`}
         style={{
-          background: "#0e0e14",
-          borderRight: "1px solid rgba(31,122,31,0.1)",
+          background: "#f7f8f6",
+          borderRight: "1px solid rgba(0,0,0,0.08)",
         }}
       >
         {/* Green gradient top line */}
@@ -1797,8 +1873,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       <aside
         className="hidden md:flex flex-shrink-0 flex-col"
         style={{
-          background: "#0e0e14",
-          borderRight: "1px solid rgba(31,122,31,0.1)",
+          background: "#f7f8f6",
+          borderRight: "1px solid rgba(0,0,0,0.08)",
           width: "224px",
         }}
       >
@@ -1814,8 +1890,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
         <header
           className="md:hidden flex items-center justify-between px-4 py-3 sticky top-0 z-30"
           style={{
-            background: "rgba(9,9,11,0.9)",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
+            background: "rgba(247,248,246,0.95)",
+            borderBottom: "1px solid rgba(0,0,0,0.08)",
             backdropFilter: "saturate(180%) blur(20px)",
           }}
         >
@@ -1824,8 +1900,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
             className="p-2 rounded-xl transition-colors"
             style={{
               color: "#52525b",
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.07)",
+              background: "rgba(0,0,0,0.04)",
+              border: "1px solid rgba(0,0,0,0.08)",
             }}
           >
             <Menu size={20} />
@@ -1836,7 +1912,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
               fontWeight: 700,
               fontSize: "1rem",
               letterSpacing: "-0.02em",
-              color: "#f4f4f5",
+              color: "#0d0d0d",
             }}
           >
             GAME <span style={{ color: "#3aaa3a" }}>ANALYZER</span>
@@ -1846,8 +1922,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
             className="p-2 rounded-xl transition-colors"
             style={{
               color: "#52525b",
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.07)",
+              background: "rgba(0,0,0,0.04)",
+              border: "1px solid rgba(0,0,0,0.08)",
             }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#f87171")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#52525b")}
@@ -1867,7 +1943,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
                 fontWeight: 700,
                 fontSize: "clamp(1.3rem,4vw,1.8rem)",
                 letterSpacing: "-0.03em",
-                color: "#f4f4f5",
+                color: "#0d0d0d",
               }}
             >
               {sectionTitle[section]}
@@ -1882,8 +1958,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
         <nav
           className="md:hidden fixed bottom-0 left-0 right-0 z-30 flex"
           style={{
-            background: "#111111",
-            borderTop: "1px solid rgba(255,255,255,0.07)",
+            background: "#f7f8f6",
+            borderTop: "1px solid rgba(0,0,0,0.08)",
             backdropFilter: "saturate(180%) blur(20px)",
           }}
         >
@@ -1935,7 +2011,7 @@ export default function AdminPage() {
   if (!ready) return (
     <div
       className="min-h-screen"
-      style={{ background: "#0a0a0a" }}
+      style={{ background: "#ffffff" }}
     />
   );
 

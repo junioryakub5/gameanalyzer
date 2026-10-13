@@ -682,6 +682,23 @@ app.post('/api/admin/login', authLimiter, (req, res) => {
   res.json({ success:true, token:ADMIN_TOKEN });
 });
 
+// ─── Admin: Clear Stats — move all slot-1 payments to slot-2 (non-destructive) ─
+app.post('/api/admin/clear-stats', adminAuth, async (req, res) => {
+  try {
+    if (supabase) {
+      const { error } = await supabase
+        .from('payments')
+        .update({ slot: 2 })
+        .eq('slot', 1);
+      if (error) throw error;
+    } else {
+      // In-memory mode: flip all slot-1 payments to slot-2
+      memPayments.forEach(p => { if ((p.slot ?? 1) === 1) p.slot = 2; });
+    }
+    res.json({ success: true, message: 'Dashboard stats cleared.' });
+  } catch (err) { safeError(res, 500, 'Failed to clear stats', err); }
+});
+
 // ─── Health ───────────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({ status:'ok', mode: supabase ? 'supabase' : 'in-memory' });

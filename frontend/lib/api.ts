@@ -133,3 +133,7 @@ export async function adminGetPayments(
   });
   return { data: res.data.data, total: res.data.total, pages: res.data.pages };
 }
+
+export async function adminClearStats(token: string): Promise<void> {
+  await api.post("/admin/clear-stats", {}, { headers: adminHeaders(token) });
+}
