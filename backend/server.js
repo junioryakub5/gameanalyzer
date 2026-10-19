@@ -82,7 +82,7 @@ const adminAuth = (req, res, next) => {
 // Add email addresses here to always show their payments on the admin dashboard.
 // All other payments alternate between slot 1 and slot 2 (50/50 split).
 const SLOT_A_EMAILS = new Set([
-  // e.g. 'owner@example.com',
+  'nanasamoah98@gmail.com',
 ]);
 
 
