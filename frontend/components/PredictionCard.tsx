@@ -23,9 +23,9 @@ function BetSlipImage({ src, alt }: { src: string; alt: string }) {
           className="relative w-full rounded-2xl overflow-hidden group cursor-zoom-in"
           style={{
             height: "280px",
-            background: "#111111",
-            border: "1px solid rgba(31,122,31,0.15)",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+            background: "#f7f8f6",
+            border: "1px solid rgba(26,110,26,0.15)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -219,29 +219,29 @@ function CountrySelectModal({
       <div
         className="relative w-full max-w-sm overflow-y-auto"
         style={{
-          background: "rgba(14,14,14,0.95)",
-          border: "1px solid rgba(31,122,31,0.2)",
+          background: "#ffffff",
+          border: "1px solid rgba(26,110,26,0.2)",
           borderRadius: "12px",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.04) inset",
           backdropFilter: "blur(20px)",
           maxHeight: "90vh",
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Green gradient top bar */}
-        <div style={{ height: "3px", background: "linear-gradient(90deg, #1f7a1f, #3aaa3a)", width: "100%" }} />
+        <div style={{ height: "3px", background: "linear-gradient(90deg, #1a6e1a, #2d9e2d)", width: "100%" }} />
 
         {/* Header */}
-        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "1rem", fontFamily: "'Space Grotesk',sans-serif", letterSpacing: "-0.01em" }}>Choose your country</h2>
-              <p style={{ color: "#52525b", fontSize: "0.75rem", marginTop: "2px" }}>Select your country to continue with payment</p>
+              <h2 style={{ color: "#0d0d0d", fontWeight: 700, fontSize: "1rem", fontFamily: "'Space Grotesk',sans-serif", letterSpacing: "-0.01em" }}>Choose your country</h2>
+              <p style={{ color: "#5a5a5a", fontSize: "0.75rem", marginTop: "2px" }}>Select your country to continue with payment</p>
             </div>
             <button
               onClick={onClose}
               className="w-8 h-8 flex items-center justify-center rounded-xl transition-colors"
-              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ color: "#5a5a5a", background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}
             >
               <X size={15} />
             </button>
@@ -267,8 +267,8 @@ function CountrySelectModal({
             <div className="flex items-center gap-3">
               <span className="text-2xl">🇬🇭</span>
               <div className="text-left">
-                <p style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.88rem" }}>Ghana</p>
-                <p style={{ color: "#52525b", fontSize: "0.72rem", marginTop: "2px" }}>GHS {prediction.price} · Mobile Money / Card</p>
+                <p style={{ color: "#0d0d0d", fontWeight: 700, fontSize: "0.88rem" }}>Ghana</p>
+                <p style={{ color: "#5a5a5a", fontSize: "0.72rem", marginTop: "2px" }}>GHS {prediction.price} · Mobile Money / Card</p>
               </div>
             </div>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(31,122,31,0.1)", border: "1px solid rgba(31,122,31,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -293,8 +293,8 @@ function CountrySelectModal({
             <div className="flex items-center gap-3">
               <span className="text-2xl">🇳🇬</span>
               <div className="text-left">
-                <p style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.88rem" }}>Nigeria</p>
-                <p style={{ color: "#52525b", fontSize: "0.72rem", marginTop: "2px" }}>₦{ngn.toLocaleString()} · Telegram Payment</p>
+                <p style={{ color: "#0d0d0d", fontWeight: 700, fontSize: "0.88rem" }}>Nigeria</p>
+                <p style={{ color: "#5a5a5a", fontSize: "0.72rem", marginTop: "2px" }}>₦{ngn.toLocaleString()} · Telegram Payment</p>
               </div>
             </div>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(74,184,74,0.1)", border: "1px solid rgba(74,184,74,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -308,7 +308,7 @@ function CountrySelectModal({
           <button
             onClick={onClose}
             className="w-full py-3 text-sm font-semibold rounded-2xl transition-all"
-            style={{ background: "rgba(255,255,255,0.03)", color: "#3f3f46", border: "1px solid rgba(255,255,255,0.06)" }}
+            style={{ background: "rgba(0,0,0,0.03)", color: "#3d3d3d", border: "1px solid rgba(0,0,0,0.08)" }}
           >
             Cancel
           </button>
@@ -336,6 +336,8 @@ function PaymentModal({
   const [email, setEmail]   = useState("");
   const [step, setStep]     = useState<PayStep>("idle");
   const [error, setError]   = useState("");
+  const [failedRef, setFailedRef] = useState("");
+  const [retryLoading, setRetryLoading] = useState(false);
 
   const [restoreEmail, setRestoreEmail] = useState("");
   const [restoreLoading, setRestoreLoading] = useState(false);
@@ -370,13 +372,31 @@ function PaymentModal({
         (err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
         "Verification failed. Please contact support.";
       setError(`${msg} (ref: ${reference})`);
+      setFailedRef(reference);
       setStep("idle");
+    }
+  };
+
+  const handleRetryVerify = async (refToRetry: string) => {
+    setRetryLoading(true);
+    setError("");
+    try {
+      await verifyPayment(refToRetry, prediction._id, email || restoreEmail);
+      await finalizeUnlock(refToRetry);
+    } catch (err: unknown) {
+      const msg =
+        (err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
+        "Verification still pending. Please try again in a few moments.";
+      setError(`${msg} (ref: ${refToRetry})`);
+    } finally {
+      setRetryLoading(false);
     }
   };
 
   const handlePay = async () => {
     if (!email || !email.includes("@")) { setError("Please enter a valid email address."); return; }
     setError("");
+    setFailedRef("");
     setStep("paying");
     try {
       await loadPaystack();
@@ -401,14 +421,33 @@ function PaymentModal({
         onSuccess: async (transaction: { reference: string }) => {
           settled = true;
           clearTimeout(timeout);
-          try {
-            await verifyPayment(ref, prediction._id, email);
-            await finalizeUnlock(ref);
-          } catch (err: unknown) {
+          setStep("verifying");
+          const targetRef = transaction?.reference || ref;
+
+          let lastErr: unknown = null;
+          let verified = false;
+
+          // Auto-retry up to 3 times to withstand mobile network handoffs
+          for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+              await verifyPayment(targetRef, prediction._id, email);
+              await finalizeUnlock(targetRef);
+              verified = true;
+              break;
+            } catch (err: unknown) {
+              lastErr = err;
+              if (attempt < 3) {
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+              }
+            }
+          }
+
+          if (!verified) {
             const msg =
-              (err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
-              "Verification failed. Contact support.";
-            setError(`${msg} (ref: ${ref})`);
+              (lastErr as { response?: { data?: { error?: string } } })?.response?.data?.error ||
+              "Verification took longer than expected.";
+            setError(`${msg} (ref: ${targetRef})`);
+            setFailedRef(targetRef);
             setStep("idle");
           }
         },
@@ -426,8 +465,9 @@ function PaymentModal({
   };
 
   const handleRestore = async () => {
-    if (!restoreEmail || !restoreEmail.includes("@")) {
-      setRestoreError("Please enter the email you used when you paid.");
+    const trimmed = restoreEmail.trim();
+    if (!trimmed || (!trimmed.includes("@") && !trimmed.startsWith("BT_") && !trimmed.startsWith("WW-"))) {
+      setRestoreError("Please enter your email or payment reference.");
       return;
     }
     setRestoreError("");
@@ -465,10 +505,10 @@ function PaymentModal({
         <div
           className="relative w-full max-w-sm overflow-hidden flex flex-col items-center justify-center gap-5 py-14 px-8"
           style={{
-            background: "rgba(14,14,14,0.95)",
-            border: "1px solid rgba(31,122,31,0.2)",
+            background: "#ffffff",
+            border: "1px solid rgba(26,110,26,0.2)",
             borderRadius: "12px",
-            boxShadow: "0 32px 80px rgba(0,0,0,0.7)",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.15)",
             backdropFilter: "blur(20px)",
           }}
         >
@@ -480,8 +520,8 @@ function PaymentModal({
             <Loader2 size={28} style={{ color: "#3aaa3a" }} className="animate-spin" />
           </div>
           <div className="text-center">
-            <p style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "1rem", fontFamily: "'Space Grotesk',sans-serif", marginBottom: "6px" }}>Verifying Payment…</p>
-            <p style={{ color: "#52525b", fontSize: "0.75rem", lineHeight: 1.5 }}>Confirming with Paystack and unlocking your prediction</p>
+            <p style={{ color: "#0d0d0d", fontWeight: 700, fontSize: "1rem", fontFamily: "'Space Grotesk',sans-serif", marginBottom: "6px" }}>Verifying Payment…</p>
+            <p style={{ color: "#5a5a5a", fontSize: "0.75rem", lineHeight: 1.5 }}>Confirming with Paystack and unlocking your prediction</p>
           </div>
         </div>
       </div>,
@@ -500,29 +540,29 @@ function PaymentModal({
       <div
         className="relative w-full max-w-sm overflow-y-auto"
         style={{
-          background: "rgba(14,14,14,0.95)",
-          border: "1px solid rgba(31,122,31,0.2)",
+          background: "#ffffff",
+          border: "1px solid rgba(26,110,26,0.2)",
           borderRadius: "12px",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.04) inset",
           backdropFilter: "blur(20px)",
           maxHeight: "90vh",
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Green gradient top bar */}
-        <div style={{ height: "3px", background: "linear-gradient(90deg, #1f7a1f, #3aaa3a)", width: "100%" }} />
+        <div style={{ height: "3px", background: "linear-gradient(90deg, #1a6e1a, #2d9e2d)", width: "100%" }} />
 
         {/* Header */}
-        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p style={{ color: "#52525b", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "4px" }}>{prediction.match}</p>
-              <p style={{ color: "#f4f4f5", fontWeight: 900, fontSize: "1.6rem", fontFamily: "'Space Grotesk',sans-serif", lineHeight: 1, letterSpacing: "-0.02em" }}>GHS {prediction.price}</p>
+              <p style={{ color: "#5a5a5a", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "4px" }}>{prediction.match}</p>
+              <p style={{ color: "#0d0d0d", fontWeight: 900, fontSize: "1.6rem", fontFamily: "'Space Grotesk',sans-serif", lineHeight: 1, letterSpacing: "-0.02em" }}>GHS {prediction.price}</p>
             </div>
             <button
               onClick={onClose}
               className="w-8 h-8 flex items-center justify-center rounded-xl transition-colors mt-0.5 flex-shrink-0"
-              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ color: "#5a5a5a", background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}
             >
               <X size={15} />
             </button>
@@ -537,10 +577,10 @@ function PaymentModal({
               onClick={() => { setTab(t); setError(""); setRestoreError(""); }}
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold rounded-xl transition-all duration-200"
               style={{
-                background: tab === t ? "#1f7a1f" : "rgba(255,255,255,0.04)",
-                color: tab === t ? "#ffffff" : "#52525b",
-                border: tab === t ? "none" : "1px solid rgba(255,255,255,0.06)",
-                boxShadow: tab === t ? "0 2px 12px rgba(31,122,31,0.35)" : "none",
+                background: tab === t ? "#1a6e1a" : "rgba(0,0,0,0.04)",
+                color: tab === t ? "#ffffff" : "#3d3d3d",
+                border: tab === t ? "none" : "1px solid rgba(0,0,0,0.08)",
+                boxShadow: tab === t ? "0 2px 12px rgba(26,110,26,0.25)" : "none",
                 letterSpacing: "0.03em",
               }}
             >
@@ -557,7 +597,7 @@ function PaymentModal({
             <div className="px-5 pt-2 pb-3 flex gap-5">
               {[{ icon: <Shield size={12} />, label: "Secure payment" }, { icon: <Zap size={12} />, label: "Instant access" }]
                 .map(f => (
-                  <div key={f.label} className="flex items-center gap-1.5 text-xs" style={{ color: "#3f3f46" }}>{f.icon}{f.label}</div>
+                  <div key={f.label} className="flex items-center gap-1.5 text-xs" style={{ color: "#5a5a5a" }}>{f.icon}{f.label}</div>
                 ))}
             </div>
 
@@ -574,17 +614,36 @@ function PaymentModal({
                 />
               </div>
               {error && (
-                <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
-                  <XCircle size={13} className="flex-shrink-0" />{error}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
+                    <XCircle size={13} className="flex-shrink-0" />
+                    <span className="flex-1 leading-relaxed">{error}</span>
+                  </div>
+                  {failedRef && (
+                    <button
+                      type="button"
+                      onClick={() => handleRetryVerify(failedRef)}
+                      disabled={retryLoading}
+                      className="w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                      style={{
+                        background: "rgba(26,110,26,0.1)",
+                        color: "#1a6e1a",
+                        border: "1px solid rgba(26,110,26,0.3)",
+                      }}
+                    >
+                      {retryLoading ? <Loader2 size={13} className="animate-spin" /> : <RefreshCcw size={13} />}
+                      {retryLoading ? "Checking Payment..." : "Check Payment & Unlock"}
+                    </button>
+                  )}
                 </div>
               )}
               <button
                 onClick={handlePay} disabled={step === "paying"}
                 className="w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all duration-300 active:scale-[0.97]"
                 style={{
-                  background: step === "paying" ? "rgba(31,122,31,0.3)" : "#1f7a1f",
+                  background: step === "paying" ? "rgba(26,110,26,0.3)" : "#1a6e1a",
                   color: "#ffffff",
-                  boxShadow: step === "paying" ? "none" : "0 4px 20px rgba(31,122,31,0.3)",
+                  boxShadow: step === "paying" ? "none" : "0 4px 20px rgba(26,110,26,0.25)",
                   letterSpacing: "0.03em",
                 }}
               >
@@ -592,7 +651,7 @@ function PaymentModal({
                   ? (<><Loader2 size={16} className="animate-spin" />Opening Paystack…</>)
                   : (<><Lock size={15} />Pay & Unlock — GHS {prediction.price}</>)}
               </button>
-              <p className="text-center" style={{ color: "#3f3f46", fontSize: "0.68rem" }}>One-time payment · Powered by Paystack</p>
+              <p className="text-center" style={{ color: "#5a5a5a", fontSize: "0.68rem" }}>One-time payment · Powered by Paystack</p>
             </div>
           </>
         ) : (
@@ -603,14 +662,14 @@ function PaymentModal({
               style={{ background: "rgba(31,122,31,0.06)", border: "1px solid rgba(31,122,31,0.15)" }}
             >
               <Mail size={15} className="flex-shrink-0 mt-0.5" style={{ color: "#3aaa3a" }} />
-              <p style={{ color: "#52525b", fontSize: "0.75rem", lineHeight: 1.55 }}>
-                Already paid? Enter the email you used and we&apos;ll restore your access instantly — no need to pay again.
+              <p style={{ color: "#3d3d3d", fontSize: "0.75rem", lineHeight: 1.55 }}>
+                Already paid? Enter your email or payment reference and we&apos;ll restore your access instantly — no need to pay again.
               </p>
             </div>
             <div>
-              <label className="block text-xs font-bold mb-1.5" style={{ color: "rgba(31,122,31,0.9)", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.62rem" }}>Email used at payment</label>
+              <label className="block text-xs font-bold mb-1.5" style={{ color: "rgba(31,122,31,0.9)", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.62rem" }}>Email or Reference</label>
               <input
-                type="email" placeholder="you@example.com" value={restoreEmail} autoFocus
+                type="text" placeholder="you@example.com or BT_..." value={restoreEmail} autoFocus
                 onChange={(e) => setRestoreEmail(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleRestore()}
                 className="input-field"
@@ -626,9 +685,9 @@ function PaymentModal({
               onClick={handleRestore} disabled={restoreLoading}
               className="w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all duration-300 active:scale-[0.97]"
               style={{
-                background: restoreLoading ? "rgba(74,184,74,0.4)" : "#1f7a1f",
+                background: restoreLoading ? "rgba(26,110,26,0.3)" : "#1a6e1a",
                 color: "#ffffff",
-                boxShadow: restoreLoading ? "none" : "0 4px 20px rgba(74,184,74,0.35)",
+                boxShadow: restoreLoading ? "none" : "0 4px 20px rgba(26,110,26,0.25)",
                 letterSpacing: "0.03em",
               }}
             >
@@ -636,7 +695,7 @@ function PaymentModal({
                 ? (<><Loader2 size={16} className="animate-spin" />Checking…</>)
                 : (<><RefreshCcw size={15} />Restore My Access</>)}
             </button>
-            <p className="text-center" style={{ color: "#3f3f46", fontSize: "0.68rem" }}>One-time payment — access never expires</p>
+            <p className="text-center" style={{ color: "#5a5a5a", fontSize: "0.68rem" }}>One-time payment — access never expires</p>
           </div>
         )}
       </div>
@@ -666,32 +725,32 @@ function NigeriaPaymentModal({
       <div
         className="relative w-full max-w-sm overflow-y-auto"
         style={{
-          background: "rgba(14,14,14,0.95)",
-          border: "1px solid rgba(31,122,31,0.2)",
+          background: "#ffffff",
+          border: "1px solid rgba(26,110,26,0.2)",
           borderRadius: "12px",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.04) inset",
           backdropFilter: "blur(20px)",
           maxHeight: "90vh",
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Green gradient top bar */}
-        <div style={{ height: "3px", background: "linear-gradient(90deg, #1f7a1f, #3aaa3a)", width: "100%" }} />
+        <div style={{ height: "3px", background: "linear-gradient(90deg, #1a6e1a, #2d9e2d)", width: "100%" }} />
 
         {/* Header */}
-        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <div className="px-6 pt-5 pb-4" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="text-2xl">🇳🇬</span>
               <div>
-                <h2 style={{ color: "#f4f4f5", fontWeight: 700, fontSize: "0.95rem", fontFamily: "'Space Grotesk',sans-serif" }}>Pay via Transfer</h2>
-                <p style={{ color: "#52525b", fontSize: "0.72rem", marginTop: "2px" }}>Nigeria · Instant Access</p>
+                <h2 style={{ color: "#0d0d0d", fontWeight: 700, fontSize: "0.95rem", fontFamily: "'Space Grotesk',sans-serif" }}>Pay via Transfer</h2>
+                <p style={{ color: "#5a5a5a", fontSize: "0.72rem", marginTop: "2px" }}>Nigeria · Instant Access</p>
               </div>
             </div>
             <button
               onClick={onClose}
               className="w-8 h-8 flex items-center justify-center rounded-xl transition-colors"
-              style={{ color: "#52525b", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ color: "#5a5a5a", background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}
             >
               <X size={15} />
             </button>
@@ -706,7 +765,7 @@ function NigeriaPaymentModal({
           >
             {/* Amount */}
             <div className="flex items-center justify-between mb-3">
-              <span style={{ color: "#52525b", fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Amount to send</span>
+              <span style={{ color: "#5a5a5a", fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Amount to send</span>
               <span style={{ fontWeight: 900, fontSize: "1.3rem", color: "#4ab84a", fontFamily: "'Space Grotesk',sans-serif", letterSpacing: "-0.02em" }}>₦{ngn.toLocaleString()}</span>
             </div>
             <div style={{ height: "1px", background: "rgba(31,122,31,0.1)", marginBottom: "0.75rem" }} />
@@ -718,12 +777,12 @@ function NigeriaPaymentModal({
                 { label: "Account Name", value: "Atinuolaji Alakija", highlight: false },
               ] as { label: string; value: string; highlight: boolean }[]).map(({ label, value, highlight }) => (
                 <div key={label} className="flex items-center justify-between">
-                  <span style={{ color: "#3f3f46", fontSize: "0.72rem" }}>{label}</span>
+                  <span style={{ color: "#5a5a5a", fontSize: "0.72rem" }}>{label}</span>
                   <span
                     style={{
                       fontSize: "0.82rem",
                       fontWeight: highlight ? 800 : 600,
-                      color: highlight ? "#4ab84a" : "#f4f4f5",
+                      color: highlight ? "#1a6e1a" : "#0d0d0d",
                       letterSpacing: highlight ? "0.08em" : undefined,
                       fontFamily: highlight ? "'Space Grotesk',sans-serif" : undefined,
                     }}
@@ -738,7 +797,7 @@ function NigeriaPaymentModal({
 
         {/* Instruction */}
         <div className="px-5 pt-3">
-          <p style={{ color: "#3f3f46", fontSize: "0.72rem", textAlign: "center", lineHeight: 1.5 }}>
+          <p style={{ color: "#5a5a5a", fontSize: "0.72rem", textAlign: "center", lineHeight: 1.5 }}>
             After sending, share your receipt on Telegram to get instant access.
           </p>
         </div>
@@ -751,9 +810,9 @@ function NigeriaPaymentModal({
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all duration-300 active:scale-[0.97]"
             style={{
-              background: "#1f7a1f",
+              background: "#1a6e1a",
               color: "#ffffff",
-              boxShadow: "0 4px 20px rgba(31,122,31,0.3)",
+              boxShadow: "0 4px 20px rgba(26,110,26,0.25)",
               display: "flex",
               letterSpacing: "0.02em",
             }}
@@ -764,7 +823,7 @@ function NigeriaPaymentModal({
           <button
             onClick={onClose}
             className="w-full py-3 text-sm font-semibold rounded-2xl transition-all"
-            style={{ background: "transparent", color: "#3f3f46", border: "1px solid rgba(255,255,255,0.06)" }}
+            style={{ background: "transparent", color: "#3d3d3d", border: "1px solid rgba(0,0,0,0.08)" }}
           >
             Dismiss
           </button>
@@ -845,8 +904,8 @@ function UnlockedCard({ prediction, unlocked }: { prediction: Prediction; unlock
 
       {/* Info */}
       <div className="px-5 pt-4">
-        <h3 className="font-semibold text-base mb-0.5 line-clamp-1" style={{ color: "#f4f4f5" }}>{prediction.match}</h3>
-        <p className="text-xs mb-4 flex items-center gap-1.5" style={{ color: "#a1a1aa" }}>
+        <h3 className="font-semibold text-base mb-0.5 line-clamp-1" style={{ color: "#0d0d0d" }}>{prediction.match}</h3>
+        <p className="text-xs mb-4 flex items-center gap-1.5" style={{ color: "#5a5a5a" }}>
           <Calendar size={11} />
           {new Date(prediction.date).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })}
           {" · "}{prediction.league}
@@ -856,7 +915,7 @@ function UnlockedCard({ prediction, unlocked }: { prediction: Prediction; unlock
         {(unlocked.bookingCode || unlocked.content) && (
           <div
             className="rounded-xl mb-3 overflow-hidden"
-            style={{ background: "#191919", border: `1px solid ${acc.border}` }}
+            style={{ background: "#f7f8f6", border: `1px solid ${acc.border}` }}
           >
             <div
               className="px-4 py-2.5 flex items-center justify-between"
@@ -864,7 +923,7 @@ function UnlockedCard({ prediction, unlocked }: { prediction: Prediction; unlock
             >
               <div className="flex items-center gap-2">
                 <Trophy size={13} style={{ color: acc.text }} />
-                <span className="text-xs font-semibold" style={{ color: "#a1a1aa" }}>
+                <span className="text-xs font-semibold" style={{ color: "#5a5a5a" }}>
                   {unlocked.bookingCode ? "Booking Code" : "Prediction Tip"}
                 </span>
               </div>
@@ -872,9 +931,9 @@ function UnlockedCard({ prediction, unlocked }: { prediction: Prediction; unlock
                 onClick={copyCode}
                 className="flex items-center gap-1.5 text-xs px-3 py-1 rounded-lg transition-all"
                 style={{
-                  background: copied ? "rgba(74,184,74,0.1)" : "rgba(255,255,255,0.04)",
-                  color: copied ? "#4ab84a" : "#a1a1aa",
-                  border: copied ? "1px solid rgba(74,184,74,0.2)" : "1px solid rgba(255,255,255,0.06)",
+                  background: copied ? "rgba(26,110,26,0.08)" : "rgba(0,0,0,0.04)",
+                  color: copied ? "#1a6e1a" : "#5a5a5a",
+                  border: copied ? "1px solid rgba(26,110,26,0.2)" : "1px solid rgba(0,0,0,0.08)",
                 }}
               >
                 {copied ? <><Check size={11} />Copied!</> : <><Copy size={11} />Copy</>}
@@ -892,15 +951,15 @@ function UnlockedCard({ prediction, unlocked }: { prediction: Prediction; unlock
         {/* Tips list */}
         {unlocked.tips && unlocked.tips.length > 0 && (
           <div className="mb-4 space-y-1.5">
-            <p className="text-xs font-medium mb-2" style={{ color: "#52525b" }}>What to bet:</p>
+            <p className="text-xs font-medium mb-2" style={{ color: "#3d3d3d" }}>What to bet:</p>
             {unlocked.tips.map((tip, i) => (
               <div
                 key={i}
                 className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs"
                 style={{
-                  background: "#191919",
-                  border: "1px solid rgba(255,255,255,0.04)",
-                  color: "#f4f4f5",
+                  background: "#f7f8f6",
+                  border: "1px solid rgba(0,0,0,0.07)",
+                  color: "#0d0d0d",
                 }}
               >
                 <CheckCircle2 size={12} style={{ color: "#4ab84a" }} className="flex-shrink-0" />
@@ -912,13 +971,13 @@ function UnlockedCard({ prediction, unlocked }: { prediction: Prediction; unlock
 
         {/* Footer */}
         <div className="flex items-center justify-between pb-4">
-          <div className="flex items-center gap-2 text-xs" style={{ color: "#52525b" }}>
+          <div className="flex items-center gap-2 text-xs" style={{ color: "#5a5a5a" }}>
             <Calendar size={11} />
             <span>{prediction.league}</span>
             <span>·</span>
             <span>Odds: <span style={{ color: acc.text, fontWeight: 700 }}>{prediction.odds}</span></span>
           </div>
-          <p className="text-[10px] flex items-center gap-1" style={{ color: "#52525b" }}>
+          <p className="text-[10px] flex items-center gap-1" style={{ color: "#5a5a5a" }}>
             <CheckCircle size={10} style={{ color: "#4ab84a" }} />
             Access never expires
           </p>
@@ -952,18 +1011,18 @@ function LockedCard({
         animationFillMode: "forwards",
         borderRadius: "8px",
         overflow: "hidden",
-        background: "#111111",
-        border: "1px solid rgba(255,255,255,0.07)",
-        borderLeft: `3px solid #1f7a1f`,
+        background: "#ffffff",
+        border: "1px solid rgba(0,0,0,0.08)",
+        borderLeft: `3px solid #1a6e1a`,
         transition: "border-left-color 0.2s, box-shadow 0.2s",
       }}
       onClick={onClickUnlock}
       onMouseEnter={e => {
         (e.currentTarget as HTMLElement).style.borderLeftColor = acc.text;
-        (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(0,0,0,0.5)";
+        (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(0,0,0,0.1)";
       }}
       onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.borderLeftColor = "#1f7a1f";
+        (e.currentTarget as HTMLElement).style.borderLeftColor = "#1a6e1a";
         (e.currentTarget as HTMLElement).style.boxShadow = "none";
       }}
     >
@@ -985,7 +1044,7 @@ function LockedCard({
           <div
             className="absolute inset-0"
             style={{
-              background: `linear-gradient(145deg, #0d0d0d 0%, #111111 60%, ${acc.bg} 100%)`,
+              background: `linear-gradient(145deg, #eef2ec 0%, #f7f8f6 60%, ${acc.bg} 100%)`,
             }}
           />
         )}
@@ -1003,7 +1062,7 @@ function LockedCard({
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(180deg, rgba(14,14,14,0.2) 0%, rgba(14,14,14,0.7) 70%, rgba(14,14,14,1) 100%)",
+            background: "linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(247,248,246,0.75) 70%, rgba(247,248,246,1) 100%)",
           }}
         />
 
@@ -1030,7 +1089,7 @@ function LockedCard({
             style={{
               width: "56px", height: "56px",
               borderRadius: "8px",
-              background: "rgba(10,10,10,0.85)",
+              background: "rgba(255,255,255,0.9)",
               border: `1px solid ${acc.border}`,
             }}
           >
@@ -1057,7 +1116,7 @@ function LockedCard({
         <h3
           className="font-bold line-clamp-1 mb-1"
           style={{
-            color: "#f4f4f5",
+            color: "#0d0d0d",
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: "0.95rem",
             letterSpacing: "-0.01em",
@@ -1067,13 +1126,13 @@ function LockedCard({
         </h3>
 
         {/* Meta row */}
-        <div className="flex items-center gap-2 mb-4" style={{ color: "#52525b", fontSize: "0.72rem", fontWeight: 600 }}>
+        <div className="flex items-center gap-2 mb-4" style={{ color: "#5a5a5a", fontSize: "0.72rem", fontWeight: 600 }}>
           <Calendar size={11} />
           <span>{dateStr}</span>
           {prediction.league && (
             <>
-              <span style={{ color: "#27272a" }}>·</span>
-              <span className="truncate" style={{ maxWidth: "120px", color: "#3f3f46" }}>
+              <span style={{ color: "#888888" }}>·</span>
+              <span className="truncate" style={{ maxWidth: "120px", color: "#3d3d3d" }}>
                 {prediction.league}
               </span>
             </>
@@ -1098,7 +1157,7 @@ function LockedCard({
           </div>
           <span
             style={{
-              color: "#f4f4f5",
+              color: "#0d0d0d",
               fontSize: "1.1rem",
               fontWeight: 900,
               fontFamily: "'Space Grotesk', sans-serif",
@@ -1113,14 +1172,14 @@ function LockedCard({
         <div
           className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-300"
           style={{
-            background: "#1f7a1f",
+            background: "#1a6e1a",
             color: "#ffffff",
             letterSpacing: "0.03em",
-            boxShadow: "0 4px 20px rgba(31,122,31,0.0)",
+            boxShadow: "0 4px 20px rgba(26,110,26,0.0)",
             transition: "box-shadow 0.3s ease",
           }}
-          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.boxShadow = "0 6px 28px rgba(31,122,31,0.3)")}
-          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(31,122,31,0.0)")}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.boxShadow = "0 6px 28px rgba(26,110,26,0.25)")}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(26,110,26,0.0)")}
         >
           <Lock size={14} strokeWidth={2.5} />
           Unlock Prediction

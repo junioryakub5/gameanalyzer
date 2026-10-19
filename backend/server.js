@@ -570,8 +570,49 @@ app.post('/api/payment/restore', paymentLimiter, async (req, res) => {
   try {
     const { email, predictionId } = req.body;
     if (!email || !predictionId) return res.status(400).json({ error: 'email and predictionId required' });
-    const payment = await db.findPayment({ email:email.toLowerCase().trim(), predictionId, status:'success' });
-    if (!payment) return res.status(404).json({ error: 'No payment found for this email and prediction. Please check the email you used at payment.' });
+    const query = email.trim();
+    const isRef = query.startsWith('BT_') || query.startsWith('WW-');
+    let payment = null;
+
+    if (isRef) {
+      payment = await db.findPayment({ reference: query, status: 'success' });
+    } else {
+      payment = await db.findPayment({ email: query.toLowerCase(), predictionId, status: 'success' });
+    }
+
+    // Auto-recovery fallback: check Paystack directly if reference provided
+    if (!payment && isRef) {
+      try {
+        const { data: pRes } = await axios.get(
+          `https://api.paystack.co/transaction/verify/${encodeURIComponent(query)}`,
+          { headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` }, timeout: 10000 }
+        );
+        const txn = pRes.data;
+        if (txn && txn.status === 'success') {
+          const prediction = await db.findPredictionById(predictionId);
+          if (prediction && txn.amount >= (prediction.price * 100)) {
+            const payerEmail = (txn.customer?.email || '').toLowerCase().trim();
+            const slot = SLOT_A_EMAILS.has(payerEmail) ? 1 : await getNextSlot();
+            const accessToken = uuidv4();
+            payment = await db.createPayment({
+              predictionId,
+              predictionTitle: prediction.match,
+              reference: query,
+              email: payerEmail,
+              amount: txn.amount / 100,
+              currency: txn.currency || 'GHS',
+              status: 'success',
+              accessToken,
+              slot,
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Restore verify fallback error:', err.message);
+      }
+    }
+
+    if (!payment) return res.status(404).json({ error: 'No active payment found for this email or reference. Please check your details.' });
     // Fetch the full prediction content so the frontend can display it immediately
     const prediction = await db.findPredictionById(payment.predictionId);
     if (!prediction) return res.status(404).json({ error: 'Prediction not found' });
